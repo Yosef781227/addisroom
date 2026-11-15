@@ -7,9 +7,23 @@ export async function SiteFooter({ lang = "en" }: { lang?: Lang }) {
     <footer className="reference-footer">
       <div className="mx-auto max-w-6xl px-4 py-7">
         <BannerAd lang={lang} />
+        <div className="villa-footer-brand">
+          ADDISROOM<span>Find your place in Addis.</span>
+        </div>
         <Suspense fallback={null}>
           <FooterLinks />
         </Suspense>
+        <p className="villa-design-credit">
+          Design adapted from{" "}
+          <a
+            href="https://templatemo.com/tm-591-villa-agency"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Villa Agency by TemplateMo
+          </a>
+          .
+        </p>
       </div>
     </footer>
   );

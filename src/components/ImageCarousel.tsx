@@ -14,7 +14,11 @@ export function ImageCarousel({ images, alt, variant = "compact" }: Props) {
   const [index, setIndex] = useState(0);
   const urls = images.length > 0 ? images : [];
   const height =
-    variant === "full" ? "h-72 sm:h-96" : variant === "row" ? "h-56 sm:h-full" : "h-56";
+    variant === "full"
+      ? "h-72 sm:h-96"
+      : variant === "row"
+        ? "h-56 sm:h-full"
+        : "h-56";
   const corners = variant === "row" ? "" : "rounded-t-2xl";
 
   if (urls.length === 0) {
@@ -31,7 +35,9 @@ export function ImageCarousel({ images, alt, variant = "compact" }: Props) {
   const next = () => setIndex((i) => (i === urls.length - 1 ? 0 : i + 1));
 
   return (
-    <div className={`relative ${height} ${corners} overflow-hidden bg-slate-100`}>
+    <div
+      className={`relative ${height} ${corners} overflow-hidden bg-slate-100`}
+    >
       <Image
         key={urls[index]}
         src={urls[index]!}
@@ -39,7 +45,7 @@ export function ImageCarousel({ images, alt, variant = "compact" }: Props) {
         fill
         className="rise-fade object-cover"
         sizes={variant === "full" ? "(max-width: 768px) 100vw, 66vw" : "50vw"}
-        priority={index === 0}
+        priority={variant === "full" && index === 0}
       />
       {variant === "row" ? (
         <span className="absolute bottom-2 right-2 z-10 rounded-md bg-black/65 px-2 py-0.5 text-xs font-medium text-white">

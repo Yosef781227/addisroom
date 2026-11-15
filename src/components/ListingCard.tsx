@@ -83,24 +83,17 @@ export function ListingCard({
             alt={listing.title}
             variant="compact"
           />
-          <span className="price-tag">
-            {listing.priceBirr.toLocaleString()}{" "}
-            <span className="text-xs font-medium text-sky-100/80">
-              birr
-              {listing.dealType === "SALE"
-                ? ""
-                : ` ${t(lang, "search.perMonth")}`}
-            </span>
-          </span>
-          <span className="absolute left-3 top-3 z-10 rounded-full bg-white/95 px-3 py-1 text-xs font-semibold text-[var(--brand-900)] shadow-sm backdrop-blur">
-            {labelForProperty(listing.propertyType)} ·{" "}
-            {t(
-              lang,
-              listing.dealType === "SALE" ? "search.forSale" : "search.forRent",
-            )}
-          </span>
         </div>
-        <div className="p-5">
+        <div className="villa-card-content">
+          <div className="villa-card-topline">
+            <span className="villa-property-category">
+              {labelForProperty(listing.propertyType)}
+            </span>
+            <span className="villa-card-price">
+              {listing.priceBirr.toLocaleString()}{" "}
+              <small>birr {t(lang, "search.perMonth")}</small>
+            </span>
+          </div>
           <h3 className="line-clamp-1 text-lg font-semibold tracking-tight text-[var(--foreground)] transition-colors group-hover:text-[var(--brand-700)]">
             {listing.title}
           </h3>
@@ -130,10 +123,10 @@ export function ListingCard({
               {listing.roadName ? `, ${listing.roadName}` : ""}
             </span>
           </p>
-          <p className="mt-3 line-clamp-2 text-sm leading-relaxed text-slate-600">
+          <p className="villa-card-description mt-3 line-clamp-2 text-sm leading-relaxed text-slate-600">
             {listing.description}
           </p>
-          <div className="mt-4 flex flex-wrap gap-2 text-xs font-medium text-[var(--brand-900)]">
+          <div className="villa-card-facts mt-4 flex flex-wrap gap-2 text-xs font-medium text-[var(--brand-900)]">
             {listing.bedrooms && listing.propertyType !== "SHOP" ? (
               <span className="rounded-full bg-[var(--brand-50)] px-2.5 py-1">
                 {labelForBedrooms(listing.bedrooms)}
@@ -156,7 +149,7 @@ export function ListingCard({
         </div>
       </Link>
 
-      <div className="flex items-center justify-between gap-2 border-t border-[var(--border)] px-5 py-3">
+      <div className="villa-card-owner flex items-center justify-between gap-2 border-t border-[var(--border)] px-5 py-3">
         <div className="flex min-w-0 items-center gap-2 text-xs text-[var(--muted)]">
           <ProfileAvatar
             name={listing.postedBy.name}
@@ -186,6 +179,9 @@ export function ListingCard({
           </Link>
         ) : null}
       </div>
+      <Link href={href} className="villa-card-button">
+        {lang === "en" ? "View rental" : "ቤቱን ይመልከቱ"}
+      </Link>
     </article>
   );
 }

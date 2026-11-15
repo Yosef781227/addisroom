@@ -1,29 +1,29 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f0f6fc;
-  --foreground: #152536;
+  --background: #ffffff;
+  --foreground: #1e1e1e;
   --surface: #ffffff;
-  --muted: #647d92;
-  --border: #d0e3f2;
-  --brand-50: #eef6fc;
-  --brand-100: #dceefb;
-  --brand-200: #b8ddf7;
-  --brand-300: #8ec5ef;
-  --brand-400: #6fb2e2;
-  --brand-500: #4f9fd4;
-  --brand-600: #3d8fc4;
-  --brand-700: #3278ad;
-  --brand-800: #2a628f;
-  --brand-900: #1f4a6e;
-  --accent: #5eb8e8;
-  --ink: #071a2c;
-  --ink-2: #0d2f4d;
+  --muted: #737373;
+  --border: #eaeaea;
+  --brand-50: #fff4ef;
+  --brand-100: #fbd9cb;
+  --brand-200: #f8bda5;
+  --brand-300: #f69c79;
+  --brand-400: #f67a50;
+  --brand-500: #f35525;
+  --brand-600: #e94b1b;
+  --brand-700: #bd3b16;
+  --brand-800: #923014;
+  --brand-900: #1e1e1e;
+  --accent: #f35525;
+  --ink: #1e1e1e;
+  --ink-2: #292929;
   --sun: #f6c453;
-  --success: #3d9a7a;
-  --hero-from: #e3f2fb;
-  --hero-via: #c8e4f6;
-  --hero-to: #a8d4ef;
+  --success: #268464;
+  --hero-from: #fafafa;
+  --hero-via: #fafafa;
+  --hero-to: #ffffff;
 }
 
 @theme inline {

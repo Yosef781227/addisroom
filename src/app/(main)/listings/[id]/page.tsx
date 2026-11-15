@@ -137,7 +137,7 @@ export default async function ListingDetailPage(props: {
       >
         ← {t(lang, "detail.back")}
       </a>
-      <section className="relative overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--surface)] shadow-sm lg:col-span-2">
+      <section className="villa-detail-panel relative overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--surface)] shadow-sm lg:col-span-2">
         {me ? (
           <SaveListingButton
             listingId={listing.id}
@@ -179,15 +179,15 @@ export default async function ListingDetailPage(props: {
                 {verified ? <VerifiedBadge lang={lang} /> : null}
               </div>
             </div>
-            <div className="rounded-2xl bg-gradient-to-br from-[var(--brand-600)] to-[var(--accent)] px-4 py-3 text-white shadow-md">
-              <div className="text-xs text-blue-50">
+            <div className="villa-detail-price">
+              <div className="text-xs text-[var(--muted)]">
                 {t(lang, "detail.monthly")}
               </div>
               <div className="text-xl font-semibold">
                 {listing.priceBirr.toLocaleString()} birr
               </div>
               {listing.depositBirr ? (
-                <div className="mt-1 text-xs text-blue-50">
+                <div className="mt-1 text-xs text-[var(--muted)]">
                   Deposit: {listing.depositBirr.toLocaleString()} birr
                 </div>
               ) : null}

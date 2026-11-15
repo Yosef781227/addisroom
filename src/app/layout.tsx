@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Poppins, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import "./villa-theme.css";
 import { MotionProvider } from "@/components/motion/Reveal";
 
-const geistSans = Geist({
+const geistSans = Poppins({
   variable: "--font-geist-sans",
+  weight: ["400", "500", "600", "700", "800"],
   subsets: ["latin"],
 });
 

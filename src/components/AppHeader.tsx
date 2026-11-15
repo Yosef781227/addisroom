@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { Suspense, useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { logout } from "@/lib/auth-actions";
 import { parseLang, t } from "@/lib/i18n";
@@ -27,15 +27,35 @@ function SignInButton() {
 function MainLinks({ showPost }: { showPost: boolean }) {
   const searchParams = useSearchParams();
   const lang = parseLang(searchParams.get("lang"));
+  const pathname = usePathname();
   const amp = lang !== "en" ? `&lang=${lang}` : "";
   const qs = lang !== "en" ? `?lang=${lang}` : "";
 
   return (
     <div className="mr-auto hidden items-center gap-4 pl-1 sm:flex sm:gap-7 sm:pl-8">
-      <a href={`/search?deal=rent${amp}`} className="nav-link">
+      <a
+        href={`/${qs}`}
+        className="nav-link"
+        aria-current={pathname === "/" ? "page" : undefined}
+      >
+        {lang === "en" ? "Home" : "መነሻ"}
+      </a>
+      <a
+        href={`/search${qs}`}
+        className="nav-link"
+        aria-current={
+          pathname === "/search" && searchParams.get("view") !== "map"
+            ? "page"
+            : undefined
+        }
+      >
         {t(lang, "nav.rent")}
       </a>
-      <a href={`/search?view=map${amp}`} className="nav-link">
+      <a
+        href={`/search?view=map${amp}`}
+        className="nav-link"
+        aria-current={searchParams.get("view") === "map" ? "page" : undefined}
+      >
         {t(lang, "search.map")}
       </a>
       {showPost ? (
@@ -63,6 +83,33 @@ function LogOutButton() {
   );
 }
 
+function MobileMenu({ loggedIn }: { loggedIn: boolean }) {
+  const sp = useSearchParams(),
+    lang = parseLang(sp.get("lang")),
+    qs = lang === "en" ? "" : `?lang=${lang}`;
+  return (
+    <details className="villa-mobile-nav">
+      <summary aria-label="Open navigation">☰</summary>
+      <div
+        onClick={(e) => {
+          if ((e.target as HTMLElement).closest("a"))
+            e.currentTarget.closest("details")?.removeAttribute("open");
+        }}
+      >
+        <Link href={`/${qs}`}>{lang === "en" ? "Home" : "መነሻ"}</Link>
+        <Link href={`/search${qs}`}>{t(lang, "nav.rent")}</Link>
+        <Link href={`/search?view=map${lang === "en" ? "" : `&lang=${lang}`}`}>
+          {t(lang, "search.map")}
+        </Link>
+        <Link href={`/listings/new${qs}`}>{t(lang, "nav.post")}</Link>
+        {!loggedIn && (
+          <Link href={`/signup${qs}`}>{t(lang, "footer.signup")}</Link>
+        )}
+      </div>
+    </details>
+  );
+}
+
 export function AppHeader({
   loggedIn = false,
   isAdmin = false,
@@ -79,45 +126,53 @@ export function AppHeader({
   }, []);
 
   return (
-    <header className="site-header" data-scrolled={scrolled}>
-      <div className="mx-auto flex h-16 max-w-6xl items-center gap-3 px-4">
-        <Link
-          href="/"
-          aria-label="AddisRoom home"
-          className="flex shrink-0 items-center gap-2.5"
-        >
-          <span className="logo-mark">AR</span>
-          <span className="hidden text-lg font-bold leading-none tracking-tight text-[var(--brand-900)] sm:block">
-            AddisRoom
-          </span>
-        </Link>
-        <nav className="flex min-w-0 flex-1 items-center justify-end gap-2.5 text-sm">
-          <Suspense fallback={<div className="mr-auto" />}>
-            <MainLinks showPost={!loggedIn} />
-          </Suspense>
-          {isAdmin && (
-            <a href="/admin" className="nav-link">
-              Admin
-            </a>
-          )}
-          <Suspense
-            fallback={
-              <div className="h-10 w-28 rounded-xl border border-[var(--border)] bg-[var(--brand-50)]" />
-            }
-          >
-            <LanguageSwitcher />
-          </Suspense>
-          {!loggedIn ? (
-            <Suspense fallback={null}>
-              <SignInButton />
-            </Suspense>
-          ) : (
-            <Suspense fallback={null}>
-              <LogOutButton />
-            </Suspense>
-          )}
-        </nav>
+    <>
+      <div className="villa-topbar">
+        <div>
+          <span>⌖ Addis Ababa & nearby towns</span>
+          <span>Rental homes · Local connections</span>
+        </div>
       </div>
-    </header>
+      <header className="site-header" data-scrolled={scrolled}>
+        <div className="villa-header-inner mx-auto flex max-w-6xl items-center gap-3 px-4">
+          <Link
+            href="/"
+            aria-label="AddisRoom home"
+            className="flex shrink-0 items-center gap-2.5"
+          >
+            <span className="villa-wordmark">AddisRoom</span>
+          </Link>
+          <nav className="flex min-w-0 flex-1 items-center justify-end gap-2.5 text-sm">
+            <Suspense fallback={<div className="mr-auto" />}>
+              <MainLinks showPost={!loggedIn} />
+            </Suspense>
+            {isAdmin && (
+              <a href="/admin" className="nav-link">
+                Admin
+              </a>
+            )}
+            <Suspense
+              fallback={
+                <div className="h-10 w-28 rounded-xl border border-[var(--border)] bg-[var(--brand-50)]" />
+              }
+            >
+              <LanguageSwitcher />
+            </Suspense>
+            {!loggedIn ? (
+              <Suspense fallback={null}>
+                <SignInButton />
+              </Suspense>
+            ) : (
+              <Suspense fallback={null}>
+                <LogOutButton />
+              </Suspense>
+            )}
+            <Suspense fallback={null}>
+              <MobileMenu loggedIn={loggedIn} />
+            </Suspense>
+          </nav>
+        </div>
+      </header>
+    </>
   );
 }

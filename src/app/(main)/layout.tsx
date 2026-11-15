@@ -1,3 +1,4 @@
+import { RouteBanner } from "@/components/RouteBanner";
 import { Suspense } from "react";
 import { redirect } from "next/navigation";
 import { AppHeader } from "@/components/AppHeader";
@@ -35,7 +36,10 @@ export default async function MainLayout({
         <PaymentToast />
       </Suspense>
       <AppHeader loggedIn={loggedIn} isAdmin={me?.isAdmin ?? false} />
-      <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-6 sm:py-8">
+      <Suspense fallback={null}>
+        <RouteBanner />
+      </Suspense>
+      <main className="villa-main mx-auto w-full max-w-6xl flex-1 px-4 py-6 sm:py-8">
         {children}
       </main>
       <SiteFooter />

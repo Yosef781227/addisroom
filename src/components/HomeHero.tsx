@@ -1,26 +1,23 @@
 import { SearchBar } from "@/components/SearchBar";
+import { VillaHero } from "@/components/VillaHero";
 import { type Lang, t } from "@/lib/i18n";
 export function HomeHero({ lang }: { lang: Lang }) {
   return (
-    <section className="rental-hero">
-      <div className="rental-hero-copy">
-        <span className="text-[10px] font-bold uppercase tracking-[.18em] text-[var(--brand-700)]">
-          {t(lang, "home.eyebrow")}
-        </span>
-        <h1>
-          {lang === "en"
-            ? "Find your next rental in Addis Ababa."
-            : t(lang, "home.referenceTitle")}
-        </h1>
-        <p>{t(lang, "home.referenceSubtitle")}</p>
-        <a
-          className="inline-block mt-3 text-sm font-semibold text-[var(--brand-700)] underline underline-offset-4"
-          href="#rentals-map"
-        >
-          ⌖ {t(lang, "search.seeOnMap")}
-        </a>
-      </div>
-      <SearchBar lang={lang} variant="hero" />
-    </section>
+    <>
+      <VillaHero lang={lang} />
+      <section id="rental-search" className="villa-search-section scroll-mt-28">
+        <div className="villa-section-heading">
+          <p className="villa-kicker">
+            | {lang === "en" ? "FIND YOUR HOME" : t(lang, "home.filtersTitle")}
+          </p>
+          <h2>
+            {lang === "en"
+              ? "The right neighborhood.\nThe right home."
+              : t(lang, "home.referenceTitle")}
+          </h2>
+        </div>
+        <SearchBar lang={lang} variant="hero" />
+      </section>
+    </>
   );
 }
