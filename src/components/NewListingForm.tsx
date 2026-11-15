@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+import { AmenitiesSelector } from "@/components/AmenitiesSelector";
 import { useState } from "react";
 import { createListing } from "@/app/actions";
 import {
@@ -27,7 +29,10 @@ export function NewListingForm({
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     const confirmed = window.confirm(
-      t(lang, "listing.payConfirm").replace("{amount}", feeBirr.toLocaleString()),
+      t(lang, "listing.payConfirm").replace(
+        "{amount}",
+        feeBirr.toLocaleString(),
+      ),
     );
     if (!confirmed) {
       e.preventDefault();
@@ -148,19 +153,6 @@ export function NewListingForm({
             ))}
           </select>
         </div>
-        <div className="flex items-end">
-          <label
-            className={`flex items-center gap-2 text-sm font-medium ${isShop ? "opacity-50" : ""}`}
-          >
-            <input
-              type="checkbox"
-              name="furnished"
-              disabled={isShop}
-              className="h-4 w-4 rounded border-[var(--border)] text-[var(--brand-600)] disabled:cursor-not-allowed"
-            />
-            Furnished
-          </label>
-        </div>
         <div>
           <label className="text-sm font-medium">
             {t(lang, "listing.moveInDate")} *
@@ -200,11 +192,19 @@ export function NewListingForm({
         ) : null}
         <div>
           <label className="text-sm font-medium">{t(lang, "post.area")}</label>
-          <input name="areaSqm" inputMode="numeric" className="input-field mt-2" />
+          <input
+            name="areaSqm"
+            inputMode="numeric"
+            className="input-field mt-2"
+          />
         </div>
         <div>
           <label className="text-sm font-medium">{t(lang, "post.floor")}</label>
-          <input name="floor" inputMode="numeric" className="input-field mt-2" />
+          <input
+            name="floor"
+            inputMode="numeric"
+            className="input-field mt-2"
+          />
         </div>
         <div className="md:col-span-2">
           <label className="text-sm font-medium">Description</label>
@@ -227,19 +227,27 @@ export function NewListingForm({
         </div>
       </div>
 
+      <AmenitiesSelector lang={lang} mode="listing" />
+
       <p className="mt-6 rounded-xl border border-[var(--border)] bg-[var(--brand-50)] px-4 py-3 text-sm text-[var(--brand-800)]">
-        {t(lang, "listing.feeNotice").replace("{amount}", feeBirr.toLocaleString())}
+        {t(lang, "listing.feeNotice").replace(
+          "{amount}",
+          feeBirr.toLocaleString(),
+        )}
       </p>
 
       <div className="mt-4 flex justify-end gap-3">
-        <a
+        <Link
           href="/"
           className="rounded-xl border border-[var(--border)] px-4 py-2 text-sm font-medium hover:bg-[var(--brand-50)]"
         >
           Cancel
-        </a>
+        </Link>
         <button type="submit" className="btn-primary px-4 py-2 text-sm">
-          {t(lang, "listing.publishAndPay").replace("{amount}", feeBirr.toLocaleString())}
+          {t(lang, "listing.publishAndPay").replace(
+            "{amount}",
+            feeBirr.toLocaleString(),
+          )}
         </button>
       </div>
     </form>

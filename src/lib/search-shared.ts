@@ -5,6 +5,11 @@ import {
   BEDROOM_FILTERS,
   PROPERTY_TYPES,
 } from "@/lib/addis";
+import {
+  parseAmenities,
+  type AmenityFilter,
+  type Amenity,
+} from "@/lib/amenities";
 import { parseRadiusKm } from "@/lib/geo";
 
 export const PAGE_SIZE = 8;
@@ -28,6 +33,7 @@ export type SearchFilters = {
   areaMax: number | null;
   rooms: BedroomCount[];
   furnished: boolean;
+  amenities: AmenityFilter[];
   q: string;
   sort: SortKey;
   page: number;
@@ -55,6 +61,10 @@ export function parseSearchParams(sp: RawSearchParams): SearchFilters {
   const propertyType = first(sp.propertyType);
   const neighborhood = first(sp.neighborhood);
   const sort = first(sp.sort) as SortKey;
+  const amenities = parseAmenities([
+    ...all(sp.amenities),
+    ...(first(sp.furnished) === "1" ? ["FURNISHED"] : []),
+  ]);
   const validRooms = BEDROOM_FILTERS.map((b) => b.value as string);
 
   return {
@@ -78,7 +88,8 @@ export function parseSearchParams(sp: RawSearchParams): SearchFilters {
         : ([
             ...new Set(all(sp.rooms).filter((r) => validRooms.includes(r))),
           ] as BedroomCount[]),
-    furnished: first(sp.furnished) === "1",
+    furnished: amenities.includes("FURNISHED"),
+    amenities,
     q: first(sp.q).slice(0, 200),
     sort: SORT_OPTIONS.includes(sort) ? sort : "new",
     page: positiveInt(sp.page) ?? 1,
@@ -103,7 +114,11 @@ export function buildSearchUrl(
   if (m.areaMin) qs.set("areaMin", String(m.areaMin));
   if (m.areaMax) qs.set("areaMax", String(m.areaMax));
   for (const r of m.rooms) qs.append("rooms", r);
-  if (m.furnished) qs.set("furnished", "1");
+  for (const amenity of parseAmenities([
+    ...m.amenities,
+    ...(m.furnished ? ["FURNISHED"] : []),
+  ]))
+    qs.append("amenities", amenity);
   if (m.q) qs.set("q", m.q);
   if (m.sort !== "new") qs.set("sort", m.sort);
   if (m.page > 1) qs.set("page", String(m.page));
@@ -129,6 +144,7 @@ export type ResultItem = {
   areaSqm: number | null;
   floor: number | null;
   furnished: boolean;
+  amenities: Amenity[];
   images: string[];
   sellerName: string;
   sellerRole: string;

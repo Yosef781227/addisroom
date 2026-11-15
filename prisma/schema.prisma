@@ -130,6 +130,11 @@ model Listing {
   floor         Int?
   bedrooms      BedroomCount @default(ONE)
   furnished     Boolean      @default(false)
+  parking Boolean?
+  elevator Boolean?
+  balcony Boolean?
+  wifi Boolean?
+  billsIncluded Boolean?
   priceBirr     Int
   depositBirr   Int?
   availableFrom DateTime @default(now())

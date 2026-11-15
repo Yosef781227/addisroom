@@ -10,6 +10,21 @@ export function parseLang(value: string | null | undefined): Lang {
 
 const messages = {
   en: {
+    "search.resultsView": "Show results as",
+    "amenity.title": "Amenities",
+    "amenity.parking": "Parking",
+    "amenity.furnished": "Furnished",
+    "amenity.elevator": "Elevator",
+    "amenity.balcony": "Balcony",
+    "amenity.wifi": "Wi-Fi",
+    "amenity.billsIncluded": "Bills included",
+    "amenity.anyParking": "Any",
+    "amenity.parkingYes": "Available",
+    "amenity.parkingNo": "No parking",
+    "amenity.allMatch": "Properties must have every amenity you select.",
+    "amenity.listingHint":
+      "Select the amenities offered. Only mark bills included when covered by the advertised price.",
+
     "signup.contactVerified": "Contact verified — create your password",
     "signup.checkEmail": "Check your email",
     "signup.checkPhone": "Check your messages",
@@ -292,6 +307,21 @@ const messages = {
     "profile.no": "No",
   },
   am: {
+    "search.resultsView": "ውጤቶችን አሳይ",
+    "amenity.title": "የቤት አገልግሎቶች",
+    "amenity.parking": "መኪና ማቆሚያ",
+    "amenity.furnished": "የተሟላ ዕቃ",
+    "amenity.elevator": "ሊፍት",
+    "amenity.balcony": "በረንዳ",
+    "amenity.wifi": "ዋይፋይ",
+    "amenity.billsIncluded": "ክፍያዎችን ያካትታል",
+    "amenity.anyParking": "ማንኛውም",
+    "amenity.parkingYes": "አለ",
+    "amenity.parkingNo": "መኪና ማቆሚያ የለም",
+    "amenity.allMatch": "የሚታዩት ቤቶች የመረጧቸውን አገልግሎቶች ሁሉ ሊኖራቸው ይገባል።",
+    "amenity.listingHint":
+      "በቤቱ የሚገኙትን አገልግሎቶች ይምረጡ። ክፍያዎች በማስታወቂያው ዋጋ ከተካተቱ ብቻ ይምረጡ።",
+
     "signup.contactVerified": "መገናኛዎ ተረጋግጧል — የይለፍ ቃል ያዘጋጁ",
     "signup.checkEmail": "ኢሜይልዎን ያረጋግጡ",
     "signup.checkPhone": "መልዕክቶችዎን ያረጋግጡ",
@@ -558,6 +588,22 @@ const messages = {
     "profile.no": "አይ",
   },
   om: {
+    "search.resultsView": "Bu'aawwan agarsiisi",
+    "amenity.title": "Tajaajiloota manaa",
+    "amenity.parking": "Bakka konkolaataa",
+    "amenity.furnished": "Meeshaalee manaa qaba",
+    "amenity.elevator": "Liftii",
+    "amenity.balcony": "Balkaanii",
+    "amenity.wifi": "Wi-Fi",
+    "amenity.billsIncluded": "Kaffaltiiwwan keessatti hammatame",
+    "amenity.anyParking": "Kamiyyuu",
+    "amenity.parkingYes": "Jira",
+    "amenity.parkingNo": "Bakka konkolaataa hin qabu",
+    "amenity.allMatch":
+      "Manneen filataman tajaajiloota filattan hunda qabaachuu qabu.",
+    "amenity.listingHint":
+      "Tajaajiloota manichi qabu filadhaa. Kaffaltiiwwan gatii beeksifame keessatti yoo hammataman qofa filadhaa.",
+
     "signup.contactVerified": "Mirkanaa'eera — jecha icciitii uumaa",
     "signup.checkEmail": "Imeelii keessan ilaalaa",
     "signup.checkPhone": "Ergaa keessan ilaalaa",

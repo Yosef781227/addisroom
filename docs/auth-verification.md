@@ -91,3 +91,11 @@ A Gmail/Workspace Google sign-in already verifies email ownership, so it does no
 The regression tests mock Google's token exchange/verification boundary (no live Google calls), checking PKCE parameters, state/nonce mismatch, replay, invalid-token handling, third-party email restrictions, suspension, new accounts, and existing-account linking. Complete a live sign-in with a Google Cloud test user after configuring credentials.
 
 Google references: https://developers.google.com/identity/openid-connect/openid-connect and https://developers.google.com/identity/gsi/web/guides/verify-google-id-token .
+
+## Grouped amenities and map filters
+
+Search groups Parking, Furnished, Elevator, Balcony, Wi-Fi, and Bills included into one collapsible Amenities section. Parking supports Any, Available, and No parking. Every selected amenity must match. Minimum/maximum prices remain visible, and the search form can open results directly as a list or map. Amenities, price bounds, sorting, language, and location persist when changing result views or paging.
+
+The posting form records all six amenities, and listing cards/details display the amenities offered. New nullable database columns preserve unknown values on older listings: an unspecified parking value does not match No parking. Existing properties need their amenity information supplied before they can match those new filters. Legacy furnished=1 links remain supported.
+
+Regression checks cover posting persistence, combined amenity matching, unknown parking, legacy links, and filter URL preservation. Playwright verified the grouped form on mobile, price-range matching, parking/no-parking results, collapsed selections, and switching map/list views without losing filters.

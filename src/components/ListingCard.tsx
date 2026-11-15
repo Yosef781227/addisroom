@@ -1,3 +1,5 @@
+import { AmenityBadges } from "@/components/AmenityBadges";
+import { offeredAmenities } from "@/lib/amenities";
 import Link from "next/link";
 import { PROPERTY_TYPES, BEDROOM_FILTERS } from "@/lib/addis";
 import { formatAvailableFrom } from "@/lib/dates";
@@ -20,6 +22,11 @@ type ListingWithRelations = {
   areaSqm?: number | null;
   bedrooms?: string;
   furnished: boolean;
+  parking?: boolean | null;
+  elevator?: boolean | null;
+  balcony?: boolean | null;
+  wifi?: boolean | null;
+  billsIncluded?: boolean | null;
   priceBirr: number;
   availableFrom: Date;
   images?: { url: string; sortOrder: number }[];
@@ -135,15 +142,14 @@ export function ListingCard({
                 {listing.areaSqm} m²
               </span>
             ) : null}
-            {listing.furnished ? (
-              <span className="rounded-full bg-[var(--brand-50)] px-2.5 py-1">
-                Furnished
-              </span>
-            ) : null}
+
             <span className="rounded-full bg-[var(--brand-50)] px-2.5 py-1">
               {t(lang, "listing.availableFrom")}:{" "}
               {formatAvailableFrom(listing.availableFrom)}
             </span>
+          </div>
+          <div className="mt-3">
+            <AmenityBadges values={offeredAmenities(listing)} lang={lang} />
           </div>
         </div>
       </Link>

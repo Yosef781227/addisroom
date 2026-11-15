@@ -1,3 +1,4 @@
+import { amenityWhere, offeredAmenities } from "@/lib/amenities";
 import type { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { PROPERTY_TYPES } from "@/lib/addis";
@@ -39,7 +40,7 @@ export async function searchListings(f: SearchFilters): Promise<{
     ...(f.priceMin || f.priceMax ? { priceBirr: price } : {}),
     ...(f.areaMin || f.areaMax ? { areaSqm: area } : {}),
     ...(f.rooms.length ? { bedrooms: { in: f.rooms } } : {}),
-    ...(f.furnished ? { furnished: true } : {}),
+    ...amenityWhere(f.amenities),
     ...(f.q
       ? {
           OR: [
@@ -121,6 +122,7 @@ export async function searchListings(f: SearchFilters): Promise<{
       areaSqm: l.areaSqm,
       floor: l.floor,
       furnished: l.furnished,
+      amenities: offeredAmenities(l),
       images: getListingImageUrls(l),
       sellerName: l.postedBy.name,
       sellerRole: l.postedBy.role,

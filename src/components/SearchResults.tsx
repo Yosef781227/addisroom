@@ -1,5 +1,6 @@
 "use client";
 
+import { AmenityBadges } from "@/components/AmenityBadges";
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { motion } from "motion/react";
@@ -120,6 +121,10 @@ function ResultCard({
           {item.areaSqm ? <Fact icon="area">{item.areaSqm} m²</Fact> : null}
           {floor ? <Fact icon="floor">{floor}</Fact> : null}
         </p>
+
+        <div className="my-3">
+          <AmenityBadges values={item.amenities} lang={lang} />
+        </div>
 
         <p className="mt-auto flex flex-wrap items-center gap-2 border-t border-[var(--border)] pt-3 text-xs text-[var(--muted)]">
           <span className="font-medium text-[var(--foreground)]">

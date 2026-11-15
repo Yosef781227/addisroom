@@ -788,12 +788,150 @@ try {
     1,
   );
   await session.clearSession();
-  await db.profile.update({ where: { id: admin.id }, data: { passwordHash: load("@/lib/password").hashPassword("AdminTestPassword123") } });
-  const adminCode = await db.otpChallenge.create({ data: { channel: "EMAIL", target: "admin@example.com", name: "Admin", codeHash: otp.hashOtpCode("135790"), expiresAt: new Date(Date.now() + 600000) } });
-  await redirected(() => actions.verifyOtpAndLogin(null, fd({ challengeId: adminCode.id, code: "135790" })), "/admin");
-  assert.equal(await auth.getSessionProfileId(), admin.id, "verified admin OTP returns to the admin dashboard");
+  await db.profile.update({
+    where: { id: admin.id },
+    data: {
+      passwordHash: load("@/lib/password").hashPassword("AdminTestPassword123"),
+    },
+  });
+  const adminCode = await db.otpChallenge.create({
+    data: {
+      channel: "EMAIL",
+      target: "admin@example.com",
+      name: "Admin",
+      codeHash: otp.hashOtpCode("135790"),
+      expiresAt: new Date(Date.now() + 600000),
+    },
+  });
+  await redirected(
+    () =>
+      actions.verifyOtpAndLogin(
+        null,
+        fd({ challengeId: adminCode.id, code: "135790" }),
+      ),
+    "/admin",
+  );
+  assert.equal(
+    await auth.getSessionProfileId(),
+    admin.id,
+    "verified admin OTP returns to the admin dashboard",
+  );
+  const amenityTools = load("@/lib/amenities");
+  assert.deepEqual(
+    amenityTools.parseAmenities([
+      "WIFI",
+      "WIFI",
+      "UNKNOWN",
+      "NO_PARKING",
+      "PARKING",
+    ]),
+    ["WIFI", "PARKING"],
+  );
+  assert.ok(
+    filters
+      .parseSearchParams({ furnished: "1" })
+      .amenities.includes("FURNISHED"),
+    "legacy furnished links remain supported",
+  );
+  const amenityFilter = filters.parseSearchParams({
+    amenities: [
+      "PARKING",
+      "WIFI",
+      "ELEVATOR",
+      "BALCONY",
+      "BILLS_INCLUDED",
+      "FURNISHED",
+    ],
+    priceMin: "20000",
+    priceMax: "30000",
+    view: "map",
+  });
+  const roundTrip = filters.parseSearchParams(
+    Object.fromEntries(
+      new URLSearchParams(filters.buildSearchUrl(amenityFilter).split("?")[1]),
+    ),
+  );
+  const amenityUrl = new URL(
+    filters.buildSearchUrl(amenityFilter),
+    "http://localhost",
+  );
+  assert.equal(amenityUrl.searchParams.getAll("amenities").length, 6);
+  assert.equal(roundTrip.view, "map");
+  assert.equal(roundTrip.priceMax, 30000);
+  await db.listing.update({
+    where: { id: listing.id },
+    data: {
+      parking: true,
+      wifi: true,
+      elevator: true,
+      balcony: true,
+      billsIncluded: true,
+    },
+  });
+  assert.equal((await search.searchListings(amenityFilter)).total, 1);
+  await db.listing.update({ where: { id: listing.id }, data: { wifi: false } });
+  assert.equal(
+    (await search.searchListings(amenityFilter)).total,
+    0,
+    "every selected amenity must match",
+  );
+  const noParking = filters.parseSearchParams({ amenities: ["NO_PARKING"] });
+  await db.listing.update({
+    where: { id: listing.id },
+    data: { parking: null },
+  });
+  assert.equal(
+    (await search.searchListings(noParking)).total,
+    0,
+    "unknown parking is not advertised as unavailable",
+  );
+  await db.listing.update({
+    where: { id: listing.id },
+    data: { parking: false },
+  });
+  assert.equal((await search.searchListings(noParking)).total, 1);
+  await session.clearSession();
+  await session.createSession(renter.id);
+  mocks["@/lib/payments"] = {
+    initializeListingPayment: async () => ({ checkoutUrl: "/test-checkout" }),
+  };
+  const posting = load("@/app/actions");
+  await redirected(
+    () =>
+      posting.createListing(
+        fd({
+          title: "Amenity persistence test",
+          description: "Testing landlord-supplied amenities",
+          neighborhood: "Bole",
+          propertyType: "APARTMENT",
+          availableFrom: "2027-01-01",
+          priceBirr: "28000",
+          parking: "on",
+          wifi: "on",
+          elevator: "on",
+          balcony: "on",
+          billsIncluded: "on",
+          furnished: "on",
+        }),
+      ),
+    "/test-checkout",
+  );
+  const posted = await db.listing.findFirstOrThrow({
+    where: { title: "Amenity persistence test" },
+  });
+  for (const a of amenityTools.AMENITIES)
+    assert.equal(
+      posted[a.field],
+      true,
+      "listing amenity is stored: " + a.field,
+    );
+  assert.equal(
+    posted.published,
+    false,
+    "amenities cannot bypass payment publication",
+  );
   console.log(
-    "PASS: Ethiopian contacts, OTP throttle/replay, session forgery/expiry, password setup authorization, encrypted uploads, approval gates, reject/resubmit/approve, review audit, production delivery guard, admin access, sponsorships, broker badges, moderation, search, Google PKCE/state/nonce/replay/token validation and account linking.",
+    "PASS: Ethiopian contacts, OTP throttle/replay, session forgery/expiry, password setup authorization, encrypted uploads, approval gates, reject/resubmit/approve, review audit, production delivery guard, admin access, sponsorships, broker badges, moderation, search, Google PKCE/state/nonce/replay/token validation account linking, grouped amenities, parking availability, map/filter URLs, and listing amenity persistence.",
   );
 } finally {
   console.error = oldConsoleError;

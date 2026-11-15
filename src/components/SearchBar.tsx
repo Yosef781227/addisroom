@@ -8,6 +8,7 @@ import {
 } from "@/lib/addis";
 import { RADIUS_OPTIONS } from "@/lib/geo";
 import { type Lang, t } from "@/lib/i18n";
+import { AmenitiesSelector } from "@/components/AmenitiesSelector";
 import type { SearchFilters } from "@/lib/search-shared";
 type Initial = Omit<SearchFilters, "page">;
 export const EMPTY_SEARCH: Initial = {
@@ -21,6 +22,7 @@ export const EMPTY_SEARCH: Initial = {
   areaMax: null,
   rooms: [],
   furnished: false,
+  amenities: [],
   q: "",
   sort: "new",
   view: "list",
@@ -38,6 +40,7 @@ export function SearchBar({
   const [neighborhood, setNeighborhood] = useState(initial.neighborhood);
   const [propertyType, setPropertyType] = useState(initial.propertyType ?? "");
   const [error, setError] = useState("");
+  const [view, setView] = useState(initial.view);
   const [radius, setRadius] = useState(
     initial.radiusKm ? String(initial.radiusKm) : "",
   );
@@ -66,7 +69,7 @@ export function SearchBar({
       <input type="hidden" name="deal" value={deal.toLowerCase()} />
       {lang !== "en" && <input type="hidden" name="lang" value={lang} />}
       <input type="hidden" name="sort" value={initial.sort} />
-      <input type="hidden" name="view" value={initial.view} />
+      <input type="hidden" name="view" value={view} />
       <div className="flex items-center justify-between gap-4 mb-5">
         <p className="text-xs uppercase tracking-wider font-semibold text-[var(--muted)]">
           {t(lang, "home.filtersTitle")}
@@ -204,14 +207,10 @@ export function SearchBar({
           />
         </label>
       </div>
+      <AmenitiesSelector lang={lang} initial={initial.amenities} />
       <details
         className="mt-4"
-        open={
-          initial.furnished ||
-          !!initial.areaMin ||
-          !!initial.areaMax ||
-          undefined
-        }
+        open={!!initial.areaMin || !!initial.areaMax || undefined}
       >
         <summary className="text-sm font-semibold text-[var(--brand-700)] cursor-pointer">
           {t(lang, "search.more")}
@@ -233,16 +232,6 @@ export function SearchBar({
               />
             </label>
           ))}
-          <label className="flex items-center gap-2 text-sm py-2">
-            <input
-              name="furnished"
-              value="1"
-              type="checkbox"
-              defaultChecked={initial.furnished}
-              className="accent-[var(--brand-600)]"
-            />
-            {t(lang, "search.furnished")}
-          </label>
         </div>
       </details>
       {error && (
@@ -250,6 +239,27 @@ export function SearchBar({
           {error}
         </p>
       )}
+      <div className="mt-5 flex items-center justify-between gap-3">
+        <span className="text-xs font-medium text-[var(--muted)]">
+          {t(lang, "search.resultsView")}
+        </span>
+        <div
+          className="reference-deal"
+          role="group"
+          aria-label={t(lang, "search.resultsView")}
+        >
+          {(["list", "map"] as const).map((option) => (
+            <button
+              type="button"
+              key={option}
+              aria-pressed={view === option}
+              onClick={() => setView(option)}
+            >
+              {t(lang, option === "map" ? "search.map" : "search.list")}
+            </button>
+          ))}
+        </div>
+      </div>
       <button type="submit" className="btn-primary h-12 w-full mt-5">
         {t(lang, "search.submit")}
       </button>

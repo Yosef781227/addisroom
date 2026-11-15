@@ -1,5 +1,6 @@
 "use server";
 
+import { readListingAmenities } from "@/lib/amenities";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { BedroomCount, PropertyType, RoomType } from "@prisma/client";
@@ -72,7 +73,7 @@ export async function createListing(fd: FormData) {
   const propertyType = requiredString(fd, "propertyType") as PropertyType;
   const bedrooms =
     (optionalString(fd, "bedrooms") as BedroomCount | undefined) ?? "ONE";
-  const furnished = fd.get("furnished") === "on";
+  const amenities = readListingAmenities(fd);
   const priceBirr = requiredInt(fd, "priceBirr");
   const dealType = optionalString(fd, "dealType") === "SALE" ? "SALE" : "RENT";
   // A deposit only makes sense for rentals.
@@ -105,7 +106,7 @@ export async function createListing(fd: FormData) {
       areaSqm,
       floor,
       bedrooms,
-      furnished,
+      ...amenities,
       priceBirr,
       depositBirr,
       availableFrom,

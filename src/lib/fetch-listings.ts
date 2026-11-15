@@ -15,6 +15,11 @@ export type HomeListing = {
   areaSqm: number | null;
   bedrooms: string;
   furnished: boolean;
+  parking: boolean | null;
+  elevator: boolean | null;
+  balcony: boolean | null;
+  wifi: boolean | null;
+  billsIncluded: boolean | null;
   priceBirr: number;
   availableFrom: Date;
   latitude: number | null;
@@ -53,6 +58,11 @@ function normalizeListing(raw: {
   areaSqm?: number | null;
   bedrooms?: string;
   furnished: boolean;
+  parking?: boolean | null;
+  elevator?: boolean | null;
+  balcony?: boolean | null;
+  wifi?: boolean | null;
+  billsIncluded?: boolean | null;
   priceBirr: number;
   availableFrom?: Date;
   latitude?: number | null;
@@ -80,6 +90,11 @@ function normalizeListing(raw: {
     areaSqm: raw.areaSqm ?? null,
     bedrooms: raw.bedrooms ?? "ONE",
     furnished: raw.furnished,
+    parking: raw.parking ?? null,
+    elevator: raw.elevator ?? null,
+    balcony: raw.balcony ?? null,
+    wifi: raw.wifi ?? null,
+    billsIncluded: raw.billsIncluded ?? null,
     priceBirr: raw.priceBirr,
     availableFrom: raw.availableFrom ?? new Date(),
     latitude: raw.latitude ?? null,
