@@ -34,12 +34,18 @@ export default async function SearchPage(props: {
     getSavedListingIds(profileId),
   ]);
 
-  const url = (o: Parameters<typeof buildSearchUrl>[1]) => buildSearchUrl(filters, o, lang);
+  const url = (o: Parameters<typeof buildSearchUrl>[1]) =>
+    buildSearchUrl(filters, o, lang);
   const typeLabel =
     PROPERTY_TYPES.find((p) => p.value === filters.propertyType)?.label ??
     t(lang, "search.properties");
-  const dealLabel = t(lang, filters.deal === "RENT" ? "search.forRent" : "search.forSale");
-  const place = filters.neighborhood || "Addis Ababa";
+  const dealLabel = t(
+    lang,
+    filters.deal === "RENT" ? "search.forRent" : "search.forSale",
+  );
+  const place =
+    [filters.neighborhood, filters.area].filter(Boolean).join(", ") ||
+    "Addis Ababa";
   const from = total === 0 ? 0 : (page - 1) * PAGE_SIZE + 1;
   const to = filters.view === "map" ? total : Math.min(page * PAGE_SIZE, total);
   const sortUrls = Object.fromEntries(
@@ -48,13 +54,23 @@ export default async function SearchPage(props: {
 
   return (
     <div className="space-y-6">
-      <nav aria-label="Breadcrumb" className="flex flex-wrap items-center gap-2 text-sm text-[var(--muted)]">
-        <a href={lang !== "en" ? `/?lang=${lang}` : "/"} className="underline underline-offset-2 hover:text-[var(--foreground)]">
+      <nav
+        aria-label="Breadcrumb"
+        className="flex flex-wrap items-center gap-2 text-sm text-[var(--muted)]"
+      >
+        <a
+          href={lang !== "en" ? `/?lang=${lang}` : "/"}
+          className="underline underline-offset-2 hover:text-[var(--foreground)]"
+        >
           AddisRoom
         </a>
         <span aria-hidden>›</span>
         <a
-          href={buildSearchUrl({ ...filters, neighborhood: "", radiusKm: null, page: 1 }, {}, lang)}
+          href={buildSearchUrl(
+            { ...filters, neighborhood: "", area: "", radiusKm: null, page: 1 },
+            {},
+            lang,
+          )}
           className="underline underline-offset-2 hover:text-[var(--foreground)]"
         >
           {typeLabel} {dealLabel}
@@ -67,7 +83,12 @@ export default async function SearchPage(props: {
         ) : null}
       </nav>
 
-      <SearchBar key={JSON.stringify(sp)} lang={lang} initial={filters} variant="page" />
+      <SearchBar
+        key={JSON.stringify(sp)}
+        lang={lang}
+        initial={filters}
+        variant="page"
+      />
 
       <div className="flex flex-wrap items-end justify-between gap-4 pt-2">
         <div>
@@ -84,10 +105,16 @@ export default async function SearchPage(props: {
         <div className="flex flex-wrap items-center gap-3">
           <SortSelect lang={lang} value={filters.sort} urls={sortUrls} />
           <div className="view-toggle" role="group" aria-label="View">
-            <a href={url({ view: "list" })} data-active={filters.view === "list"}>
+            <a
+              href={url({ view: "list" })}
+              data-active={filters.view === "list"}
+            >
               {t(lang, "search.list")}
             </a>
-            <a href={url({ view: "map", page: 1 })} data-active={filters.view === "map"}>
+            <a
+              href={url({ view: "map", page: 1 })}
+              data-active={filters.view === "map"}
+            >
               {t(lang, "search.map")}
             </a>
           </div>
@@ -99,7 +126,9 @@ export default async function SearchPage(props: {
           <p className="text-lg font-semibold text-[var(--foreground)]">
             {t(lang, "search.emptyTitle")}
           </p>
-          <p className="mt-2 text-sm text-[var(--muted)]">{t(lang, "search.emptyBody")}</p>
+          <p className="mt-2 text-sm text-[var(--muted)]">
+            {t(lang, "search.emptyBody")}
+          </p>
           <a
             href={`/search?deal=${filters.deal.toLowerCase()}${lang !== "en" ? `&lang=${lang}` : ""}`}
             className="btn-dark mt-6 inline-flex h-11 items-center px-6 text-sm"
@@ -128,7 +157,12 @@ export default async function SearchPage(props: {
             </a>
           ) : null}
           {Array.from({ length: pages }, (_, i) => i + 1).map((n) => (
-            <a key={n} href={url({ page: n })} data-active={n === page} aria-current={n === page ? "page" : undefined}>
+            <a
+              key={n}
+              href={url({ page: n })}
+              data-active={n === page}
+              aria-current={n === page ? "page" : undefined}
+            >
               {n}
             </a>
           ))}

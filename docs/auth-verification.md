@@ -99,3 +99,15 @@ Search groups Parking, Furnished, Elevator, Balcony, Wi-Fi, and Bills included i
 The posting form records all six amenities, and listing cards/details display the amenities offered. New nullable database columns preserve unknown values on older listings: an unspecified parking value does not match No parking. Existing properties need their amenity information supplied before they can match those new filters. Legacy furnished=1 links remain supported.
 
 Regression checks cover posting persistence, combined amenity matching, unknown parking, legacy links, and filter URL preservation. Playwright verified the grouped form on mobile, price-range matching, parking/no-parking results, collapsed selections, and switching map/list views without losing filters.
+
+## Cascading locations
+
+`src/lib/locations.ts` contains the full product-supplied catalogue: 11 Addis Ababa sub-cities, exactly six surrounding areas, and 256 neighborhood entries across the provided corridor groups. Parenthetical labels and entries appearing under multiple corridors/areas are retained. Neighborhoods are selected from that parent's entries only.
+
+A shared `LocationSelector` powers search and posting. The primary dropdown contains the 17 areas, grouped into sub-cities and surrounding areas. The secondary dropdown is disabled until a parent is selected; its popup contains a type-ahead search and keyboard-accessible options grouped by corridor. Changing the primary clears the secondary. Search can use an area alone or both fields; posting requires both, with native form validation and independent server validation before a listing is saved.
+
+The migration adds a nullable listing `area` and an area/neighborhood index. It assigns known legacy broad labels to their parent without inventing a precise sefer or replacing the old label. Ambiguous legacy names remain unassigned and visible in unfiltered browsing; old broad-location URLs remain supported. Their owners need to select a precise pair when updating location data. Existing price, amenities, bedrooms, sorting, language, radius and list/map options remain available.
+
+Detailed names do not imply surveyed coordinates. Map/radius features reuse approximate area centers where exact property coordinates are absent, and map view displays that limitation. The supplied catalogue has no sefer-level GPS data.
+
+Regression tests verify the area counts and each area's full entry count, boundary/duplicate labels, mismatched and missing location rejection, URL persistence, area-only and exact-neighborhood search, and correct city/area/neighborhood storage. Mobile Playwright checks cover disabled neighborhoods, type-ahead for Wesen under Yeka and Furi under Sebeta, keyboard selection, parent reset, combined price/amenities/map search, required landlord fields, and no viewport overflow.

@@ -5,7 +5,8 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { BedroomCount, PropertyType, RoomType } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
-import { getNeighborhoodCoords } from "@/lib/geo";
+import { validateListingLocation } from "@/lib/locations";
+import { getSearchCenter } from "@/lib/geo";
 import { parseImageUrls, pickSampleImages } from "@/lib/sample-images";
 import { requireApprovedProfile } from "@/lib/auth";
 import { canPostListing } from "@/lib/monetization";
@@ -65,7 +66,10 @@ export async function createListing(fd: FormData) {
 
   const title = requiredString(fd, "title");
   const description = requiredString(fd, "description");
-  const neighborhood = requiredString(fd, "neighborhood");
+  const { area, neighborhood, city } = validateListingLocation(
+    requiredString(fd, "area"),
+    requiredString(fd, "neighborhood"),
+  );
   const roadName = optionalString(fd, "roadName");
   // Disabled on the client for property type SHOP, so they may be absent here.
   const roomType =
@@ -87,7 +91,7 @@ export async function createListing(fd: FormData) {
     throw new Error("availableFrom must be a valid date");
   }
 
-  const coords = getNeighborhoodCoords(neighborhood);
+  const coords = getSearchCenter(area, neighborhood);
   const customUrls = parseImageUrls(optionalString(fd, "imageUrls"));
   const imageUrls =
     customUrls.length > 0 ? customUrls : pickSampleImages(title, 4);
@@ -97,6 +101,8 @@ export async function createListing(fd: FormData) {
       title,
       description,
       neighborhood,
+      area,
+      city,
       roadName,
       latitude: coords?.lat,
       longitude: coords?.lng,

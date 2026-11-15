@@ -1,16 +1,11 @@
 "use client";
 
 import Link from "next/link";
+import { LocationSelector } from "@/components/LocationSelector";
 import { AmenitiesSelector } from "@/components/AmenitiesSelector";
 import { useState } from "react";
 import { createListing } from "@/app/actions";
-import {
-  ADDIS_CITY_AREAS,
-  ADDIS_NEARBY_AREAS,
-  BEDROOM_FILTERS,
-  PROPERTY_TYPES,
-  ROOM_TYPES,
-} from "@/lib/addis";
+import { BEDROOM_FILTERS, PROPERTY_TYPES, ROOM_TYPES } from "@/lib/addis";
 import { type Lang, t } from "@/lib/i18n";
 
 const disabledFieldClass = "disabled:cursor-not-allowed disabled:opacity-50";
@@ -54,30 +49,7 @@ export function NewListingForm({
             <option value="SALE">{t(lang, "search.forSale")}</option>
           </select>
         </div>
-        <div>
-          <label className="text-sm font-medium">Neighborhood</label>
-          <select
-            name="neighborhood"
-            required
-            className="input-field mt-2"
-            defaultValue="Bole"
-          >
-            <optgroup label="Addis Ababa">
-              {ADDIS_CITY_AREAS.map((n) => (
-                <option key={n} value={n}>
-                  {n}
-                </option>
-              ))}
-            </optgroup>
-            <optgroup label="Nearby areas">
-              {ADDIS_NEARBY_AREAS.map((n) => (
-                <option key={n} value={n}>
-                  {n}
-                </option>
-              ))}
-            </optgroup>
-          </select>
-        </div>
+        <LocationSelector lang={lang} required />
         <div>
           <label className="text-sm font-medium">
             Road / street name (optional)

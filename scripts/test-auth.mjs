@@ -902,7 +902,8 @@ try {
         fd({
           title: "Amenity persistence test",
           description: "Testing landlord-supplied amenities",
-          neighborhood: "Bole",
+          area: "Bole Subcity",
+          neighborhood: "Edna Mall area",
           propertyType: "APARTMENT",
           availableFrom: "2027-01-01",
           priceBirr: "28000",
@@ -930,8 +931,141 @@ try {
     false,
     "amenities cannot bypass payment publication",
   );
+  const locations = load("@/lib/locations");
+  assert.equal(locations.LOCATION_AREAS.length, 17);
+  assert.equal(
+    locations.LOCATION_AREAS.filter((a) => a.kind === "subcity").length,
+    11,
+  );
+  assert.equal(
+    locations.LOCATION_AREAS.filter((a) => a.kind === "surrounding").length,
+    6,
+  );
+  assert.deepEqual(
+    locations.LOCATION_AREAS.map((a) =>
+      a.groups.reduce((sum, g) => sum + g.neighborhoods.length, 0),
+    ),
+    [34, 36, 22, 19, 14, 18, 18, 17, 19, 16, 11, 4, 7, 6, 5, 4, 6],
+    "complete supplied catalogue, including entries repeated in separate corridors",
+  );
+  assert.ok(locations.neighborhoodBelongsTo("Yeka Subcity", "Wesen Grocery"));
+  assert.ok(locations.neighborhoodBelongsTo("Sebeta", "Furi"));
+  assert.ok(
+    locations.neighborhoodBelongsTo(
+      "Lemi Kura Subcity",
+      "Summit (Condominium, 72, Summit Giorgis, Moha Soft Drinks)",
+    ),
+  );
+  assert.ok(
+    locations.neighborhoodBelongsTo(
+      "Bole Subcity",
+      "Bole Arabsa (Condominium)",
+    ),
+  );
+  assert.ok(
+    locations.neighborhoodBelongsTo(
+      "Lemi Kura Subcity",
+      "Bole Arabsa (Condominium)",
+    ),
+  );
+  assert.throws(() =>
+    locations.validateListingLocation("Yeka Subcity", "Furi"),
+  );
+  assert.throws(() => locations.validateListingLocation("", "Wesen Grocery"));
+  assert.throws(() => locations.validateListingLocation("Sebeta", ""));
+  assert.equal(
+    filters.parseSearchParams({ area: "Yeka Subcity", neighborhood: "Furi" })
+      .neighborhood,
+    "",
+  );
+  assert.equal(
+    filters.parseSearchParams({
+      area: "NOT AN AREA",
+      neighborhood: "Wesen Grocery",
+    }).area,
+    "",
+  );
+  const cascade = filters.parseSearchParams({
+    area: "Yeka Subcity",
+    neighborhood: "Wesen Grocery",
+    amenities: ["WIFI"],
+    priceMin: "10000",
+    priceMax: "30000",
+    view: "map",
+  });
+  const cascadeUrl = new URL(
+    filters.buildSearchUrl(cascade, { sort: "price_asc" }),
+    "http://localhost",
+  );
+  assert.equal(cascadeUrl.searchParams.get("area"), "Yeka Subcity");
+  assert.equal(cascadeUrl.searchParams.get("neighborhood"), "Wesen Grocery");
+  assert.equal(cascadeUrl.searchParams.get("amenities"), "WIFI");
+  assert.equal(cascadeUrl.searchParams.get("view"), "map");
+  await db.listing.update({
+    where: { id: listing.id },
+    data: { area: "Yeka Subcity", neighborhood: "Wesen Grocery", wifi: true },
+  });
+  assert.equal((await search.searchListings(cascade)).total, 1);
+  assert.equal(
+    (
+      await search.searchListings({
+        ...cascade,
+        area: "Sebeta",
+        neighborhood: "Furi",
+      })
+    ).total,
+    0,
+  );
+  assert.equal(
+    (await search.searchListings({ ...cascade, neighborhood: "" })).total,
+    1,
+    "area-only search includes all its neighborhoods",
+  );
+  await assert.rejects(
+    () =>
+      posting.createListing(
+        fd({
+          area: "Yeka Subcity",
+          neighborhood: "Furi",
+          title: "Invalid cascade",
+          description: "Must not be saved",
+          propertyType: "APARTMENT",
+          availableFrom: "2027-01-01",
+          priceBirr: "10000",
+        }),
+      ),
+    /belonging/,
+  );
+  assert.equal(
+    await db.listing.count({ where: { title: "Invalid cascade" } }),
+    0,
+  );
+  await redirected(
+    () =>
+      posting.createListing(
+        fd({
+          area: "Sebeta",
+          neighborhood: "Furi",
+          title: "Surrounding area persistence",
+          description: "Test only",
+          propertyType: "APARTMENT",
+          availableFrom: "2027-01-01",
+          priceBirr: "16000",
+        }),
+      ),
+    "/test-checkout",
+  );
+  const surrounding = await db.listing.findFirstOrThrow({
+    where: { title: "Surrounding area persistence" },
+  });
+  assert.equal(surrounding.area, "Sebeta");
+  assert.equal(surrounding.neighborhood, "Furi");
+  assert.equal(surrounding.city, "Sebeta");
+  assert.equal(posted.area, "Bole Subcity");
+  assert.equal(posted.neighborhood, "Edna Mall area");
+  assert.equal(posted.city, "Addis Ababa");
   console.log(
-    "PASS: Ethiopian contacts, OTP throttle/replay, session forgery/expiry, password setup authorization, encrypted uploads, approval gates, reject/resubmit/approve, review audit, production delivery guard, admin access, sponsorships, broker badges, moderation, search, Google PKCE/state/nonce/replay/token validation account linking, grouped amenities, parking availability, map/filter URLs, and listing amenity persistence.",
+    "PASS: Ethiopian contacts, OTP throttle/replay, session forgery/expiry, password setup authorization, encrypted uploads, approval gates, reject/resubmit/approve, review audit, production delivery guard, admin access, sponsorships, broker badges, moderation, search, Google PKCE/state/nonce/replay/token validation account linking, grouped amenities, parking availability, map/filter URLs, and listing amenity persistence, complete cascading catalogue, parent validation, and location persistence.",
   );
 } finally {
   console.error = oldConsoleError;

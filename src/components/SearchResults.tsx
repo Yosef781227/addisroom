@@ -113,7 +113,7 @@ function ResultCard({
         </h3>
         <p className="mt-1 truncate text-sm text-[var(--muted)]">
           {item.roadName ? `${item.roadName}, ` : ""}
-          {item.neighborhood}, Addis Ababa
+          {item.neighborhood}, {item.area ?? item.city}
         </p>
 
         <p className="mt-4 flex flex-wrap gap-x-5 gap-y-2 text-sm font-semibold text-[var(--foreground)]">
@@ -211,6 +211,9 @@ export function SearchResults({
       <div className="map-split">
         <div className="map-split-list">{cards}</div>
         <div className="map-split-map">
+          <p className="absolute top-3 left-12 right-3 z-[500] rounded-lg bg-white/95 px-3 py-2 text-[10px] text-[var(--muted)] shadow-sm">
+            {t(lang, "location.approximateMap")}
+          </p>
           <ListingsMap
             points={points}
             activeId={activeId}

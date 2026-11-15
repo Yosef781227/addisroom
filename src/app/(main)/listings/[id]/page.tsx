@@ -177,6 +177,7 @@ export default async function ListingDetailPage(props: {
               </h1>
               <div className="mt-2 flex flex-wrap items-center gap-2 text-sm text-[var(--muted)]">
                 <span>
+                  {listing.area ? `${listing.area} · ` : ""}
                   {listing.neighborhood}
                   {listing.roadName ? `, ${listing.roadName}` : ""} •{" "}
                   {propertyLabel} • {bedroomLabel}

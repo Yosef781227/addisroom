@@ -1,36 +1,38 @@
+import { LEGACY_AREA_MAP } from "@/lib/locations";
 /** Approximate centers for Addis Ababa neighborhoods (lat/lng). */
-export const NEIGHBORHOOD_COORDS: Record<
-  string,
-  { lat: number; lng: number }
-> = {
-  Bole: { lat: 8.997, lng: 38.79 },
-  Kazanchis: { lat: 9.015, lng: 38.765 },
-  Piazza: { lat: 9.034, lng: 38.746 },
-  CMC: { lat: 9.05, lng: 38.81 },
-  Megenagna: { lat: 9.02, lng: 38.83 },
-  Gerji: { lat: 8.985, lng: 38.81 },
-  Saris: { lat: 8.955, lng: 38.76 },
-  Ayat: { lat: 8.92, lng: 38.88 },
-  Jemo: { lat: 8.935, lng: 38.72 },
-  Gotera: { lat: 9.0, lng: 38.74 },
-  Mexico: { lat: 9.01, lng: 38.735 },
-  "Arat Kilo": { lat: 9.032, lng: 38.762 },
-  "Sidist Kilo": { lat: 9.04, lng: 38.76 },
-  Lideta: { lat: 9.025, lng: 38.735 },
-  Kirkos: { lat: 9.01, lng: 38.75 },
-  Yeka: { lat: 9.05, lng: 38.79 },
-  "Nifas Silk": { lat: 8.99, lng: 38.72 },
-  Gullele: { lat: 9.05, lng: 38.72 },
-  "Addis Ketema": { lat: 9.03, lng: 38.72 },
-  "Kolfe Keranio": { lat: 9.04, lng: 38.7 },
-  "Akaki Kality": { lat: 8.88, lng: 38.78 },
-  Sululta: { lat: 9.18, lng: 38.72 },
-  Sebeta: { lat: 8.91, lng: 38.62 },
-  "Koye Feche": { lat: 8.75, lng: 38.85 },
-  Gelan: { lat: 8.85, lng: 38.78 },
-  Burayu: { lat: 8.95, lng: 38.68 },
-  Legetafo: { lat: 9.02, lng: 38.88 },
-};
+export const NEIGHBORHOOD_COORDS: Record<string, { lat: number; lng: number }> =
+  {
+    // Approximate Bishoftu town center; not a property coordinate.
+    // Regional extent: https://documents1.worldbank.org/curated/en/751721468249242016/pdf/SFG2018-EA-P155563-Box379881B-PUBLIC-Disclosed-4-5-2016.pdf
+    Bishoftu: { lat: 8.75, lng: 38.98 },
+    Bole: { lat: 8.997, lng: 38.79 },
+    Kazanchis: { lat: 9.015, lng: 38.765 },
+    Piazza: { lat: 9.034, lng: 38.746 },
+    CMC: { lat: 9.05, lng: 38.81 },
+    Megenagna: { lat: 9.02, lng: 38.83 },
+    Gerji: { lat: 8.985, lng: 38.81 },
+    Saris: { lat: 8.955, lng: 38.76 },
+    Ayat: { lat: 8.92, lng: 38.88 },
+    Jemo: { lat: 8.935, lng: 38.72 },
+    Gotera: { lat: 9.0, lng: 38.74 },
+    Mexico: { lat: 9.01, lng: 38.735 },
+    "Arat Kilo": { lat: 9.032, lng: 38.762 },
+    "Sidist Kilo": { lat: 9.04, lng: 38.76 },
+    Lideta: { lat: 9.025, lng: 38.735 },
+    Kirkos: { lat: 9.01, lng: 38.75 },
+    Yeka: { lat: 9.05, lng: 38.79 },
+    "Nifas Silk": { lat: 8.99, lng: 38.72 },
+    Gullele: { lat: 9.05, lng: 38.72 },
+    "Addis Ketema": { lat: 9.03, lng: 38.72 },
+    "Kolfe Keranio": { lat: 9.04, lng: 38.7 },
+    "Akaki Kality": { lat: 8.88, lng: 38.78 },
+    Sululta: { lat: 9.18, lng: 38.72 },
+    Sebeta: { lat: 8.91, lng: 38.62 },
+    "Koye Feche": { lat: 8.75, lng: 38.85 },
+    Gelan: { lat: 8.85, lng: 38.78 },
+    Burayu: { lat: 8.95, lng: 38.68 },
+    Legetafo: { lat: 9.02, lng: 38.88 },
+  };
 
 /** Kilometer radius filter options (no "any distance"). */
 export const RADIUS_KM_OPTIONS = [1, 2, 5, 10, 20] as const;
@@ -87,11 +89,12 @@ export function listingCoords(listing: {
   latitude: number | null;
   longitude: number | null;
   neighborhood: string;
+  area?: string | null;
 }) {
   if (listing.latitude != null && listing.longitude != null) {
     return { lat: listing.latitude, lng: listing.longitude };
   }
-  return getNeighborhoodCoords(listing.neighborhood);
+  return getSearchCenter(listing.area ?? "", listing.neighborhood);
 }
 
 export function withinRadiusKm(
@@ -99,6 +102,7 @@ export function withinRadiusKm(
     latitude: number | null;
     longitude: number | null;
     neighborhood: string;
+    area?: string | null;
   },
   center: { lat: number; lng: number },
   radiusKm: number,
@@ -106,4 +110,36 @@ export function withinRadiusKm(
   const coords = listingCoords(listing);
   if (!coords) return false;
   return haversineKm(center, coords) <= radiusKm;
+}
+
+// Existing approximate area centers are reused; sefer names are not treated as exact GPS coordinates.
+const AREA_CENTER_NAMES: Record<string, string> = {
+  "Bole Subcity": "Bole",
+  "Yeka Subcity": "Yeka",
+  "Kirkos Subcity": "Kirkos",
+  "Arada Subcity": "Piazza",
+  "Lideta Subcity": "Lideta",
+  "Nifas Silk-Lafto Subcity": "Nifas Silk",
+  "Kolfe Keranio Subcity": "Kolfe Keranio",
+  "Gullele Subcity": "Gullele",
+  "Addis Ketema Subcity": "Addis Ketema",
+  "Akaky Kaliti Subcity": "Akaki Kality",
+  "Lemi Kura Subcity": "Ayat",
+  "Koye Feche": "Koye Feche",
+  Sebeta: "Sebeta",
+  "Legetafo-Legedadi": "Legetafo",
+  Sululta: "Sululta",
+  "Gelan & Dukem": "Gelan",
+  "Bishoftu (Debre Zeit)": "Bishoftu",
+};
+export function getSearchCenter(area: string, neighborhood = "") {
+  return (
+    getNeighborhoodCoords(neighborhood) ??
+    getNeighborhoodCoords(
+      AREA_CENTER_NAMES[area] ??
+        AREA_CENTER_NAMES[LEGACY_AREA_MAP[neighborhood]] ??
+        "",
+    ) ??
+    null
+  );
 }

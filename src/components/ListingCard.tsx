@@ -15,6 +15,7 @@ type ListingWithRelations = {
   title: string;
   description: string;
   neighborhood: string;
+  area?: string | null;
   roadName?: string | null;
   roomType: string;
   propertyType?: string;
@@ -124,6 +125,7 @@ export function ListingCard({
               />
             </svg>
             <span className="truncate">
+              {listing.area ? `${listing.area} · ` : ""}
               {listing.neighborhood}
               {listing.roadName ? `, ${listing.roadName}` : ""}
             </span>

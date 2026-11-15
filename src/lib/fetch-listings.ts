@@ -8,6 +8,7 @@ export type HomeListing = {
   title: string;
   description: string;
   neighborhood: string;
+  area: string | null;
   roadName: string | null;
   roomType: string;
   propertyType: string;
@@ -51,6 +52,7 @@ function normalizeListing(raw: {
   title: string;
   description: string;
   neighborhood: string;
+  area?: string | null;
   roadName?: string | null;
   roomType: string;
   propertyType?: string;
@@ -83,6 +85,7 @@ function normalizeListing(raw: {
     title: raw.title,
     description: raw.description,
     neighborhood: raw.neighborhood,
+    area: raw.area ?? null,
     roadName: raw.roadName ?? null,
     roomType: raw.roomType,
     propertyType: raw.propertyType ?? "APARTMENT",

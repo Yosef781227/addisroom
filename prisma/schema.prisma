@@ -120,6 +120,7 @@ model Listing {
   description   String
   city          String       @default("Addis Ababa")
   neighborhood  String
+  area String?
   roadName      String?
   latitude      Float?
   longitude     Float?
@@ -152,6 +153,7 @@ model Listing {
   viewingSchedules ViewingSchedule[]
 
   @@index([city, neighborhood])
+  @@index([area, neighborhood])
   @@index([createdAt])
   @@index([propertyType, bedrooms])
   @@index([availableFrom])

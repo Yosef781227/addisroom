@@ -10,6 +10,22 @@ export function parseLang(value: string | null | undefined): Lang {
 
 const messages = {
   en: {
+    "location.exactPrimary": "Selected sub-city / area only",
+    "location.chooseArea": "Select a sub-city / area",
+    "location.chooseNeighborhood": "Choose a neighborhood / sefer",
+    "location.area": "Sub-city / Area",
+    "location.neighborhood": "Neighborhood / Sefer",
+    "location.anyArea": "All sub-cities / areas",
+    "location.anyNeighborhood": "All neighborhoods in this area",
+    "location.selectAreaFirst": "Select a sub-city / area first",
+    "location.subcities": "Addis Ababa sub-cities",
+    "location.surrounding": "Surrounding areas",
+    "location.findNeighborhood": "Search neighborhoods",
+    "location.typeAhead": "Type to find a sefer…",
+    "location.noMatches": "No matching neighborhoods in this area.",
+    "location.approximateMap":
+      "Map pins use approximate area locations unless property coordinates are provided.",
+
     "search.resultsView": "Show results as",
     "amenity.title": "Amenities",
     "amenity.parking": "Parking",
@@ -307,6 +323,21 @@ const messages = {
     "profile.no": "No",
   },
   am: {
+    "location.exactPrimary": "የተመረጠው ክፍለ ከተማ / አካባቢ ብቻ",
+    "location.chooseArea": "ክፍለ ከተማ / አካባቢ ይምረጡ",
+    "location.chooseNeighborhood": "ሰፈር ይምረጡ",
+    "location.area": "ክፍለ ከተማ / አካባቢ",
+    "location.neighborhood": "ሰፈር / አካባቢ",
+    "location.anyArea": "ሁሉም ክፍለ ከተሞች / አካባቢዎች",
+    "location.anyNeighborhood": "በዚህ አካባቢ ያሉ ሰፈሮች ሁሉ",
+    "location.selectAreaFirst": "መጀመሪያ ክፍለ ከተማ / አካባቢ ይምረጡ",
+    "location.subcities": "የአዲስ አበባ ክፍለ ከተሞች",
+    "location.surrounding": "አቅራቢያ ያሉ አካባቢዎች",
+    "location.findNeighborhood": "ሰፈር ፈልግ",
+    "location.typeAhead": "ሰፈር ለመፈለግ ይጻፉ…",
+    "location.noMatches": "በዚህ አካባቢ የሚዛመድ ሰፈር የለም።",
+    "location.approximateMap": "የቤቱ መጋጠሚያዎች ካልተሰጡ በካርታው የሚታዩት ቦታዎች ግምታዊ ናቸው።",
+
     "search.resultsView": "ውጤቶችን አሳይ",
     "amenity.title": "የቤት አገልግሎቶች",
     "amenity.parking": "መኪና ማቆሚያ",
@@ -588,6 +619,22 @@ const messages = {
     "profile.no": "አይ",
   },
   om: {
+    "location.exactPrimary": "Kutaa magaalaa / naannoo filatame qofa",
+    "location.chooseArea": "Kutaa magaalaa / naannoo filadhu",
+    "location.chooseNeighborhood": "Ganda / sefer filadhu",
+    "location.area": "Kutaa magaalaa / Naannoo",
+    "location.neighborhood": "Ganda / Sefer",
+    "location.anyArea": "Kutaalee magaalaa / naannoolee hunda",
+    "location.anyNeighborhood": "Gandoota naannoo kanaa hunda",
+    "location.selectAreaFirst": "Dura kutaa magaalaa / naannoo filadhu",
+    "location.subcities": "Kutaalee magaalaa Finfinnee",
+    "location.surrounding": "Naannoolee ollaa",
+    "location.findNeighborhood": "Gandoota barbaadi",
+    "location.typeAhead": "Sefer barbaaduuf barreessi…",
+    "location.noMatches": "Naannoo kana keessatti gandi walsimu hin jiru.",
+    "location.approximateMap":
+      "Mallattooleen kaartaa bakka tilmaamaa agarsiisu; teessoon GPS mana sanaa yoo hin kennamne.",
+
     "search.resultsView": "Bu'aawwan agarsiisi",
     "amenity.title": "Tajaajiloota manaa",
     "amenity.parking": "Bakka konkolaataa",

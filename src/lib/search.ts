@@ -2,7 +2,7 @@ import { amenityWhere, offeredAmenities } from "@/lib/amenities";
 import type { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { PROPERTY_TYPES } from "@/lib/addis";
-import { getNeighborhoodCoords, haversineKm, listingCoords } from "@/lib/geo";
+import { getSearchCenter, haversineKm, listingCoords } from "@/lib/geo";
 import { getListingImageUrls, isVerifiedBroker } from "@/lib/listings";
 import {
   PAGE_SIZE,
@@ -22,7 +22,8 @@ export async function searchListings(f: SearchFilters): Promise<{
   pages: number;
   page: number;
 }> {
-  const useRadius = Boolean(f.neighborhood && f.radiusKm);
+  const center = getSearchCenter(f.area, f.neighborhood);
+  const useRadius = Boolean((f.area || f.neighborhood) && f.radiusKm && center);
   const price: Prisma.IntFilter = {};
   if (f.priceMin) price.gte = f.priceMin;
   if (f.priceMax) price.lte = f.priceMax;
@@ -36,6 +37,7 @@ export async function searchListings(f: SearchFilters): Promise<{
     postedBy: { suspendedAt: null },
     dealType: f.deal,
     ...(f.propertyType ? { propertyType: f.propertyType } : {}),
+    ...(f.area && !useRadius ? { area: f.area } : {}),
     ...(f.neighborhood && !useRadius ? { neighborhood: f.neighborhood } : {}),
     ...(f.priceMin || f.priceMax ? { priceBirr: price } : {}),
     ...(f.areaMin || f.areaMax ? { areaSqm: area } : {}),
@@ -48,6 +50,7 @@ export async function searchListings(f: SearchFilters): Promise<{
             { description: { contains: f.q } },
             { roadName: { contains: f.q } },
             { neighborhood: { contains: f.q } },
+            { area: { contains: f.q } },
           ],
         }
       : {}),
@@ -82,7 +85,6 @@ export async function searchListings(f: SearchFilters): Promise<{
   });
 
   if (useRadius) {
-    const center = getNeighborhoodCoords(f.neighborhood);
     if (center) {
       rows = rows.filter((l) => {
         const c = listingCoords(l);
@@ -112,6 +114,8 @@ export async function searchListings(f: SearchFilters): Promise<{
       depositBirr: l.depositBirr,
       pricePerSqm: l.areaSqm ? Math.round(l.priceBirr / l.areaSqm) : null,
       neighborhood: l.neighborhood,
+      area: l.area,
+      city: l.city,
       roadName: l.roadName,
       propertyType: l.propertyType,
       propertyLabel:

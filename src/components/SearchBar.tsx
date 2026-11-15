@@ -1,11 +1,8 @@
 "use client";
 import { useState } from "react";
-import {
-  ADDIS_CITY_AREAS,
-  ADDIS_NEARBY_AREAS,
-  BEDROOM_FILTERS,
-  PROPERTY_TYPES,
-} from "@/lib/addis";
+import { BEDROOM_FILTERS, PROPERTY_TYPES } from "@/lib/addis";
+import { LocationSelector } from "@/components/LocationSelector";
+import { getSearchCenter } from "@/lib/geo";
 import { RADIUS_OPTIONS } from "@/lib/geo";
 import { type Lang, t } from "@/lib/i18n";
 import { AmenitiesSelector } from "@/components/AmenitiesSelector";
@@ -15,6 +12,7 @@ export const EMPTY_SEARCH: Initial = {
   deal: "RENT",
   propertyType: null,
   neighborhood: "",
+  area: "",
   radiusKm: null,
   priceMin: null,
   priceMax: null,
@@ -38,6 +36,7 @@ export function SearchBar({
 }) {
   const [deal, setDeal] = useState(initial.deal);
   const [neighborhood, setNeighborhood] = useState(initial.neighborhood);
+  const [area, setArea] = useState(initial.area);
   const [propertyType, setPropertyType] = useState(initial.propertyType ?? "");
   const [error, setError] = useState("");
   const [view, setView] = useState(initial.view);
@@ -100,48 +99,17 @@ export function SearchBar({
         className="home-input h-12 w-full mb-4"
       />
       <div className="grid gap-4 sm:grid-cols-2">
-        <label>
-          <span className="field-label">{t(lang, "search.location")}</span>
-          <select
-            name="neighborhood"
-            value={neighborhood}
-            onChange={(e) => setNeighborhood(e.target.value)}
-            className="home-input h-12 w-full"
-          >
-            <option value="">{t(lang, "home.allNeighborhoods")}</option>
-            <optgroup label="Addis Ababa">
-              {ADDIS_CITY_AREAS.map((n) => (
-                <option key={n}>{n}</option>
-              ))}
-            </optgroup>
-            <optgroup label="Nearby areas">
-              {ADDIS_NEARBY_AREAS.map((n) => (
-                <option key={n}>{n}</option>
-              ))}
-            </optgroup>
-          </select>
-        </label>
-        <label>
-          <span className="field-label">{t(lang, "home.radiusKm")}</span>
-          <select
-            name="radius"
-            value={radius}
-            onChange={(e) => setRadius(e.target.value)}
-            disabled={!neighborhood}
-            className="home-input h-12 w-full disabled:opacity-50"
-          >
-            <option value="">
-              {neighborhood
-                ? t(lang, "search.exactArea")
-                : t(lang, "home.radiusHint")}
-            </option>
-            {RADIUS_OPTIONS.map((r) => (
-              <option key={r.value} value={r.value}>
-                + {t(lang, r.labelKey)}
-              </option>
-            ))}
-          </select>
-        </label>
+        <LocationSelector
+          lang={lang}
+          initialArea={initial.area}
+          initialNeighborhood={initial.neighborhood}
+          onChange={(nextArea, nextNeighborhood) => {
+            setArea(nextArea);
+            setNeighborhood(nextNeighborhood);
+            setRadius("");
+          }}
+        />
+
         <label>
           <span className="field-label">{t(lang, "search.rooms")}</span>
           <select
@@ -205,6 +173,30 @@ export function SearchBar({
             placeholder={t(lang, "search.anyPrice")}
             className="home-input h-12 w-full"
           />
+        </label>
+        <label className="sm:col-span-2">
+          <span className="field-label">{t(lang, "home.radiusKm")}</span>
+          <select
+            name="radius"
+            value={radius}
+            onChange={(e) => setRadius(e.target.value)}
+            disabled={!getSearchCenter(area, neighborhood)}
+            className="home-input h-12 w-full disabled:opacity-50"
+          >
+            <option value="">
+              {getSearchCenter(area, neighborhood)
+                ? t(
+                    lang,
+                    neighborhood ? "search.exactArea" : "location.exactPrimary",
+                  )
+                : t(lang, "location.selectAreaFirst")}
+            </option>
+            {RADIUS_OPTIONS.map((r) => (
+              <option key={r.value} value={r.value}>
+                + {t(lang, r.labelKey)}
+              </option>
+            ))}
+          </select>
         </label>
       </div>
       <AmenitiesSelector lang={lang} initial={initial.amenities} />

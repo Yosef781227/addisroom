@@ -10,6 +10,7 @@ import {
   type AmenityFilter,
   type Amenity,
 } from "@/lib/amenities";
+import { getLocationArea, neighborhoodBelongsTo } from "@/lib/locations";
 import { parseRadiusKm } from "@/lib/geo";
 
 export const PAGE_SIZE = 8;
@@ -26,6 +27,7 @@ export type SearchFilters = {
   deal: DealType;
   propertyType: PropertyType | null;
   neighborhood: string;
+  area: string;
   radiusKm: number | null;
   priceMin: number | null;
   priceMax: number | null;
@@ -60,6 +62,7 @@ function positiveInt(v: string | string[] | undefined): number | null {
 export function parseSearchParams(sp: RawSearchParams): SearchFilters {
   const propertyType = first(sp.propertyType);
   const neighborhood = first(sp.neighborhood);
+  const area = getLocationArea(first(sp.area))?.name ?? "";
   const sort = first(sp.sort) as SortKey;
   const amenities = parseAmenities([
     ...all(sp.amenities),
@@ -72,11 +75,14 @@ export function parseSearchParams(sp: RawSearchParams): SearchFilters {
     propertyType: PROPERTY_TYPES.some((p) => p.value === propertyType)
       ? (propertyType as PropertyType)
       : null,
-    neighborhood: (ADDIS_NEIGHBORHOODS as readonly string[]).includes(
-      neighborhood,
-    )
-      ? neighborhood
-      : "",
+    area,
+    neighborhood: area
+      ? neighborhoodBelongsTo(area, neighborhood)
+        ? neighborhood
+        : ""
+      : (ADDIS_NEIGHBORHOODS as readonly string[]).includes(neighborhood)
+        ? neighborhood
+        : "",
     radiusKm: parseRadiusKm(first(sp.radius)),
     priceMin: positiveInt(sp.priceMin),
     priceMax: positiveInt(sp.priceMax),
@@ -107,8 +113,10 @@ export function buildSearchUrl(
   const qs = new URLSearchParams();
   qs.set("deal", m.deal.toLowerCase());
   if (m.propertyType) qs.set("propertyType", m.propertyType);
+  if (m.area) qs.set("area", m.area);
   if (m.neighborhood) qs.set("neighborhood", m.neighborhood);
-  if (m.neighborhood && m.radiusKm) qs.set("radius", String(m.radiusKm));
+  if ((m.area || m.neighborhood) && m.radiusKm)
+    qs.set("radius", String(m.radiusKm));
   if (m.priceMin) qs.set("priceMin", String(m.priceMin));
   if (m.priceMax) qs.set("priceMax", String(m.priceMax));
   if (m.areaMin) qs.set("areaMin", String(m.areaMin));
@@ -137,6 +145,8 @@ export type ResultItem = {
   depositBirr: number | null;
   pricePerSqm: number | null;
   neighborhood: string;
+  area: string | null;
+  city: string;
   roadName: string | null;
   propertyType: string;
   propertyLabel: string;
