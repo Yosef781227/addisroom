@@ -18,7 +18,7 @@ import {
 } from "@/lib/search-shared";
 
 export const metadata: Metadata = {
-  title: "Search homes to rent or buy — AddisRoom",
+  title: "Find rental homes — AddisRoom",
 };
 
 export default async function SearchPage(props: {
@@ -83,13 +83,6 @@ export default async function SearchPage(props: {
         ) : null}
       </nav>
 
-      <SearchBar
-        key={JSON.stringify(sp)}
-        lang={lang}
-        initial={filters}
-        variant="page"
-      />
-
       <div className="flex flex-wrap items-end justify-between gap-4 pt-2">
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-[var(--foreground)] sm:text-3xl">
@@ -120,6 +113,23 @@ export default async function SearchPage(props: {
           </div>
         </div>
       </div>
+
+      <details
+        className="rental-filter-drawer"
+        open={filters.view === "list" || undefined}
+        key={`${JSON.stringify(sp)}-drawer`}
+      >
+        <summary>
+          {lang === "en" ? "Adjust filters" : t(lang, "home.filtersTitle")}{" "}
+          <span aria-hidden="true">⌄</span>
+        </summary>
+        <SearchBar
+          key={JSON.stringify(sp)}
+          lang={lang}
+          initial={filters}
+          variant="page"
+        />
+      </details>
 
       {total === 0 ? (
         <div className="empty-state">

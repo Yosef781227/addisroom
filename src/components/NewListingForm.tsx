@@ -18,9 +18,7 @@ export function NewListingForm({
   feeBirr: number;
 }) {
   const [propertyType, setPropertyType] = useState("CONDOMINIUM");
-  const [dealType, setDealType] = useState("RENT");
   const isShop = propertyType === "SHOP";
-  const isSale = dealType === "SALE";
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     const confirmed = window.confirm(
@@ -37,18 +35,6 @@ export function NewListingForm({
   return (
     <form action={createListing} onSubmit={handleSubmit} className="card p-6">
       <div className="grid gap-4 md:grid-cols-2">
-        <div className="md:col-span-2">
-          <label className="text-sm font-medium">{t(lang, "post.deal")}</label>
-          <select
-            name="dealType"
-            value={dealType}
-            onChange={(e) => setDealType(e.target.value)}
-            className="input-field mt-2"
-          >
-            <option value="RENT">{t(lang, "search.rent")}</option>
-            <option value="SALE">{t(lang, "search.forSale")}</option>
-          </select>
-        </div>
         <LocationSelector lang={lang} required />
         <div>
           <label className="text-sm font-medium">
@@ -141,7 +127,7 @@ export function NewListingForm({
         </div>
         <div>
           <label className="text-sm font-medium">
-            {t(lang, isSale ? "post.priceSale" : "post.priceRent")}
+            {t(lang, "post.priceRent")}
           </label>
           <input
             name="priceBirr"
@@ -150,7 +136,7 @@ export function NewListingForm({
             className="input-field mt-2"
           />
         </div>
-        {!isSale ? (
+        {
           <div>
             <label className="text-sm font-medium">
               Deposit (optional, birr)
@@ -161,7 +147,7 @@ export function NewListingForm({
               className="input-field mt-2"
             />
           </div>
-        ) : null}
+        }
         <div>
           <label className="text-sm font-medium">{t(lang, "post.area")}</label>
           <input

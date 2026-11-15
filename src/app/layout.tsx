@@ -14,9 +14,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "AddisRoom — Rent or buy a home in Addis Ababa",
+  title: "AddisRoom — Find a rental home in Addis Ababa",
   description:
-    "Search homes to rent or buy in Addis Ababa by area, price and size, with a map view and verified brokers.",
+    "Find rental homes in Addis Ababa by location, monthly budget and amenities, with a map view and verified brokers.",
 };
 
 export default function RootLayout({

@@ -228,7 +228,7 @@ export function SearchResults({
   return (
     <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_300px]">
       <div className="space-y-4">{cards}</div>
-      <aside className="space-y-4">
+      <aside className="space-y-4 order-first lg:order-last">
         <div className="map-teaser">
           <ListingsMap points={points} interactive={false} className="h-full" />
           <a href={mapUrl} className="map-teaser-button">

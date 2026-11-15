@@ -2,7 +2,7 @@ import { amenityWhere, offeredAmenities } from "@/lib/amenities";
 import type { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { PROPERTY_TYPES } from "@/lib/addis";
-import { getSearchCenter, haversineKm, listingCoords } from "@/lib/geo";
+import { listingCoords } from "@/lib/geo";
 import { getListingImageUrls, isVerifiedBroker } from "@/lib/listings";
 import {
   PAGE_SIZE,
@@ -22,8 +22,6 @@ export async function searchListings(f: SearchFilters): Promise<{
   pages: number;
   page: number;
 }> {
-  const center = getSearchCenter(f.area, f.neighborhood);
-  const useRadius = Boolean((f.area || f.neighborhood) && f.radiusKm && center);
   const price: Prisma.IntFilter = {};
   if (f.priceMin) price.gte = f.priceMin;
   if (f.priceMax) price.lte = f.priceMax;
@@ -35,10 +33,10 @@ export async function searchListings(f: SearchFilters): Promise<{
     published: true,
     archivedAt: null,
     postedBy: { suspendedAt: null },
-    dealType: f.deal,
+    dealType: "RENT",
     ...(f.propertyType ? { propertyType: f.propertyType } : {}),
-    ...(f.area && !useRadius ? { area: f.area } : {}),
-    ...(f.neighborhood && !useRadius ? { neighborhood: f.neighborhood } : {}),
+    ...(f.area ? { area: f.area } : {}),
+    ...(f.neighborhood ? { neighborhood: f.neighborhood } : {}),
     ...(f.priceMin || f.priceMax ? { priceBirr: price } : {}),
     ...(f.areaMin || f.areaMax ? { areaSqm: area } : {}),
     ...(f.rooms.length ? { bedrooms: { in: f.rooms } } : {}),
@@ -65,8 +63,7 @@ export async function searchListings(f: SearchFilters): Promise<{
           ? { areaSqm: { sort: "desc", nulls: "last" } }
           : { createdAt: "desc" };
 
-  // Distance is checked in code, so fetch the matching set first and page afterwards.
-  let rows = await prisma.listing.findMany({
+  const rows = await prisma.listing.findMany({
     where,
     orderBy,
     include: {
@@ -83,15 +80,6 @@ export async function searchListings(f: SearchFilters): Promise<{
       images: { orderBy: { sortOrder: "asc" } },
     },
   });
-
-  if (useRadius) {
-    if (center) {
-      rows = rows.filter((l) => {
-        const c = listingCoords(l);
-        return c ? haversineKm(center, c) <= f.radiusKm! : false;
-      });
-    }
-  }
 
   const total = rows.length;
   const pages = Math.max(1, Math.ceil(total / PAGE_SIZE));

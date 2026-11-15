@@ -35,8 +35,8 @@ function MainLinks({ showPost }: { showPost: boolean }) {
       <a href={`/search?deal=rent${amp}`} className="nav-link">
         {t(lang, "nav.rent")}
       </a>
-      <a href={`/search?deal=sale${amp}`} className="nav-link">
-        {t(lang, "nav.buy")}
+      <a href={`/search?view=map${amp}`} className="nav-link">
+        {t(lang, "search.map")}
       </a>
       {showPost ? (
         <a href={`/listings/new${qs}`} className="nav-link hidden md:block">

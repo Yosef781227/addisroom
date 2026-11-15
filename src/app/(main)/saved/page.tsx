@@ -19,6 +19,7 @@ export default async function SavedPage(props: {
           listing: {
             archivedAt: null,
             published: true,
+            dealType: "RENT",
             postedBy: { suspendedAt: null },
           },
         },

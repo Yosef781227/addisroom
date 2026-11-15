@@ -11,7 +11,6 @@ import {
   type Amenity,
 } from "@/lib/amenities";
 import { getLocationArea, neighborhoodBelongsTo } from "@/lib/locations";
-import { parseRadiusKm } from "@/lib/geo";
 
 export const PAGE_SIZE = 8;
 
@@ -71,7 +70,7 @@ export function parseSearchParams(sp: RawSearchParams): SearchFilters {
   const validRooms = BEDROOM_FILTERS.map((b) => b.value as string);
 
   return {
-    deal: first(sp.deal).toUpperCase() === "SALE" ? "SALE" : "RENT",
+    deal: "RENT",
     propertyType: PROPERTY_TYPES.some((p) => p.value === propertyType)
       ? (propertyType as PropertyType)
       : null,
@@ -83,11 +82,11 @@ export function parseSearchParams(sp: RawSearchParams): SearchFilters {
       : (ADDIS_NEIGHBORHOODS as readonly string[]).includes(neighborhood)
         ? neighborhood
         : "",
-    radiusKm: parseRadiusKm(first(sp.radius)),
+    radiusKm: null,
     priceMin: positiveInt(sp.priceMin),
     priceMax: positiveInt(sp.priceMax),
-    areaMin: positiveInt(sp.areaMin),
-    areaMax: positiveInt(sp.areaMax),
+    areaMin: null,
+    areaMax: null,
     rooms:
       propertyType === "SHOP"
         ? []
@@ -111,16 +110,12 @@ export function buildSearchUrl(
 ): string {
   const m = { ...f, ...overrides };
   const qs = new URLSearchParams();
-  qs.set("deal", m.deal.toLowerCase());
+
   if (m.propertyType) qs.set("propertyType", m.propertyType);
   if (m.area) qs.set("area", m.area);
   if (m.neighborhood) qs.set("neighborhood", m.neighborhood);
-  if ((m.area || m.neighborhood) && m.radiusKm)
-    qs.set("radius", String(m.radiusKm));
   if (m.priceMin) qs.set("priceMin", String(m.priceMin));
   if (m.priceMax) qs.set("priceMax", String(m.priceMax));
-  if (m.areaMin) qs.set("areaMin", String(m.areaMin));
-  if (m.areaMax) qs.set("areaMax", String(m.areaMax));
   for (const r of m.rooms) qs.append("rooms", r);
   for (const amenity of parseAmenities([
     ...m.amenities,

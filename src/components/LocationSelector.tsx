@@ -9,12 +9,14 @@ import { t, type Lang } from "@/lib/i18n";
 export function LocationSelector({
   lang,
   required = false,
+  hideNeighborhoodUntilArea = false,
   initialArea = "",
   initialNeighborhood = "",
   onChange,
 }: {
   lang: Lang;
   required?: boolean;
+  hideNeighborhoodUntilArea?: boolean;
   initialArea?: string;
   initialNeighborhood?: string;
   onChange?: (area: string, neighborhood: string) => void;
@@ -99,7 +101,11 @@ export function LocationSelector({
           </optgroup>
         </select>
       </label>
-      <div ref={root} className="relative min-w-0">
+      <div
+        ref={root}
+        hidden={hideNeighborhoodUntilArea && !area}
+        className="relative min-w-0"
+      >
         <span className="field-label" id={`${id}-label`}>
           {t(lang, "location.neighborhood")}
           {required ? " *" : ""}

@@ -51,7 +51,8 @@ export async function initializeListingPayment({
     where: { id: listingId },
     include: { postedBy: true },
   });
-  if (!listing) throw new Error("Listing not found");
+  if (!listing || listing.dealType !== "RENT")
+    throw new Error("Rental listing not found");
   if (listing.postedById !== profileId)
     throw new Error("This is not your listing");
   if (listing.postedBy.identityStatus !== "APPROVED")

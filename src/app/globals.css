@@ -1484,6 +1484,247 @@ fieldset:disabled .room-chip span {
 }
 
 @media (max-width: 639px) {
-  .site-header .header-btn { height: 36px; padding-inline: 10px; font-size: 12px; }
-  .site-header .lang-select { width: 105px; min-width: 0; height: 36px; padding-left: 10px; font-size: 12px; }
+  .site-header .header-btn {
+    height: 36px;
+    padding-inline: 10px;
+    font-size: 12px;
+  }
+  .site-header .lang-select {
+    width: 105px;
+    min-width: 0;
+    height: 36px;
+    padding-left: 10px;
+    font-size: 12px;
+  }
+}
+
+/* Rental search: a compact location-first form with optional amenity cards. */
+.rental-search {
+  padding: 24px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  box-shadow: 0 12px 35px #224c7010;
+  text-align: left;
+}
+.rental-search-heading {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 18px;
+}
+.rental-search .home-input {
+  border-radius: 11px;
+  background: #fcfdff;
+  box-shadow: none;
+}
+.rental-search-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 20px;
+}
+.rental-map-action {
+  border: 1px solid var(--brand-600);
+  color: var(--brand-700);
+  border-radius: 11px;
+  font-weight: 600;
+  font-size: 14px;
+  min-height: 48px;
+  background: #f5faff;
+}
+.rental-map-action:hover {
+  background: #e9f4fc;
+}
+.amenity-panel {
+  margin-top: 18px;
+  border: 1px solid #dce6ef;
+  border-radius: 14px;
+  background: #f8fafc;
+}
+.amenity-panel summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  list-style: none;
+}
+.amenity-panel summary::-webkit-details-marker {
+  display: none;
+}
+.amenity-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 23px;
+  height: 23px;
+  border-radius: 20px;
+  margin-left: 6px;
+  font-size: 11px;
+  color: var(--brand-700);
+  background: #e6f1fa;
+}
+.amenity-tiles {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+.amenity-tile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-start;
+  min-height: 110px;
+  padding: 15px 12px;
+  background: white;
+  border: 1px solid #dce6ef;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  transition:
+    background 0.15s,
+    border-color 0.15s;
+}
+.amenity-tile svg {
+  color: #64778b;
+}
+.amenity-tile:hover {
+  border-color: var(--brand-600);
+}
+.amenity-tile[data-selected="true"] {
+  border-color: var(--brand-600);
+  background: #eaf5fd;
+  color: var(--brand-800);
+  box-shadow: inset 0 0 0 1px var(--brand-600);
+}
+.amenity-tile[data-selected="true"] svg {
+  color: var(--brand-700);
+}
+.amenity-tile input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+}
+.amenity-tile:focus-within {
+  outline: 3px solid #9bcceb;
+  outline-offset: 2px;
+}
+.amenity-check {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 19px;
+  height: 19px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #f0f4f8;
+  color: #65798d;
+  font-size: 13px;
+}
+.amenity-tile[data-selected="true"] .amenity-check {
+  background: var(--brand-600);
+  color: white;
+}
+.amenity-parking select {
+  width: 100%;
+  min-height: 30px;
+  font-size: 11px;
+  font-weight: 500;
+  background: transparent;
+  border-top: 1px solid #dce6ef;
+  padding-top: 5px;
+}
+.rental-hero {
+  padding: 34px;
+  border: 1px solid #d9e8f4;
+  border-radius: 24px;
+  background: linear-gradient(130deg, #e7f4fd, #f7fbff 70%);
+}
+.rental-hero h1 {
+  max-width: 650px;
+  font-size: clamp(30px, 4vw, 46px);
+  line-height: 1.12;
+  letter-spacing: -0.04em;
+  font-weight: 750;
+  margin: 14px 0;
+}
+.rental-hero-copy {
+  margin-bottom: 26px;
+}
+.rental-hero-copy p {
+  max-width: 600px;
+  color: var(--muted);
+  line-height: 1.7;
+  font-size: 14px;
+}
+.home-map-shell {
+  position: relative;
+  isolation: isolate;
+  height: 340px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: #e7edf3;
+}
+.map-split-map,
+.map-teaser {
+  position: relative;
+  isolation: isolate;
+}
+.map-teaser-button {
+  z-index: 500;
+}
+@media (min-width: 768px) {
+  .rental-search .grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+@media (max-width: 639px) {
+  .rental-hero {
+    padding: 20px 14px;
+    border-radius: 18px;
+  }
+  .rental-search {
+    padding: 18px 14px;
+    border-radius: 14px;
+  }
+  .amenity-tiles {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .rental-search-actions {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  .home-map-shell {
+    height: 300px;
+  }
+}
+.rental-filter-drawer > summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 18px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: white;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  list-style: none;
+}
+.rental-filter-drawer > summary::-webkit-details-marker {
+  display: none;
+}
+.rental-filter-drawer[open] > summary {
+  margin-bottom: 12px;
 }

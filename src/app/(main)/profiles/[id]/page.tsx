@@ -22,7 +22,7 @@ export default async function PublicProfilePage(props: {
     where: { id },
     include: {
       listings: {
-        where: { published: true, archivedAt: null },
+        where: { published: true, archivedAt: null, dealType: "RENT" },
         orderBy: { createdAt: "desc" },
         take: 12,
         include: { images: { orderBy: { sortOrder: "asc" }, take: 1 } },

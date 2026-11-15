@@ -2,21 +2,25 @@ import { SearchBar } from "@/components/SearchBar";
 import { type Lang, t } from "@/lib/i18n";
 export function HomeHero({ lang }: { lang: Lang }) {
   return (
-    <section className="reference-hero">
-      <div className="relative z-10">
-        <p className="reference-eyebrow">
-          <span aria-hidden>●</span> {t(lang, "home.eyebrow")}
-        </p>
-        <h1 className="mt-6 text-3xl sm:text-5xl font-bold tracking-tight text-[var(--foreground)]">
-          {t(lang, "home.referenceTitle")}
+    <section className="rental-hero">
+      <div className="rental-hero-copy">
+        <span className="text-[10px] font-bold uppercase tracking-[.18em] text-[var(--brand-700)]">
+          {t(lang, "home.eyebrow")}
+        </span>
+        <h1>
+          {lang === "en"
+            ? "Find your next rental in Addis Ababa."
+            : t(lang, "home.referenceTitle")}
         </h1>
-        <p className="mx-auto mt-5 max-w-xl text-sm sm:text-base leading-relaxed text-[var(--muted)]">
-          {t(lang, "home.referenceSubtitle")}
-        </p>
-        <div className="max-w-3xl mx-auto mt-9 text-left">
-          <SearchBar lang={lang} variant="hero" />
-        </div>
+        <p>{t(lang, "home.referenceSubtitle")}</p>
+        <a
+          className="inline-block mt-3 text-sm font-semibold text-[var(--brand-700)] underline underline-offset-4"
+          href="#rentals-map"
+        >
+          ⌖ {t(lang, "search.seeOnMap")}
+        </a>
       </div>
+      <SearchBar lang={lang} variant="hero" />
     </section>
   );
 }

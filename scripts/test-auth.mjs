@@ -598,6 +598,41 @@ try {
     furnished: "1",
   });
   assert.equal((await search.searchListings(f)).total, 1);
+  // A legacy or manually crafted sale query cannot expose sale listings.
+  assert.equal(
+    filters.parseSearchParams({ deal: "sale", radius: "5", areaMin: "10" })
+      .deal,
+    "RENT",
+  );
+  assert.equal(
+    filters.parseSearchParams({ radius: "5", areaMin: "10" }).radiusKm,
+    null,
+  );
+  const saleFixture = await db.listing.create({
+    data: {
+      title: "TEST ONLY sale hidden",
+      description: "Rental-only regression",
+      neighborhood: "Bole",
+      roomType: "ROOM",
+      propertyType: "APARTMENT",
+      bedrooms: "TWO",
+      priceBirr: 25000,
+      furnished: true,
+      dealType: "SALE",
+      postedById: renter.id,
+      published: true,
+    },
+  });
+  assert.equal((await search.searchListings({ ...f, deal: "SALE" })).total, 1);
+  assert.ok(
+    !(
+      await search.searchListings(
+        filters.parseSearchParams({ deal: "sale", view: "map" }),
+      )
+    ).items.some((l) => l.id === saleFixture.id),
+  );
+  await db.listing.delete({ where: { id: saleFixture.id } });
+
   assert.equal(
     (await search.searchListings({ ...f, priceMax: 1000 })).total,
     0,
@@ -896,6 +931,27 @@ try {
     initializeListingPayment: async () => ({ checkoutUrl: "/test-checkout" }),
   };
   const posting = load("@/app/actions");
+  await assert.rejects(
+    () =>
+      posting.createListing(
+        fd({
+          title: "TEST ONLY rejected sale",
+          description: "Must not be created",
+          area: "Bole Subcity",
+          neighborhood: "Edna Mall area",
+          propertyType: "APARTMENT",
+          availableFrom: "2027-01-01",
+          priceBirr: "28000",
+          dealType: "SALE",
+        }),
+      ),
+    /only accepts rental/,
+  );
+  assert.equal(
+    await db.listing.count({ where: { title: "TEST ONLY rejected sale" } }),
+    0,
+  );
+
   await redirected(
     () =>
       posting.createListing(

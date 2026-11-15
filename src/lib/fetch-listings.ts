@@ -168,6 +168,7 @@ export async function fetchHomeListings(
 
   const where = {
     published: true,
+    dealType: "RENT" as const,
     archivedAt: null,
     postedBy: { suspendedAt: null },
     ...(neighborhood && !radiusKm ? { neighborhood } : {}),

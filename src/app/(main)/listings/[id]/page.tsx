@@ -47,7 +47,7 @@ export default async function ListingDetailPage(props: {
     },
   });
 
-  if (!listing) return notFound();
+  if (!listing || listing.dealType !== "RENT") return notFound();
 
   const isOwner = me?.id === listing.postedById;
   if (
@@ -88,7 +88,6 @@ export default async function ListingDetailPage(props: {
     BEDROOM_FILTERS.find((b) => b.value === listing.bedrooms)?.label ??
     listing.bedrooms;
 
-  const isSale = listing.dealType === "SALE";
   const coords = listingCoords(listing);
   const facts: [string, string | null][] = [
     [t(lang, "detail.type"), propertyLabel],
@@ -113,12 +112,6 @@ export default async function ListingDetailPage(props: {
         : null,
     ],
     [
-      t(lang, "detail.pricePerSqm"),
-      isSale && listing.areaSqm
-        ? `${Math.round(listing.priceBirr / listing.areaSqm).toLocaleString()} birr`
-        : null,
-    ],
-    [
       t(lang, "detail.seller"),
       t(
         lang,
@@ -139,7 +132,7 @@ export default async function ListingDetailPage(props: {
         </p>
       )}
       <a
-        href={`/search?deal=${isSale ? "sale" : "rent"}${lang !== "en" ? `&lang=${lang}` : ""}`}
+        href={`/search${lang !== "en" ? `?lang=${lang}` : ""}`}
         className="text-sm font-semibold text-[var(--brand-700)] hover:underline lg:col-span-3"
       >
         ← {t(lang, "detail.back")}
@@ -188,7 +181,7 @@ export default async function ListingDetailPage(props: {
             </div>
             <div className="rounded-2xl bg-gradient-to-br from-[var(--brand-600)] to-[var(--accent)] px-4 py-3 text-white shadow-md">
               <div className="text-xs text-blue-50">
-                {t(lang, isSale ? "detail.price" : "detail.monthly")}
+                {t(lang, "detail.monthly")}
               </div>
               <div className="text-xl font-semibold">
                 {listing.priceBirr.toLocaleString()} birr

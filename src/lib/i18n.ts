@@ -167,7 +167,7 @@ const messages = {
     "footer.signup": "Create account",
     "home.title": "Find your home in Addis Ababa",
     "home.subtitle":
-      "Rent or buy apartments, condominiums, houses and shops. Search by area, price and size, then message the owner directly.",
+      "Find apartments, condominiums, houses and shops to rent. Choose your location and monthly budget, then message the owner directly.",
     "home.searchPlaceholder": "Search (e.g. 'furnished', 'Bole')",
     "home.radius": "Distance",
     "home.radiusAny": "Any distance",

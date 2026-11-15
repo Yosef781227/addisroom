@@ -1,3 +1,6 @@
+import { ListingsMap } from "@/components/ListingsMap";
+import { listingCoords } from "@/lib/geo";
+import { shortPrice } from "@/lib/search-shared";
 import Link from "next/link";
 import { fetchHomeListings } from "@/lib/fetch-listings";
 import { getSavedListingIds } from "@/lib/auth-actions";
@@ -21,6 +24,41 @@ export default async function Home({
   return (
     <div className="space-y-9">
       <HomeHero lang={lang} />
+      <section id="rentals-map" className="scroll-mt-24">
+        <div className="flex items-center justify-between gap-3 mb-3">
+          <h2 className="text-xl font-bold">{t(lang, "search.seeOnMap")}</h2>
+          <Link
+            className="text-sm font-semibold text-[var(--brand-700)]"
+            href={`/search?view=map${lang !== "en" ? `&lang=${lang}` : ""}`}
+          >
+            {t(lang, "home.seeAll")} →
+          </Link>
+        </div>
+        <p className="text-xs text-[var(--muted)] mb-3">
+          {t(lang, "location.approximateMap")}
+        </p>
+        <div className="home-map-shell">
+          <ListingsMap
+            className="h-full"
+            points={listings.flatMap((l) => {
+              const coords = listingCoords(l);
+              return coords
+                ? [
+                    {
+                      id: l.id,
+                      ...coords,
+                      label: shortPrice(l.priceBirr),
+                      title: l.title,
+                      sub: `${l.priceBirr.toLocaleString()} birr ${t(lang, "search.perMonth")}`,
+                      href: `/listings/${l.id}${qs}`,
+                      image: l.images[0]?.url,
+                    },
+                  ]
+                : [];
+            })}
+          />
+        </div>
+      </section>
       <section id="results" className="scroll-mt-24">
         <div className="flex flex-wrap gap-3 items-end justify-between border-b border-[var(--border)] pb-4 mb-5">
           <div>

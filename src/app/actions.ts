@@ -79,10 +79,14 @@ export async function createListing(fd: FormData) {
     (optionalString(fd, "bedrooms") as BedroomCount | undefined) ?? "ONE";
   const amenities = readListingAmenities(fd);
   const priceBirr = requiredInt(fd, "priceBirr");
-  const dealType = optionalString(fd, "dealType") === "SALE" ? "SALE" : "RENT";
-  // A deposit only makes sense for rentals.
-  const depositBirr =
-    dealType === "RENT" ? optionalInt(fd, "depositBirr") : undefined;
+  if (
+    optionalString(fd, "dealType") &&
+    optionalString(fd, "dealType") !== "RENT"
+  ) {
+    throw new Error("AddisRoom only accepts rental listings.");
+  }
+  const dealType = "RENT";
+  const depositBirr = optionalInt(fd, "depositBirr");
   const areaSqm = optionalInt(fd, "areaSqm");
   const floor = optionalInt(fd, "floor");
   const availableFromRaw = requiredString(fd, "availableFrom");
@@ -157,6 +161,7 @@ export async function sendMessage(fd: FormData) {
       postedById: true,
       archivedAt: true,
       published: true,
+      dealType: true,
       postedBy: { select: { suspendedAt: true } },
     },
   });
@@ -164,6 +169,7 @@ export async function sendMessage(fd: FormData) {
     !listing ||
     listing.archivedAt ||
     !listing.published ||
+    listing.dealType !== "RENT" ||
     listing.postedBy.suspendedAt
   )
     throw new Error("Listing not found");
