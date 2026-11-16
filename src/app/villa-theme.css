@@ -1397,3 +1397,8 @@ summary:focus-visible {
 .villa-topbar span.topbar-location {
   color: #fff;
 }
+
+/* A quieter announcement strip; retain the original accents elsewhere. */
+.villa-topbar {
+  background: #343434;
+}
