@@ -1,9 +1,7 @@
-import { ThemeToggle } from "@/components/ThemeToggle";
 import type { Metadata } from "next";
 import { Poppins, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import "./villa-theme.css";
-import "./color-theme.css";
 import { MotionProvider } from "@/components/motion/Reveal";
 
 const geistSans = Poppins({
@@ -31,20 +29,11 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      suppressHydrationWarning
       data-scroll-behavior="smooth"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `(function(){var t;try{t=localStorage.getItem('addisroom-theme')}catch(e){}document.documentElement.dataset.theme=t==='light'||t==='dark'?t:window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'})()`,
-          }}
-        />
-      </head>
-      <body className="min-h-full flex flex-col bg-[var(--background)] text-[var(--foreground)]">
+      <body className="min-h-full flex flex-col bg-[var(--background)] text-slate-900">
         <MotionProvider>{children}</MotionProvider>
-        <ThemeToggle />
       </body>
     </html>
   );
