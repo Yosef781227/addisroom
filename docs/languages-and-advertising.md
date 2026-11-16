@@ -28,3 +28,6 @@ node scripts/test-auth.mjs
 The first suite checks new-locale coverage, interpolation tokens, direction and
 both advertisement states. Desktop/mobile browser checks also cover language
 switching while retaining search filters, translated login and RTL layout.
+
+Production builds use Next.js’s supported webpack mode. The default compiler
+stalled during this update, while the webpack build completed successfully.
