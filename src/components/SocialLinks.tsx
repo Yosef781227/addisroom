@@ -15,30 +15,10 @@ const socials = [
     path: "M16.6 2c.4 2.6 1.8 4.2 4.4 4.4v3.2a8.1 8.1 0 0 1-4.4-1.3v7.1A6.6 6.6 0 1 1 10.9 9v3.4a3.3 3.3 0 1 0 2.3 3.1V2Z",
   },
 ];
-function profileUrl(key: string) {
-  const raw = process.env[`SOCIAL_${key}_URL`];
-  if (!raw) return null;
-  try {
-    const url = new URL(raw);
-    const domain =
-      key === "FACEBOOK"
-        ? "facebook.com"
-        : key === "INSTAGRAM"
-          ? "instagram.com"
-          : "tiktok.com";
-    return url.protocol === "https:" &&
-      (url.hostname === domain || url.hostname.endsWith(`.${domain}`))
-      ? url.href
-      : null;
-  } catch {
-    return null;
-  }
-}
 export function SocialLinks() {
   return (
     <div className="footer-socials">
       {socials.map((s) => {
-        const url = profileUrl(s.key);
         const content = (
           <>
             <span className="footer-social-icon">
@@ -53,24 +33,13 @@ export function SocialLinks() {
               </svg>
             </span>
             <span>{s.name}</span>
-            {!url && <small>Coming soon</small>}
           </>
         );
-        return url ? (
-          <a
-            key={s.key}
-            href={url}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={`Addis Rooms on ${s.name}`}
-          >
-            {content}
-          </a>
-        ) : (
+        return (
           <span
             key={s.key}
             className="footer-social-pending"
-            aria-label={`${s.name} — coming soon`}
+            aria-label={s.name}
           >
             {content}
           </span>

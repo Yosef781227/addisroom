@@ -11,7 +11,7 @@
 }
 .btn-primary:hover,
 .btn-dark:hover {
-  background: #f35525;
+  background: var(--accent);
   background-image: none;
   box-shadow: none;
 }
@@ -23,23 +23,23 @@
   box-shadow: 0 0 15px #00000008;
 }
 .logo-mark {
-  background: #f35525;
+  background: var(--accent);
   border-radius: 50%;
   box-shadow: none;
 }
 .site-header {
-  background: #fff;
+  background: var(--surface);
   backdrop-filter: none;
-  border-bottom: 1px solid #f4f4f4;
+  border-bottom: 1px solid var(--border);
 }
 .site-header[data-scrolled="true"] {
-  background: #fff;
+  background: var(--surface);
   box-shadow: 0 2px 8px #00000008;
 }
 .villa-topbar {
-  border-bottom: 1px solid #eee;
-  background: white;
-  color: #7a7a7a;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--muted);
   font-size: 12px;
 }
 .villa-topbar > div {
@@ -51,7 +51,7 @@
   gap: 20px;
 }
 .villa-topbar span:first-child {
-  color: #5b5b5b;
+  color: var(--muted);
 }
 .villa-header-inner {
   height: 96px;
@@ -61,23 +61,23 @@
   letter-spacing: 1px;
   text-transform: uppercase;
   font-weight: 800;
-  color: #1e1e1e;
+  color: var(--foreground);
 }
 .nav-link {
-  color: #1e1e1e;
+  color: var(--foreground);
   font-weight: 500;
   font-size: 14px;
 }
 .nav-link[aria-current="page"],
 .nav-link:hover {
-  color: #f35525;
+  color: var(--accent);
 }
 .nav-link::after {
   display: none;
 }
 .lang-select {
   border-radius: 5px;
-  border-color: #eee;
+  border-color: var(--border);
   font-size: 12px;
   width: 100px;
   font-weight: 400;
@@ -117,14 +117,14 @@
 }
 .villa-location {
   display: inline-block;
-  background: white;
+  background: var(--surface);
   padding: 8px 14px;
   font-size: 15px;
-  color: #1e1e1e;
+  color: var(--foreground);
   font-weight: 500;
 }
 .villa-location em {
-  color: #f35525;
+  color: var(--accent);
   font-style: normal;
 }
 .villa-hero h1 {
@@ -148,14 +148,14 @@
   gap: 25px;
   padding: 12px 22px;
   border-radius: 30px;
-  background: #f35525;
+  background: var(--accent);
   margin-top: 25px;
   font-size: 14px;
   font-weight: 500;
 }
 .villa-hero-cta:hover {
-  background: white;
-  color: #1e1e1e;
+  background: var(--surface);
+  color: var(--foreground);
 }
 .villa-hero-map {
   margin-left: 24px;
@@ -176,7 +176,7 @@
   cursor: pointer;
 }
 .villa-slide-arrow:hover {
-  background: #f35525;
+  background: var(--accent);
 }
 .villa-slide-prev {
   left: 3%;
@@ -199,7 +199,7 @@
   cursor: pointer;
 }
 .villa-slide-dots button[aria-pressed="true"] {
-  background: #f35525;
+  background: var(--accent);
 }
 .villa-home > section:not(.villa-hero) {
   margin-top: 100px;
@@ -208,7 +208,7 @@
 .villa-kicker {
   font-size: 14px;
   font-weight: 700;
-  color: #ee626b;
+  color: var(--accent);
   text-transform: uppercase;
   margin-bottom: 20px;
 }
@@ -218,7 +218,7 @@
   line-height: 1.4;
   font-weight: 700;
   letter-spacing: -1px;
-  color: #1e1e1e;
+  color: var(--foreground);
   margin: 0 0 20px;
   white-space: pre-line;
 }
@@ -235,15 +235,15 @@
   padding: 30px;
 }
 .rental-search-heading {
-  color: #f35525;
+  color: var(--accent);
   font-size: 12px;
 }
 .rental-search .home-input,
 .home-input,
 .input-field {
-  border-color: #eee;
+  border-color: var(--border);
   border-radius: 8px;
-  background: #f9f9f9;
+  background: var(--surface-soft);
   font-size: 13px;
   box-shadow: none;
 }
@@ -252,24 +252,24 @@
 }
 .rental-search .field-label {
   font-size: 11px;
-  color: #555;
+  color: var(--muted);
   font-weight: 500;
 }
 .rental-map-action {
-  color: #1e1e1e;
-  border-color: #ddd;
-  background: white;
+  color: var(--foreground);
+  border-color: var(--border);
+  background: var(--surface);
   border-radius: 25px;
   font-size: 13px;
   font-weight: 500;
 }
 .rental-map-action:hover {
-  background: #fbd9cf;
-  border-color: #f35525;
+  background: var(--brand-100);
+  border-color: var(--accent);
 }
 .amenity-panel {
-  border-color: #eee;
-  background: #fafafa;
+  border-color: var(--border);
+  background: var(--surface-soft);
   border-radius: 8px;
 }
 .amenity-panel summary {
@@ -277,45 +277,45 @@
   padding: 16px;
 }
 .amenity-count {
-  background: #fbd9cf;
-  color: #1e1e1e;
+  background: var(--brand-100);
+  color: var(--foreground);
 }
 .amenity-tile {
   border-radius: 8px;
-  border-color: #e6e6e6;
+  border-color: var(--border);
   font-weight: 500;
-  background: white;
+  background: var(--surface);
 }
 .amenity-tile svg {
-  color: #7b7b7b;
+  color: var(--muted);
 }
 .amenity-tile[data-selected="true"] {
-  background: #fff4ef;
-  border-color: #f35525;
-  box-shadow: inset 0 0 0 1px #f35525;
-  color: #1e1e1e;
+  background: var(--brand-50);
+  border-color: var(--accent);
+  box-shadow: inset 0 0 0 1px var(--accent);
+  color: var(--foreground);
 }
 .amenity-tile[data-selected="true"] svg {
-  color: #f35525;
+  color: var(--accent);
 }
 .amenity-tile[data-selected="true"] .amenity-check {
-  background: #f35525;
+  background: var(--accent);
 }
 .amenity-check {
-  background: #f3f3f3;
-  color: #777;
+  background: var(--surface-soft);
+  color: var(--muted);
 }
 .amenity-tile:focus-within {
-  outline-color: #f8bda5;
+  outline-color: var(--brand-200);
 }
 .amenity-parking select {
-  border-color: #eee;
+  border-color: var(--border);
 }
 .villa-property-grid {
   align-items: stretch;
 }
 .listing-card {
-  background: #fafafa;
+  background: var(--surface-soft);
   padding: 25px;
   border: 0;
   border-radius: 10px;
@@ -346,15 +346,15 @@
   margin-bottom: 18px;
 }
 .villa-property-category {
-  background: #fbd9cf;
-  color: #1e1e1e;
+  background: var(--brand-100);
+  color: var(--foreground);
   border-radius: 5px;
   padding: 5px 10px;
   font-size: 12px;
   font-weight: 500;
 }
 .villa-card-price {
-  color: #f35525;
+  color: var(--accent);
   font-size: 20px;
   font-weight: 700;
 }
@@ -362,7 +362,7 @@
   display: block;
   font-size: 10px;
   font-weight: 400;
-  color: #777;
+  color: var(--muted);
 }
 .villa-card-content h3 {
   font-size: 17px;
@@ -381,7 +381,7 @@
   padding: 0;
   background: none;
   border-radius: 0;
-  color: #555;
+  color: var(--muted);
   line-height: 1.8;
 }
 .villa-card-facts > span + span::before {
@@ -392,7 +392,7 @@
 .villa-card-owner {
   padding: 16px 0;
   margin-top: auto;
-  border-color: #eaeaea;
+  border-color: var(--border);
 }
 .villa-card-owner a {
   font-size: 10px;
@@ -413,15 +413,15 @@
   margin: 7px auto 0;
 }
 .villa-card-button:hover {
-  background: #f35525;
+  background: var(--accent);
 }
 .home-map-shell {
   height: 440px;
   border-radius: 10px;
-  border-color: #eee;
+  border-color: var(--border);
 }
 .villa-how {
-  background: #fafafa;
+  background: var(--surface-soft);
   padding: 80px 0;
   margin-bottom: 0 !important;
 }
@@ -432,12 +432,12 @@
   margin-top: 35px;
 }
 .villa-steps article {
-  border-top: 1px solid #e6e6e6;
+  border-top: 1px solid var(--border);
   padding-top: 25px;
 }
 .villa-steps article > span {
   font-size: 30px;
-  color: #f35525;
+  color: var(--accent);
   font-weight: 700;
 }
 .villa-steps h3 {
@@ -446,12 +446,12 @@
   margin: 16px 0;
 }
 .villa-steps p {
-  color: #737373;
+  color: var(--muted);
   font-size: 13px;
   line-height: 1.9;
 }
 .villa-steps a {
-  color: #f35525;
+  color: var(--accent);
   font-size: 13px;
   display: inline-block;
   margin-top: 15px;
@@ -465,10 +465,10 @@
 }
 .villa-page-banner > div {
   display: inline-block;
-  background: white;
+  background: var(--surface);
   padding: 10px 20px;
   font-size: 12px;
-  color: #1e1e1e;
+  color: var(--foreground);
 }
 .villa-page-banner > p {
   color: white;
@@ -479,26 +479,26 @@
 }
 .result-card {
   border-radius: 10px;
-  border-color: #eee;
+  border-color: var(--border);
   box-shadow: none;
-  background: #fafafa;
+  background: var(--surface-soft);
 }
 .result-card:hover,
 .result-card[data-active="true"] {
-  border-color: #f35525;
+  border-color: var(--accent);
   box-shadow: 0 3px 15px #00000008;
   transform: none;
 }
 .result-body > p:first-child > span:first-child {
-  color: #f35525;
+  color: var(--accent);
 }
 .result-badge {
-  background: #f35525;
+  background: var(--accent);
 }
 .view-toggle {
-  border-color: #eee;
+  border-color: var(--border);
   border-radius: 8px;
-  background: #fafafa;
+  background: var(--surface-soft);
 }
 .view-toggle a {
   border-radius: 6px;
@@ -508,14 +508,14 @@
   color: white;
 }
 .price-pin {
-  background: white;
-  border-color: #eee;
-  color: #1e1e1e;
+  background: var(--surface);
+  border-color: var(--border);
+  color: var(--foreground);
   box-shadow: 0 2px 8px #0002;
 }
 .price-pin.active,
 .price-pin:hover {
-  background: #f35525;
+  background: var(--accent);
   color: white;
 }
 .map-teaser-button {
@@ -532,12 +532,12 @@
   border-radius: 10px;
 }
 .villa-detail-price {
-  background: #fafafa;
+  background: var(--surface-soft);
   border-radius: 8px;
   padding: 15px 20px;
 }
 .villa-detail-price > .text-xl {
-  color: #f35525;
+  color: var(--accent);
   font-size: 25px;
 }
 .facts-grid {
@@ -549,7 +549,7 @@
 .facts-grid > div {
   padding: 22px;
   box-shadow: none;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid var(--border);
 }
 .facts-grid dt {
   font-size: 12px;
@@ -591,7 +591,7 @@
   text-decoration: underline;
 }
 .villa-auth {
-  background: #fafafa;
+  background: var(--surface-soft);
 }
 .villa-auth > .pointer-events-none {
   display: none;
@@ -601,14 +601,14 @@
   padding-bottom: 60px;
 }
 .villa-auth .rise-in {
-  background: white;
-  border: 1px solid #eee;
+  background: var(--surface);
+  border: 1px solid var(--border);
   border-radius: 10px;
   box-shadow: 0 0 15px #0000000a;
 }
 .villa-auth input {
-  background: #f6f6f6;
-  border-color: #eaeaea;
+  background: var(--surface-soft);
+  border-color: var(--border);
   border-radius: 8px;
 }
 .villa-auth h1 {
@@ -764,8 +764,8 @@
     right: 0;
     min-width: 210px;
     padding: 12px;
-    background: white;
-    border: 1px solid #eee;
+    background: var(--surface);
+    border: 1px solid var(--border);
     border-radius: 8px;
     box-shadow: 0 8px 25px #0002;
   }
@@ -775,8 +775,8 @@
     font-size: 14px;
   }
   .villa-mobile-nav a:hover {
-    color: #f35525;
-    background: #fafafa;
+    color: var(--accent);
+    background: var(--surface-soft);
   }
   .villa-hero {
     height: 610px;
@@ -830,7 +830,7 @@
   }
 }
 .villa-featured {
-  background: #fafafa;
+  background: var(--surface-soft);
   padding: 80px 0;
 }
 .villa-featured-heading {
@@ -856,7 +856,7 @@
   cursor: pointer;
 }
 .villa-property-tabs button[aria-selected="true"] {
-  background: #f35525;
+  background: var(--accent);
 }
 .villa-featured-grid {
   display: grid;
@@ -867,24 +867,24 @@
 .villa-info-table {
   padding: 10px 25px;
   border-radius: 10px;
-  background: white;
+  background: var(--surface);
   box-shadow: 0 0 15px #00000012;
 }
 .villa-info-table > div {
   padding: 22px 0;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid var(--border);
 }
 .villa-info-table > div:last-child {
   border: 0;
 }
 .villa-info-table dt {
-  color: #888;
+  color: var(--muted);
   font-size: 12px;
 }
 .villa-info-table dd {
   font-size: 21px;
   font-weight: 700;
-  color: #1e1e1e;
+  color: var(--foreground);
   margin-top: 8px;
 }
 .villa-featured-photo {
@@ -903,11 +903,11 @@
 .villa-featured-copy > p {
   font-size: 13px;
   line-height: 1.9;
-  color: #666;
+  color: var(--muted);
 }
 .villa-featured-copy .villa-featured-place {
   font-size: 11px;
-  color: #f35525;
+  color: var(--accent);
   text-transform: uppercase;
   font-weight: 600;
   margin-bottom: 12px;
@@ -922,14 +922,14 @@
   margin-bottom: 0;
 }
 .admin-header {
-  background: white;
-  border-color: #eee;
+  background: var(--surface);
+  border-color: var(--border);
   backdrop-filter: none;
 }
 .admin-tabs a[aria-current="page"] {
-  color: #f35525;
-  border-color: #f35525;
-  background: #fff4ef;
+  color: var(--accent);
+  border-color: var(--accent);
+  background: var(--brand-50);
 }
 .admin-button {
   border-radius: 6px;
@@ -1000,7 +1000,7 @@
 a:focus-visible,
 button:focus-visible,
 summary:focus-visible {
-  outline: 3px solid #f8bda5;
+  outline: 3px solid var(--brand-200);
   outline-offset: 4px;
 }
 @media (min-width: 640px) {
@@ -1036,7 +1036,7 @@ summary:focus-visible {
   gap: 60px;
   margin-top: 65px;
   padding-top: 50px;
-  border-top: 1px solid #e6e6e6;
+  border-top: 1px solid var(--border);
 }
 .villa-faq h3 {
   font-size: 30px;
@@ -1044,7 +1044,7 @@ summary:focus-visible {
   font-weight: 700;
 }
 .villa-accordion {
-  background: #f1f1f1;
+  background: var(--surface-soft);
   border-radius: 10px;
   overflow: hidden;
 }
@@ -1053,16 +1053,16 @@ summary:focus-visible {
   font-weight: 500;
   font-size: 15px;
   cursor: pointer;
-  border-bottom: 1px solid #e4e4e4;
+  border-bottom: 1px solid var(--border);
 }
 .villa-accordion details[open] summary {
-  color: #f35525;
+  color: var(--accent);
 }
 .villa-accordion p {
   padding: 20px 22px;
   font-size: 13px;
   line-height: 1.9;
-  color: #555;
+  color: var(--muted);
 }
 .villa-page-banner-map {
   padding: 24px 16px;
@@ -1115,7 +1115,7 @@ summary:focus-visible {
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  background: #f35525;
+  background: var(--accent);
   border: 0;
   color: white;
 }
@@ -1146,7 +1146,7 @@ summary:focus-visible {
   width: 5px;
   height: 5px;
   border-radius: 50%;
-  background: #fff;
+  background: var(--surface);
   box-shadow: 0 0 0 4px #ffffff20;
 }
 .villa-topbar::after {
@@ -1200,7 +1200,7 @@ summary:focus-visible {
 }
 .brand-logo-footer {
   --logo-scale: 0.55;
-  background: #fff;
+  background: var(--surface);
   border-radius: 6px;
 }
 .brand-footer-about h2 {
@@ -1236,7 +1236,7 @@ summary:focus-visible {
   font-size: 12px;
 }
 .brand-footer-links a span {
-  color: #f35525;
+  color: var(--accent);
   transition: transform 0.2s;
 }
 .brand-footer-links a:hover {
@@ -1274,8 +1274,8 @@ summary:focus-visible {
     border-color 0.2s;
 }
 .footer-socials a:hover .footer-social-icon {
-  background: #f35525;
-  border-color: #f35525;
+  background: var(--accent);
+  border-color: var(--accent);
   transform: translateY(-2px);
 }
 .footer-social-pending small {
