@@ -1,3 +1,4 @@
+import { ThemeToggle } from "@/components/ThemeToggle";
 import { BrandLogo } from "@/components/BrandLogo";
 import Link from "next/link";
 import { requireAdmin } from "@/lib/auth";
@@ -23,6 +24,7 @@ export default async function AdminLayout({
             {admin.name} ·{" "}
             {admin.isSuperAdmin ? "Super admin" : "Administrator"}
           </span>
+          <ThemeToggle />
           <Link href="/" className="admin-button">
             Website
           </Link>

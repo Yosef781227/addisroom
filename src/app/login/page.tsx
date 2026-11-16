@@ -1,3 +1,4 @@
+import { ThemeToggle } from "@/components/ThemeToggle";
 import { BrandLogo } from "@/components/BrandLogo";
 import { Suspense } from "react";
 import { parseLang, t } from "@/lib/i18n";
@@ -25,9 +26,12 @@ export default async function LoginPage(props: {
         >
           <BrandLogo />
         </a>
-        <Suspense fallback={null}>
-          <LanguageSwitcher />
-        </Suspense>
+        <div className="flex items-center gap-2">
+          <Suspense fallback={null}>
+            <LanguageSwitcher />
+          </Suspense>
+          <ThemeToggle />
+        </div>
       </header>
 
       <main className="relative flex flex-1 items-center justify-center px-4 pb-16 pt-6">

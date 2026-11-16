@@ -1,0 +1,474 @@
+/* Dark mode is opt-in. All existing light-mode styles and the charcoal top strip remain unchanged. */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --background: #151515;
+  --foreground: #eeeeee;
+  --surface: #202020;
+  --surface-soft: #272727;
+  --muted: #b3b3b3;
+  --border: #3b3b3b;
+  --accent: #ff9c79;
+  --brand-50: #38251f;
+  --brand-100: #4a3027;
+  --brand-200: #78503f;
+  --brand-300: #ad7155;
+  --brand-400: #e38f6b;
+  --brand-500: #ff9c79;
+  --brand-600: #ff9c79;
+  --brand-700: #ffb398;
+  --brand-800: #ffd2c2;
+  --brand-900: #eeeeee;
+  --ink: #101010;
+  --ink-2: #292929;
+  --hero-from: #222222;
+  --hero-via: #292929;
+  --hero-to: #151515;
+  --on-accent: #291a14;
+}
+:root[data-theme="dark"] {
+  --surface-soft: #272727;
+}
+:root[data-theme="dark"] .btn-primary:hover,
+:root[data-theme="dark"] .btn-dark:hover {
+  background: var(--accent);
+}
+:root[data-theme="dark"] .logo-mark {
+  background: var(--accent);
+}
+:root[data-theme="dark"] .site-header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+:root[data-theme="dark"] .site-header[data-scrolled="true"] {
+  background: var(--surface);
+}
+:root[data-theme="dark"] .villa-topbar {
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--muted);
+}
+:root[data-theme="dark"] .villa-topbar span:first-child {
+  color: var(--muted);
+}
+:root[data-theme="dark"] .villa-wordmark {
+  color: var(--foreground);
+}
+:root[data-theme="dark"] .nav-link {
+  color: var(--foreground);
+}
+:root[data-theme="dark"] .nav-link[aria-current="page"],
+:root[data-theme="dark"] .nav-link:hover {
+  color: var(--accent);
+}
+:root[data-theme="dark"] .lang-select {
+  border-color: var(--border);
+}
+:root[data-theme="dark"] .villa-location {
+  background: var(--surface);
+  color: var(--foreground);
+}
+:root[data-theme="dark"] .villa-location em {
+  color: var(--accent);
+}
+:root[data-theme="dark"] .villa-hero-cta {
+  background: var(--accent);
+}
+:root[data-theme="dark"] .villa-hero-cta:hover {
+  background: var(--surface);
+  color: var(--foreground);
+}
+:root[data-theme="dark"] .villa-slide-arrow:hover {
+  background: var(--accent);
+}
+:root[data-theme="dark"] .villa-slide-dots button[aria-pressed="true"] {
+  background: var(--accent);
+}
+:root[data-theme="dark"] .villa-kicker {
+  color: var(--accent);
+}
+:root[data-theme="dark"] .villa-section-title,
+:root[data-theme="dark"] .villa-section-heading h2 {
+  color: var(--foreground);
+}
+:root[data-theme="dark"] .rental-search-heading {
+  color: var(--accent);
+}
+:root[data-theme="dark"] .rental-search .home-input,
+:root[data-theme="dark"] .home-input,
+:root[data-theme="dark"] .input-field {
+  border-color: var(--border);
+  background: var(--surface-soft);
+}
+:root[data-theme="dark"] .rental-search .field-label {
+  color: var(--muted);
+}
+:root[data-theme="dark"] .rental-map-action {
+  color: var(--foreground);
+  border-color: var(--border);
+  background: var(--surface);
+}
+:root[data-theme="dark"] .rental-map-action:hover {
+  background: var(--brand-100);
+  border-color: var(--accent);
+}
+:root[data-theme="dark"] .amenity-panel {
+  border-color: var(--border);
+  background: var(--surface-soft);
+}
+:root[data-theme="dark"] .amenity-count {
+  background: var(--brand-100);
+  color: var(--foreground);
+}
+:root[data-theme="dark"] .amenity-tile {
+  border-color: var(--border);
+  background: var(--surface);
+}
+:root[data-theme="dark"] .amenity-tile svg {
+  color: var(--muted);
+}
+:root[data-theme="dark"] .amenity-tile[data-selected="true"] {
+  background: var(--brand-50);
+  border-color: var(--accent);
+  box-shadow: inset 0 0 0 1px var(--accent);
+  color: var(--foreground);
+}
+:root[data-theme="dark"] .amenity-tile[data-selected="true"] svg {
+  color: var(--accent);
+}
+:root[data-theme="dark"] .amenity-tile[data-selected="true"] .amenity-check {
+  background: var(--accent);
+}
+:root[data-theme="dark"] .amenity-check {
+  background: var(--surface-soft);
+  color: var(--muted);
+}
+:root[data-theme="dark"] .amenity-tile:focus-within {
+  outline-color: var(--brand-200);
+}
+:root[data-theme="dark"] .amenity-parking select {
+  border-color: var(--border);
+}
+:root[data-theme="dark"] .listing-card {
+  background: var(--surface-soft);
+}
+:root[data-theme="dark"] .villa-property-category {
+  background: var(--brand-100);
+  color: var(--foreground);
+}
+:root[data-theme="dark"] .villa-card-price {
+  color: var(--accent);
+}
+:root[data-theme="dark"] .villa-card-price small {
+  color: var(--muted);
+}
+:root[data-theme="dark"] .villa-card-facts > span {
+  color: var(--muted);
+}
+:root[data-theme="dark"] .villa-card-owner {
+  border-color: var(--border);
+}
+:root[data-theme="dark"] .villa-card-button:hover {
+  background: var(--accent);
+}
+:root[data-theme="dark"] .home-map-shell {
+  border-color: var(--border);
+}
+:root[data-theme="dark"] .villa-how {
+  background: var(--surface-soft);
+}
+:root[data-theme="dark"] .villa-steps article {
+  border-top: 1px solid var(--border);
+}
+:root[data-theme="dark"] .villa-steps article > span {
+  color: var(--accent);
+}
+:root[data-theme="dark"] .villa-steps p {
+  color: var(--muted);
+}
+:root[data-theme="dark"] .villa-steps a {
+  color: var(--accent);
+}
+:root[data-theme="dark"] .villa-page-banner > div {
+  background: var(--surface);
+  color: var(--foreground);
+}
+:root[data-theme="dark"] .result-card {
+  border-color: var(--border);
+  background: var(--surface-soft);
+}
+:root[data-theme="dark"] .result-card:hover,
+:root[data-theme="dark"] .result-card[data-active="true"] {
+  border-color: var(--accent);
+}
+:root[data-theme="dark"] .result-body > p:first-child > span:first-child {
+  color: var(--accent);
+}
+:root[data-theme="dark"] .result-badge {
+  background: var(--accent);
+}
+:root[data-theme="dark"] .view-toggle {
+  border-color: var(--border);
+  background: var(--surface-soft);
+}
+:root[data-theme="dark"] .price-pin {
+  background: var(--surface);
+  border-color: var(--border);
+  color: var(--foreground);
+}
+:root[data-theme="dark"] .price-pin.active,
+:root[data-theme="dark"] .price-pin:hover {
+  background: var(--accent);
+}
+:root[data-theme="dark"] .villa-detail-price {
+  background: var(--surface-soft);
+}
+:root[data-theme="dark"] .villa-detail-price > .text-xl {
+  color: var(--accent);
+}
+:root[data-theme="dark"] .facts-grid > div {
+  border-bottom: 1px solid var(--border);
+}
+:root[data-theme="dark"] .villa-auth {
+  background: var(--surface-soft);
+}
+:root[data-theme="dark"] .villa-auth .rise-in {
+  background: var(--surface);
+  border: 1px solid var(--border);
+}
+:root[data-theme="dark"] .villa-auth input {
+  background: var(--surface-soft);
+  border-color: var(--border);
+}
+@media (max-width: 639px) {
+  :root[data-theme="dark"] .villa-mobile-nav > div {
+    background: var(--surface);
+    border: 1px solid var(--border);
+  }
+}
+@media (max-width: 639px) {
+  :root[data-theme="dark"] .villa-mobile-nav a:hover {
+    color: var(--accent);
+    background: var(--surface-soft);
+  }
+}
+:root[data-theme="dark"] .villa-featured {
+  background: var(--surface-soft);
+}
+:root[data-theme="dark"] .villa-property-tabs button[aria-selected="true"] {
+  background: var(--accent);
+}
+:root[data-theme="dark"] .villa-info-table {
+  background: var(--surface);
+}
+:root[data-theme="dark"] .villa-info-table > div {
+  border-bottom: 1px solid var(--border);
+}
+:root[data-theme="dark"] .villa-info-table dt {
+  color: var(--muted);
+}
+:root[data-theme="dark"] .villa-info-table dd {
+  color: var(--foreground);
+}
+:root[data-theme="dark"] .villa-featured-copy > p {
+  color: var(--muted);
+}
+:root[data-theme="dark"] .villa-featured-copy .villa-featured-place {
+  color: var(--accent);
+}
+:root[data-theme="dark"] .admin-header {
+  background: var(--surface);
+  border-color: var(--border);
+}
+:root[data-theme="dark"] .admin-tabs a[aria-current="page"] {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: var(--brand-50);
+}
+:root[data-theme="dark"] a:focus-visible,
+:root[data-theme="dark"] button:focus-visible,
+:root[data-theme="dark"] summary:focus-visible {
+  outline: 3px solid var(--brand-200);
+}
+:root[data-theme="dark"] .villa-faq {
+  border-top: 1px solid var(--border);
+}
+:root[data-theme="dark"] .villa-accordion {
+  background: var(--surface-soft);
+}
+:root[data-theme="dark"] .villa-accordion summary {
+  border-bottom: 1px solid var(--border);
+}
+:root[data-theme="dark"] .villa-accordion details[open] summary {
+  color: var(--accent);
+}
+:root[data-theme="dark"] .villa-accordion p {
+  color: var(--muted);
+}
+:root[data-theme="dark"] .villa-topbar {
+  background: var(--accent);
+}
+:root[data-theme="dark"] .topbar-live-dot {
+  background: var(--surface);
+}
+:root[data-theme="dark"] .brand-logo-footer {
+  background: var(--surface);
+}
+:root[data-theme="dark"] .brand-footer-links a span {
+  color: var(--accent);
+}
+:root[data-theme="dark"] .footer-socials a:hover .footer-social-icon {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+:root[data-theme="dark"] body {
+  background: var(--background);
+  color: var(--foreground);
+}
+:root[data-theme="dark"] .villa-topbar {
+  background: #2c2c2c;
+  color: #eee;
+  border-color: var(--border);
+}
+:root[data-theme="dark"] .villa-topbar span.topbar-location,
+:root[data-theme="dark"] .topbar-message {
+  color: #eee;
+}
+:root[data-theme="dark"] .brand-logo-source {
+  filter: brightness(0) invert(1);
+}
+:root[data-theme="dark"] .brand-logo-footer {
+  background: transparent;
+}
+:root[data-theme="dark"] input,
+:root[data-theme="dark"] select,
+:root[data-theme="dark"] textarea {
+  color: var(--foreground);
+  background-color: var(--surface-soft);
+  border-color: var(--border);
+}
+:root[data-theme="dark"] input::placeholder,
+:root[data-theme="dark"] textarea::placeholder {
+  color: var(--muted);
+}
+:root[data-theme="dark"] .card,
+:root[data-theme="dark"] .facts-grid,
+:root[data-theme="dark"] .facts-grid > div,
+:root[data-theme="dark"] .admin-button {
+  background: var(--surface);
+}
+:root[data-theme="dark"] .admin-table th,
+:root[data-theme="dark"] .sponsor-banner {
+  background: var(--surface-soft);
+}
+:root[data-theme="dark"] .bg-white,
+:root[data-theme="dark"] .bg-white\/95,
+:root[data-theme="dark"] .bg-white\/90 {
+  background-color: var(--surface);
+}
+:root[data-theme="dark"] .bg-slate-50,
+:root[data-theme="dark"] .bg-slate-100,
+:root[data-theme="dark"] .bg-gray-100 {
+  background-color: var(--surface-soft);
+}
+:root[data-theme="dark"] .text-slate-900,
+:root[data-theme="dark"] .text-slate-800,
+:root[data-theme="dark"] .text-slate-700 {
+  color: var(--foreground);
+}
+:root[data-theme="dark"] .text-slate-600,
+:root[data-theme="dark"] .text-slate-500,
+:root[data-theme="dark"] .text-slate-400 {
+  color: var(--muted);
+}
+:root[data-theme="dark"] .btn-primary,
+:root[data-theme="dark"] .btn-dark,
+:root[data-theme="dark"] .villa-card-button,
+:root[data-theme="dark"] .villa-property-tabs button,
+:root[data-theme="dark"] .map-teaser-button {
+  background: #383838;
+  color: white;
+}
+:root[data-theme="dark"] .villa-hero-cta,
+:root[data-theme="dark"] .villa-property-tabs button[aria-selected="true"],
+:root[data-theme="dark"] .amenity-tile[data-selected="true"] .amenity-check {
+  background: var(--accent);
+  color: #291a14;
+}
+:root[data-theme="dark"] .villa-detail-price {
+  color: var(--foreground);
+}
+:root[data-theme="dark"] .text-red-700,
+:root[data-theme="dark"] .text-red-600 {
+  color: #f5aaa6;
+}
+:root[data-theme="dark"] .text-amber-900 {
+  color: #ecd098;
+}
+:root[data-theme="dark"] .bg-amber-50 {
+  background: #3d3423;
+}
+:root[data-theme="dark"] .leaflet-popup-content-wrapper,
+:root[data-theme="dark"] .leaflet-popup-tip,
+:root[data-theme="dark"] .leaflet-bar a {
+  background: var(--surface);
+  color: var(--foreground);
+}
+:root[data-theme="dark"] .leaflet-popup-content a {
+  color: var(--accent);
+}
+.theme-toggle {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--foreground);
+  cursor: pointer;
+}
+.theme-toggle:hover {
+  background: var(--brand-50);
+  border-color: var(--brand-300);
+}
+@media (max-width: 639px) {
+  .villa-header-inner .brand-logo {
+    --logo-scale: 0.25;
+  }
+  .villa-header-inner nav {
+    gap: 5px;
+  }
+  .villa-header-inner .theme-toggle {
+    width: 32px;
+    height: 32px;
+  }
+  .villa-header-inner .header-btn {
+    padding-inline: 10px;
+  }
+}
+@media (max-width: 359px) {
+  .villa-header-inner .brand-logo {
+    --logo-scale: 0.185;
+  }
+  .villa-header-inner {
+    gap: 6px;
+  }
+  .villa-header-inner .theme-toggle {
+    width: 30px;
+    height: 30px;
+  }
+  .villa-header-inner .header-btn {
+    font-size: 10px;
+    padding-inline: 8px;
+  }
+  .villa-mobile-nav summary {
+    font-size: 21px;
+    padding: 4px;
+  }
+}
+:root[data-theme="dark"] .rental-search {
+  background: var(--surface);
+}

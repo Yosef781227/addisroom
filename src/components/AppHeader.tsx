@@ -1,4 +1,5 @@
 "use client";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import { BrandLogo } from "@/components/BrandLogo";
 
 import Link from "next/link";
@@ -179,6 +180,7 @@ export function AppHeader({
             >
               <LanguageSwitcher />
             </Suspense>
+            <ThemeToggle />
             {!loggedIn ? (
               <Suspense fallback={null}>
                 <SignInButton />
