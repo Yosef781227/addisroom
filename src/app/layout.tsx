@@ -1,23 +1,12 @@
 import { headers } from "next/headers";
 import { parseLang, languageDirection } from "@/lib/i18n";
 import type { Metadata } from "next";
-import { Poppins, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import "./interface-fonts.css";
 import "./language-fonts.css";
 import "./villa-theme.css";
 import "./dark-mode.css";
 import { MotionProvider } from "@/components/motion/Reveal";
-
-const geistSans = Poppins({
-  variable: "--font-geist-sans",
-  weight: ["400", "500", "600", "700", "800"],
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 export const metadata: Metadata = {
   title: "AddisRoom — Find a rental home in Addis Ababa",
@@ -37,7 +26,7 @@ export default async function RootLayout({
       dir={languageDirection(lang)}
       suppressHydrationWarning
       data-scroll-behavior="smooth"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className="h-full antialiased"
     >
       <head>
         <script
