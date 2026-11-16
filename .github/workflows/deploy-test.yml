@@ -1,0 +1,31 @@
+name: Deploy AddisRoom test
+on:
+  push:
+    branches: [mvp-auth-admin-search]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: addisroom-test
+  cancel-in-progress: false
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Deploy isolated test container
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.ADDISROOM_DEPLOY_SSH_KEY }}
+          SSH_KNOWN_HOSTS: ${{ secrets.ADDISROOM_SSH_KNOWN_HOSTS }}
+          VPS_HOST: ${{ vars.ADDISROOM_VPS_HOST }}
+        run: |
+          set -eu
+          umask 077
+          printf '%s\n' "$SSH_PRIVATE_KEY" > "$RUNNER_TEMP/addisroom-key"
+          printf '%s\n' "$SSH_KNOWN_HOSTS" > "$RUNNER_TEMP/addisroom-known-hosts"
+          trap 'rm -f "$RUNNER_TEMP/addisroom-key" "$RUNNER_TEMP/addisroom-known-hosts"' EXIT
+          ssh -T -i "$RUNNER_TEMP/addisroom-key" \
+            -o BatchMode=yes -o IdentitiesOnly=yes -o ConnectTimeout=20 \
+            -o StrictHostKeyChecking=yes \
+            -o UserKnownHostsFile="$RUNNER_TEMP/addisroom-known-hosts" \
+            "root@$VPS_HOST" deploy

@@ -9,7 +9,8 @@ function isPublicPath(pathname: string): boolean {
     pathname === "/" ||
     pathname === "/search" ||
     pathname === "/login" ||
-    pathname === "/signup"
+    pathname === "/signup" ||
+    pathname === "/api/health"
   )
     return true;
   // /listings/new (and /listings/new/upgrade) are the posting flow, not a listing
