@@ -296,6 +296,10 @@ model AuthAttempt {
 }
 
 model Sponsorship {
+  ctaLabel String? @default("Learn more")
+  theme String @default("warm")
+  animated Boolean @default(true)
+  isSample Boolean @default(false)
   id String @id @default(cuid())
   headline String
   body String

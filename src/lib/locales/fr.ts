@@ -1,4 +1,7 @@
 export default {
+  "ads.sample": "Promotion de démonstration",
+  "ads.learnMore": "En savoir plus",
+
   "location.exactPrimary": "Uniquement la zone sélectionnée",
   "location.chooseArea": "Choisir une sous-ville ou une zone",
   "location.chooseNeighborhood": "Choisir un quartier",

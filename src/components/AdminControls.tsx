@@ -92,61 +92,7 @@ export function BrokerControl({
     </form>
   );
 }
-export function SponsorForm() {
-  const [state, action, pending] = useActionState(manageSponsorship, null);
-  return (
-    <form action={action} className="card p-5 sm:p-7 space-y-5">
-      <input type="hidden" name="command" value="create" />
-      {[
-        [
-          "headline",
-          "Headline",
-          "e.g. Discover trusted movers & home services in Addis",
-        ],
-        ["imageUrl", "Image URL (optional)", "https://…"],
-        ["linkUrl", "Link URL (optional)", "https://…"],
-      ].map(([name, label, placeholder], i) => (
-        <div key={name}>
-          <label htmlFor={name} className="block text-sm font-medium mb-2">
-            {label}
-          </label>
-          <input
-            id={name}
-            name={name}
-            type={i ? "url" : "text"}
-            required={!i}
-            maxLength={i ? 2000 : 120}
-            placeholder={placeholder}
-            className="input-field"
-          />
-          {!i && (
-            <div className="mt-5">
-              <label
-                htmlFor="sponsor-body"
-                className="block text-sm font-medium mb-2"
-              >
-                Body text
-              </label>
-              <textarea
-                id="sponsor-body"
-                name="body"
-                required
-                maxLength={500}
-                rows={3}
-                placeholder="Short supporting line shown under the headline"
-                className="input-field !h-auto py-3"
-              />
-            </div>
-          )}
-        </div>
-      ))}
-      <button disabled={pending} className="btn-primary h-11 w-full">
-        {pending ? "Posting…" : "Post sponsorship"}
-      </button>
-      <Feedback state={state} />
-    </form>
-  );
-}
+export { PromotionForm as SponsorForm } from "@/components/PromotionForm";
 export function SponsorControls({
   id,
   active,

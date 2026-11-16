@@ -1,3 +1,4 @@
+import { PromotionEditor } from "@/components/PromotionForm";
 import { prisma } from "@/lib/prisma";
 import { requireAdmin } from "@/lib/auth";
 import { SponsorForm, SponsorControls } from "@/components/AdminControls";
@@ -9,10 +10,11 @@ export default async function SponsorsPage() {
   return (
     <div className="max-w-3xl mx-auto space-y-7">
       <div>
-        <h1 className="text-2xl font-bold">Sponsorships</h1>
+        <h1 className="text-2xl font-bold">Promotions & advertisements</h1>
         <p className="mt-2 text-sm text-[var(--muted)]">
-          Post the banner ad shown across the app. Only one sponsor post is live
-          at a time — posting a new one replaces the current banner.
+          Create, preview and edit dynamic promotions. Save drafts or publish up
+          to three rotating banners across the app. Animation and appearance are
+          controlled here.
         </p>
       </div>
       <SponsorForm />
@@ -29,7 +31,11 @@ export default async function SponsorsPage() {
               <div className="min-w-0">
                 <h3 className="font-semibold text-sm">
                   {s.headline}{" "}
-                  {s.activeSlot === 1 && (
+                  {s.activeSlot === null && (
+                    <span className="status-pill">Draft / inactive</span>
+                  )}
+                  {s.isSample && <span className="status-pill">Sample</span>}
+                  {s.activeSlot !== null && (
                     <span className="status-pill !bg-green-50 !text-green-800">
                       Live
                     </span>
@@ -47,7 +53,8 @@ export default async function SponsorsPage() {
                   </a>
                 )}
               </div>
-              <SponsorControls id={s.id} active={s.activeSlot === 1} />
+              <SponsorControls id={s.id} active={s.activeSlot !== null} />
+              <PromotionEditor promotion={s} />
             </article>
           ))}
           {!sponsors.length && (

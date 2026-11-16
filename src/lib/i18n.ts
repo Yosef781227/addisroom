@@ -16,6 +16,9 @@ const messages = {
   fr,
   ti,
   en: {
+    "ads.sample": "Sample promotion",
+    "ads.learnMore": "Learn more",
+
     "ads.emptyTitle": "Your advertisement here",
     "ads.emptyBody":
       "Moving services, furniture and local partners can be featured here.",

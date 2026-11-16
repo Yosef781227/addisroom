@@ -1,4 +1,7 @@
 export default {
+  "ads.sample": "عرض تجريبي",
+  "ads.learnMore": "اعرف المزيد",
+
   "location.exactPrimary": "المنطقة المحددة فقط",
   "location.chooseArea": "اختر منطقة أو مدينة فرعية",
   "location.chooseNeighborhood": "اختر الحي",

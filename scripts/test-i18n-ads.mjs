@@ -11,7 +11,11 @@ const require = createRequire(import.meta.url),
 let activeSponsor = null;
 const mocks = {
   "@/lib/prisma": {
-    prisma: { sponsorship: { findUnique: async () => activeSponsor } },
+    prisma: {
+      sponsorship: {
+        findMany: async () => (activeSponsor ? [activeSponsor] : []),
+      },
+    },
   },
   "next/image": {
     default: ({ fill, sizes, ...props }) => React.createElement("img", props),
@@ -96,6 +100,28 @@ assert.ok(active.includes("Movers &amp; home services"));
 assert.ok(active.includes('rel="noopener noreferrer sponsored"'));
 assert.ok(active.includes("https://example.com/banner.jpg"));
 assert.ok(!active.includes(i18n.t("fr", "ads.emptyTitle")));
+const { PromotionBanner } = load("@/components/PromotionBanner");
+const preview = renderToStaticMarkup(
+  React.createElement(PromotionBanner, {
+    promotion: {
+      ...activeSponsor,
+      isSample: true,
+      animated: false,
+      theme: "dark",
+      ctaLabel: "Explore services",
+    },
+    preview: true,
+  }),
+);
+assert.ok(preview.includes('data-animated="false"'));
+assert.ok(preview.includes('data-tone="dark"'));
+assert.ok(preview.includes("Sample promotion"));
+assert.ok(preview.includes("Explore services"));
+assert.ok(
+  !preview.includes("<a "),
+  "Preview cannot navigate to the advertiser",
+);
+
 console.log(
   "PASS: six locales, complete Arabic/French/Tigrinya catalogues, interpolation, RTL, and homepage empty/active advertisement placements.",
 );

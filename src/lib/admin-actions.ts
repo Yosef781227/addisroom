@@ -137,7 +137,7 @@ export async function manageSponsorship(
     const command = String(fd.get("command") ?? "create");
     const id = String(fd.get("id") ?? "");
     await prisma.$transaction(async (tx) => {
-      if (command === "create") {
+      if (command === "create" || command === "update") {
         const headline = String(fd.get("headline") ?? "").trim();
         const body = String(fd.get("body") ?? "").trim();
         if (
@@ -151,18 +151,56 @@ export async function manageSponsorship(
           );
         const imageUrl = httpsUrl(fd.get("imageUrl"));
         const linkUrl = httpsUrl(fd.get("linkUrl"));
-        await tx.sponsorship.updateMany({
-          where: { activeSlot: 1 },
-          data: { activeSlot: null },
+        const ctaLabel =
+          String(fd.get("ctaLabel") ?? "Learn more").trim() || "Learn more";
+        if (ctaLabel.length > 40)
+          throw new Error("Button text must be 40 characters or fewer.");
+        const theme = String(fd.get("theme") ?? "warm");
+        if (!["warm", "dark", "neutral"].includes(theme))
+          throw new Error("Choose a valid promotion style.");
+        const publication = String(fd.get("publication") ?? "publish");
+        if (!["publish", "draft"].includes(publication))
+          throw new Error("Choose publish or draft.");
+        const animated = fd.get("animated") !== "off";
+        const isSample = fd.get("isSample") === "on";
+        const existing =
+          command === "update"
+            ? await tx.sponsorship.findUniqueOrThrow({ where: { id } })
+            : null;
+        const occupied = await tx.sponsorship.findMany({
+          where: { activeSlot: { not: null } },
+          select: { activeSlot: true },
         });
-        const sponsor = await tx.sponsorship.create({
-          data: { headline, body, imageUrl, linkUrl, activeSlot: 1 },
-        });
+        const slot =
+          existing?.activeSlot ??
+          [1, 2, 3].find(
+            (value) => !occupied.some((row) => row.activeSlot === value),
+          );
+        if (publication === "publish" && !slot)
+          throw new Error(
+            "Three promotions are already live. Deactivate one before publishing another.",
+          );
+        const data = {
+          headline,
+          body,
+          imageUrl,
+          linkUrl,
+          ctaLabel,
+          theme,
+          animated,
+          isSample,
+          activeSlot: publication === "publish" ? slot! : null,
+        };
+        const sponsor =
+          command === "update"
+            ? await tx.sponsorship.update({ where: { id }, data })
+            : await tx.sponsorship.create({ data });
         await tx.adminAudit.create({
           data: {
             actorId: admin.id,
             profileId: sponsor.id,
-            decision: "SPONSOR_CREATED",
+            decision:
+              command === "update" ? "SPONSOR_UPDATED" : "SPONSOR_CREATED",
             note: headline,
           },
         });
@@ -171,13 +209,22 @@ export async function manageSponsorship(
           where: { id },
         });
         if (command === "activate") {
-          await tx.sponsorship.updateMany({
-            where: { activeSlot: 1 },
-            data: { activeSlot: null },
+          const occupied = await tx.sponsorship.findMany({
+            where: { activeSlot: { not: null } },
+            select: { activeSlot: true },
           });
+          const slot =
+            sponsor.activeSlot ??
+            [1, 2, 3].find(
+              (value) => !occupied.some((row) => row.activeSlot === value),
+            );
+          if (!slot)
+            throw new Error(
+              "Three promotions are already live. Deactivate one first.",
+            );
           await tx.sponsorship.update({
             where: { id },
-            data: { activeSlot: 1 },
+            data: { activeSlot: slot },
           });
         } else if (command === "deactivate")
           await tx.sponsorship.update({

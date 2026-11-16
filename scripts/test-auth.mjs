@@ -557,7 +557,100 @@ try {
   const sponsor = await db.sponsorship.findUniqueOrThrow({
     where: { activeSlot: 1 },
   });
-  assert.equal(sponsor.headline, "Second sponsor");
+  assert.equal(sponsor.headline, "First sponsor");
+  assert.ok(
+    (
+      await ops.manageSponsorship(
+        null,
+        fd({
+          headline: "Draft promo",
+          body: "Draft body",
+          publication: "draft",
+          theme: "dark",
+          animated: "off",
+          ctaLabel: "Explore",
+          isSample: "on",
+        }),
+      )
+    ).success,
+  );
+  const draftPromo = await db.sponsorship.findFirstOrThrow({
+    where: { headline: "Draft promo" },
+  });
+  assert.equal(draftPromo.activeSlot, null);
+  assert.equal(draftPromo.theme, "dark");
+  assert.equal(draftPromo.animated, false);
+  assert.equal(draftPromo.isSample, true);
+  assert.equal(
+    (await db.sponsorship.findUniqueOrThrow({ where: { activeSlot: 1 } })).id,
+    sponsor.id,
+    "Saving a draft must not replace the live promotion",
+  );
+  assert.ok(
+    (
+      await ops.manageSponsorship(
+        null,
+        fd({
+          command: "update",
+          id: draftPromo.id,
+          headline: "Updated promotion",
+          body: "Updated body",
+          publication: "publish",
+          theme: "neutral",
+          animated: "on",
+          ctaLabel: "Explore services",
+          linkUrl: "https://example.com/services",
+        }),
+      )
+    ).success,
+  );
+  assert.equal(
+    (await db.sponsorship.findUniqueOrThrow({ where: { activeSlot: 3 } })).id,
+    draftPromo.id,
+  );
+  assert.equal(await db.sponsorship.count({ where: { activeSlot: 1 } }), 1);
+  assert.equal(
+    await db.sponsorship.count({ where: { activeSlot: { not: null } } }),
+    3,
+  );
+  assert.ok(
+    (
+      await ops.manageSponsorship(
+        null,
+        fd({ headline: "Fourth promotion", body: "No free slot" }),
+      )
+    ).error,
+  );
+  assert.equal(
+    await db.sponsorship.count({ where: { activeSlot: { not: null } } }),
+    3,
+  );
+  const badUpdate = await ops.manageSponsorship(
+    null,
+    fd({
+      command: "update",
+      id: draftPromo.id,
+      headline: "Invalid promo",
+      body: "Body",
+      theme: "unsupported",
+      publication: "publish",
+    }),
+  );
+  assert.ok(badUpdate.error);
+  assert.equal(
+    (await db.sponsorship.findUniqueOrThrow({ where: { activeSlot: 3 } }))
+      .headline,
+    "Updated promotion",
+  );
+  assert.ok(
+    (
+      await ops.manageSponsorship(
+        null,
+        fd({ command: "activate", id: sponsor.id }),
+      )
+    ).success,
+  );
+
   assert.ok(
     (
       await ops.manageSponsorship(

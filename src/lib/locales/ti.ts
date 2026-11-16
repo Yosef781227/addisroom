@@ -1,4 +1,7 @@
 export default {
+  "ads.sample": "ናይ ፈተነ መወዓውዒ",
+  "ads.learnMore": "ተወሳኺ ሓበሬታ",
+
   "location.exactPrimary": "ዝተመርጸ ከባቢ ጥራይ",
   "location.chooseArea": "ክፍለ ከተማ ወይ ከባቢ ምረጹ",
   "location.chooseNeighborhood": "ሰፈር ምረጹ",

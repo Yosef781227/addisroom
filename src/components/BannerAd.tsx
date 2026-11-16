@@ -1,4 +1,5 @@
-import Image from "next/image";
+import { PromotionCarousel } from "@/components/PromotionCarousel";
+import { PromotionBanner } from "@/components/PromotionBanner";
 import { prisma } from "@/lib/prisma";
 import { t, type Lang } from "@/lib/i18n";
 export async function BannerAd({
@@ -8,9 +9,12 @@ export async function BannerAd({
   lang: Lang;
   placement?: "standard" | "homepage";
 }) {
-  const sponsor = await prisma.sponsorship.findUnique({
-    where: { activeSlot: 1 },
+  const sponsors = await prisma.sponsorship.findMany({
+    where: { activeSlot: { not: null } },
+    orderBy: { activeSlot: "asc" },
+    take: 3,
   });
+  const sponsor = sponsors[0];
   if (!sponsor && placement !== "homepage") return null;
   if (!sponsor)
     return (
@@ -39,63 +43,19 @@ export async function BannerAd({
         </div>
       </aside>
     );
-  const content = (
-    <>
-      <p
-        className={
-          placement === "homepage"
-            ? "homepage-ad-label"
-            : "text-[10px] font-semibold uppercase tracking-widest text-[var(--brand-700)]"
-        }
-      >
-        {t(lang, "ads.sponsored")}
-      </p>
-      {sponsor.imageUrl && (
-        <div
-          className={
-            placement === "homepage"
-              ? "homepage-ad-image"
-              : "relative h-36 my-3"
-          }
-        >
-          <Image
-            src={sponsor.imageUrl}
-            alt=""
-            fill
-            sizes="(max-width:640px) 100vw, 900px"
-            className="object-cover rounded-lg"
-          />
-        </div>
-      )}
-      <div className="homepage-ad-copy">
-        <h3 className="text-sm font-semibold mt-3">{sponsor.headline}</h3>
-        <p className="text-xs text-[var(--muted)] mt-1 leading-relaxed">
-          {sponsor.body}
-        </p>
-      </div>
-    </>
-  );
+  if (sponsors.length > 1)
+    return (
+      <PromotionCarousel
+        promotions={sponsors}
+        lang={lang}
+        compact={placement !== "homepage"}
+      />
+    );
   return (
-    <aside
-      aria-label={t(lang, "ads.label")}
-      className={
-        placement === "homepage"
-          ? "homepage-ad homepage-ad-active"
-          : "sponsor-banner"
-      }
-    >
-      {sponsor.linkUrl ? (
-        <a
-          href={sponsor.linkUrl}
-          target="_blank"
-          rel="noopener noreferrer sponsored"
-          className="block"
-        >
-          {content}
-        </a>
-      ) : (
-        <div>{content}</div>
-      )}
-    </aside>
+    <PromotionBanner
+      promotion={sponsor}
+      lang={lang}
+      compact={placement !== "homepage"}
+    />
   );
 }
