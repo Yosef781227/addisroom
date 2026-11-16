@@ -19,8 +19,9 @@ private `.env.local` settings on a fresh checkout, generates the database client
 applies migrations, and adds six demo rental homes plus three sample promotions.
 The homes include photos, prices, amenities and map coordinates for testing the
 filters. Your logo, local fonts, icons, styles and location catalogue are already
-included in the repository. Sample property photos load from Unsplash and require
-an internet connection; the logo and bundled fonts are local assets.
+included in the repository. Sample property photos, the logo and bundled fonts are stored in `public/`
+and served locally. Internet access is needed to install dependencies, not to load
+these images. Photo sources are listed in `public/images/demo/SOURCES.md`.
 
 You can run setup again: sample records use stable IDs, existing records are kept,
 and existing environment files and encryption keys are never overwritten.

@@ -29,7 +29,6 @@ try {
       85,
       8.997,
       38.79,
-      "1522708323590-d24dbb6b0267",
     ],
     [
       "yeka",
@@ -42,7 +41,6 @@ try {
       38,
       9.04,
       38.84,
-      "1505691938895-1758d7feb511",
     ],
     [
       "lafto",
@@ -55,7 +53,6 @@ try {
       70,
       8.935,
       38.72,
-      "1484154218962-a197022b5858",
     ],
     [
       "kirkos",
@@ -68,7 +65,6 @@ try {
       160,
       9.01,
       38.735,
-      "1600585154340-be6161a56a0c",
     ],
     [
       "sebeta",
@@ -81,7 +77,6 @@ try {
       50,
       8.91,
       38.65,
-      "1493809842364-78817add7ffb",
     ],
     [
       "legetafo",
@@ -94,7 +89,6 @@ try {
       240,
       9.05,
       38.88,
-      "1616594039964-ae9021a400a0",
     ],
   ];
   for (const [
@@ -108,7 +102,6 @@ try {
     areaSqm,
     latitude,
     longitude,
-    photo,
   ] of homes) {
     const id = `demo-rental-${key}`;
     if (await db.listing.findUnique({ where: { id }, select: { id: true } }))
@@ -144,7 +137,7 @@ try {
         images: {
           create: [
             {
-              url: `https://images.unsplash.com/photo-${photo}?w=1200&q=80`,
+              url: `/images/demo/${key}.jpg`,
               sortOrder: 0,
             },
           ],
