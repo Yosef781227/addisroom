@@ -35,15 +35,7 @@ export function FeaturedRental({
           <div>
             <p className="villa-kicker">| {t(lang, "home.latest")}</p>
             <h2 className="villa-section-title">
-              {lang === "en" ? (
-                <>
-                  A closer look at
-                  <br />
-                  your next home.
-                </>
-              ) : (
-                t(lang, "home.available")
-              )}
+              {t(lang, "home.featuredHeading")}
             </h2>
           </div>
           <div
@@ -95,7 +87,7 @@ export function FeaturedRental({
             {[
               [
                 t(lang, "detail.monthly"),
-                `${home.price.toLocaleString()} birr`,
+                `${home.price.toLocaleString()} ${t(lang, "common.birr")}`,
               ],
               [t(lang, "detail.area"), home.area ? `${home.area} m²` : "—"],
               [t(lang, "detail.rooms"), home.rooms ?? "—"],
@@ -131,7 +123,7 @@ export function FeaturedRental({
               href={`/listings/${home.id}${qs}`}
               className="villa-card-button"
             >
-              {lang === "en" ? "View rental" : "ቤቱን ይመልከቱ"} ↗
+              {lang === "en" ? "View rental" : t(lang, "common.viewRental")} ↗
             </Link>
           </div>
         </div>

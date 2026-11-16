@@ -1,3 +1,5 @@
+import { headers } from "next/headers";
+import { parseLang } from "@/lib/i18n";
 import { RouteBanner } from "@/components/RouteBanner";
 import { Suspense } from "react";
 import { redirect } from "next/navigation";
@@ -14,6 +16,7 @@ export default async function MainLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const lang = parseLang((await headers()).get("x-addisroom-lang"));
   const me = await getSessionProfile();
 
   if (me && !me.isAdmin && !isProfileComplete(me)) {
@@ -42,7 +45,7 @@ export default async function MainLayout({
       <main className="villa-main mx-auto w-full max-w-6xl flex-1 px-4 py-6 sm:py-8">
         {children}
       </main>
-      <SiteFooter />
+      <SiteFooter lang={lang} />
       {loggedIn && <BottomNav canPost={canPost} />}
     </div>
   );

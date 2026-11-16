@@ -3,10 +3,9 @@ import { BannerAd } from "@/components/BannerAd";
 import { SearchBar } from "@/components/SearchBar";
 import { SearchResults } from "@/components/SearchResults";
 import { SortSelect } from "@/components/SortSelect";
-import { PROPERTY_TYPES } from "@/lib/addis";
 import { getSessionProfileId } from "@/lib/auth";
 import { getSavedListingIds } from "@/lib/auth-actions";
-import { parseLang, t } from "@/lib/i18n";
+import { parseLang, t, propertyLabel } from "@/lib/i18n";
 import { searchListings } from "@/lib/search";
 import {
   buildSearchUrl,
@@ -37,7 +36,7 @@ export default async function SearchPage(props: {
   const url = (o: Parameters<typeof buildSearchUrl>[1]) =>
     buildSearchUrl(filters, o, lang);
   const typeLabel =
-    PROPERTY_TYPES.find((p) => p.value === filters.propertyType)?.label ??
+    (filters.propertyType ? propertyLabel(lang, filters.propertyType) : null) ??
     t(lang, "search.properties");
   const dealLabel = t(
     lang,
@@ -120,8 +119,7 @@ export default async function SearchPage(props: {
         key={`${JSON.stringify(sp)}-drawer`}
       >
         <summary>
-          {lang === "en" ? "Adjust filters" : t(lang, "home.filtersTitle")}{" "}
-          <span aria-hidden="true">⌄</span>
+          {t(lang, "common.adjustFilters")} <span aria-hidden="true">⌄</span>
         </summary>
         <SearchBar
           key={JSON.stringify(sp)}

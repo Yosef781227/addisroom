@@ -8,7 +8,7 @@ import { ImageCarousel } from "@/components/ImageCarousel";
 import { ListingsMap, type MapPoint } from "@/components/ListingsMap";
 import { SaveListingButton } from "@/components/SaveListingButton";
 import { VerifiedBadge } from "@/components/VerifiedBadge";
-import { type Lang, t } from "@/lib/i18n";
+import { type Lang, t, propertyLabel, bedroomLabel } from "@/lib/i18n";
 import { floorLabel, shortPrice, type ResultItem } from "@/lib/search-shared";
 
 const ICONS = {
@@ -92,7 +92,7 @@ function ResultCard({
       <Link href={href} className="result-body">
         <p className="flex flex-wrap items-baseline gap-x-2.5 gap-y-1 pr-12">
           <span className="text-2xl font-bold tracking-tight text-[var(--foreground)]">
-            {item.priceBirr.toLocaleString()} birr
+            {item.priceBirr.toLocaleString()} {t(lang, "common.birr")}
           </span>
           {item.deal === "RENT" ? (
             <span className="text-sm text-[var(--muted)]">
@@ -117,7 +117,18 @@ function ResultCard({
         </p>
 
         <p className="mt-4 flex flex-wrap gap-x-5 gap-y-2 text-sm font-semibold text-[var(--foreground)]">
-          {item.roomsLabel ? <Fact icon="rooms">{item.roomsLabel}</Fact> : null}
+          {item.roomsLabel ? (
+            <Fact icon="rooms">
+              {bedroomLabel(
+                lang,
+                item.roomsLabel?.startsWith("1")
+                  ? "ONE"
+                  : item.roomsLabel?.startsWith("2")
+                    ? "TWO"
+                    : "THREE_PLUS",
+              )}
+            </Fact>
+          ) : null}
           {item.areaSqm ? <Fact icon="area">{item.areaSqm} m²</Fact> : null}
           {floor ? <Fact icon="floor">{floor}</Fact> : null}
         </p>
@@ -128,7 +139,7 @@ function ResultCard({
 
         <p className="mt-auto flex flex-wrap items-center gap-2 border-t border-[var(--border)] pt-3 text-xs text-[var(--muted)]">
           <span className="font-medium text-[var(--foreground)]">
-            {item.propertyLabel}
+            {propertyLabel(lang, item.propertyType)}
           </span>
           <span aria-hidden>·</span>
           <span>
@@ -175,7 +186,7 @@ export function SearchResults({
           lng: i.lng!,
           label: shortPrice(i.priceBirr),
           title: i.title,
-          sub: `${i.priceBirr.toLocaleString()} birr${i.deal === "RENT" ? ` ${t(lang, "search.perMonth")}` : ""}`,
+          sub: `${i.priceBirr.toLocaleString()} ${t(lang, "common.birr")}${i.deal === "RENT" ? ` ${t(lang, "search.perMonth")}` : ""}`,
           href: `/listings/${i.id}${langQs}`,
           image: i.images[0],
         })),

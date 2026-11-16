@@ -49,7 +49,7 @@ export function LoginForm({ lang, next }: { lang: Lang; next: string }) {
             autoCapitalize="none"
             autoCorrect="off"
             spellCheck={false}
-            placeholder="Email address or phone number"
+            placeholder={t(lang, "login.placeholder")}
             className={inputClass}
           />
         </div>

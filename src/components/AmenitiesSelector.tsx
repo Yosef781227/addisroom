@@ -125,7 +125,7 @@ export function AmenitiesSelector({
           <span className="amenity-count">{selected.length || "+"}</span>
         </span>
         <span className="text-xs font-normal text-[var(--muted)]">
-          {lang === "en" ? "Optional preferences" : "አማራጭ"} ⌄
+          {t(lang, "common.optional")} ⌄
         </span>
       </summary>
       <div className="p-4 pt-0">{content}</div>

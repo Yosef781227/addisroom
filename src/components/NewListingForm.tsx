@@ -6,7 +6,7 @@ import { AmenitiesSelector } from "@/components/AmenitiesSelector";
 import { useState } from "react";
 import { createListing } from "@/app/actions";
 import { BEDROOM_FILTERS, PROPERTY_TYPES, ROOM_TYPES } from "@/lib/addis";
-import { type Lang, t } from "@/lib/i18n";
+import { type Lang, t, propertyLabel, bedroomLabel } from "@/lib/i18n";
 
 const disabledFieldClass = "disabled:cursor-not-allowed disabled:opacity-50";
 
@@ -59,7 +59,7 @@ export function NewListingForm({
           >
             {PROPERTY_TYPES.map((p) => (
               <option key={p.value} value={p.value}>
-                {p.label}
+                {propertyLabel(lang, p.value)}
               </option>
             ))}
           </select>
@@ -77,7 +77,7 @@ export function NewListingForm({
           >
             {BEDROOM_FILTERS.map((b) => (
               <option key={b.value} value={b.value}>
-                {b.label}
+                {bedroomLabel(lang, b.value)}
               </option>
             ))}
           </select>

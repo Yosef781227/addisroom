@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { BEDROOM_FILTERS, PROPERTY_TYPES } from "@/lib/addis";
 import { LocationSelector } from "@/components/LocationSelector";
-import { type Lang, t } from "@/lib/i18n";
+import { type Lang, t, propertyLabel, bedroomLabel } from "@/lib/i18n";
 import { AmenitiesSelector } from "@/components/AmenitiesSelector";
 import type { SearchFilters } from "@/lib/search-shared";
 type Initial = Omit<SearchFilters, "page">;
@@ -48,7 +48,7 @@ export function SearchBar({
             b = Number(fd.get(max));
           if (a > 0 && b > 0 && a > b) {
             e.preventDefault();
-            setError(`${label}: minimum must not exceed maximum.`);
+            setError(`${label}: ${t(lang, "common.priceRangeError")}`);
             return;
           }
         }
@@ -77,7 +77,7 @@ export function SearchBar({
             <option value="">{t(lang, "home.anyBedrooms")}</option>
             {BEDROOM_FILTERS.map((b) => (
               <option key={b.value} value={b.value}>
-                {b.label}
+                {bedroomLabel(lang, b.value)}
               </option>
             ))}
           </select>
@@ -93,7 +93,7 @@ export function SearchBar({
             <option value="">{t(lang, "home.allPropertyTypes")}</option>
             {PROPERTY_TYPES.map((p) => (
               <option key={p.value} value={p.value}>
-                {p.label}
+                {propertyLabel(lang, p.value)}
               </option>
             ))}
           </select>

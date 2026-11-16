@@ -9,18 +9,18 @@ export function RouteBanner() {
   const title =
     path === "/search"
       ? sp.get("view") === "map"
-        ? "EXPLORE THE MAP"
-        : "RENTAL PROPERTIES"
+        ? t(lang, "search.seeOnMap")
+        : t(lang, "banner.rentals")
       : path === "/listings/new"
-        ? "LIST YOUR PROPERTY"
+        ? t(lang, "nav.post")
         : path.startsWith("/listings/")
-          ? "PROPERTY DETAILS"
+          ? t(lang, "banner.details")
           : path === "/saved"
-            ? "SAVED PROPERTIES"
+            ? t(lang, "saved.title")
             : path === "/inbox"
-              ? "YOUR MESSAGES"
+              ? t(lang, "inbox.title")
               : path.startsWith("/profile")
-                ? "YOUR PROFILE"
+                ? t(lang, "banner.profile")
                 : "ADDISROOM";
   return (
     <section
@@ -28,9 +28,9 @@ export function RouteBanner() {
     >
       <div>
         <a href={lang === "en" ? "/" : `/?lang=${lang}`}>
-          {lang === "en" ? "HOME" : t(lang, "nav.rent")}
+          {t(lang, "nav.bottom.home")}
         </a>
-        <span> / {lang === "en" ? title : t(lang, "home.eyebrow")}</span>
+        <span> / {title}</span>
       </div>
       <p>{title}</p>
     </section>

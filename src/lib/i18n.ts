@@ -1,15 +1,92 @@
-export type Lang = "en" | "am" | "om";
+import ar from "@/lib/locales/ar";
+import fr from "@/lib/locales/fr";
+import ti from "@/lib/locales/ti";
+export type Lang = "en" | "am" | "om" | "ar" | "fr" | "ti";
 
-export const LANGS: Lang[] = ["en", "am", "om"];
+export const LANGS: Lang[] = ["en", "am", "om", "ar", "fr", "ti"];
 
 /** Parse `?lang=` from URL search params (defaults to English). */
 export function parseLang(value: string | null | undefined): Lang {
-  if (value === "am" || value === "om") return value;
+  if (LANGS.includes(value as Lang)) return value as Lang;
   return "en";
 }
 
 const messages = {
+  ar,
+  fr,
+  ti,
   en: {
+    "ads.emptyTitle": "Your advertisement here",
+    "ads.emptyBody":
+      "Moving services, furniture and local partners can be featured here.",
+    "common.language": "Language",
+    "common.ethiopia": "Ethiopia",
+    "common.addis": "Addis Ababa",
+    "common.birr": "birr",
+    "common.viewRental": "View rental",
+    "common.optional": "Optional preferences",
+    "common.adjustFilters": "Adjust filters",
+    "common.priceRangeError": "Minimum must not exceed maximum.",
+    "common.darkMode": "Switch to dark mode",
+    "common.lightMode": "Switch to light mode",
+    "hero.title1": "A PLACE TO CALL YOUR OWN.",
+    "hero.body1": "Discover your next rental in Addis Ababa and nearby towns.",
+    "hero.title2": "YOUR NEXT CHAPTER STARTS HERE.",
+    "hero.body2":
+      "From a first apartment to a family home. Find the space that fits.",
+    "hero.title3": "FIND THE SPACE. FEEL AT HOME.",
+    "hero.body3":
+      "Choose your neighborhood, set your budget, and explore the possibilities.",
+    "home.findHeading": "FIND YOUR HOME",
+    "home.searchHeading": "The right neighborhood.\nThe right home.",
+    "home.featuredHeading": "A closer look at\nyour next home.",
+    "home.propertiesHeading": "Find a place you’ll love.",
+    "home.howHeading": "A simpler way\nto find your rental.",
+    "home.howKicker": "HOW IT WORKS",
+    "home.step1.title": "Find your neighborhood",
+    "home.step1.body":
+      "Explore Addis Ababa’s sub-cities and nearby towns. Narrow your search by monthly budget and the amenities you need.",
+    "home.step2.title": "Get to know the property",
+    "home.step2.body":
+      "Compare photos, rental details, and the owner’s profile. Map pins show the approximate area unless exact coordinates are provided.",
+    "home.step3.title": "Make a connection",
+    "home.step3.body":
+      "Create your account, complete verification, and message the landlord or agent directly.",
+    "home.faqKicker": "GOOD TO KNOW",
+    "home.faqHeading": "Before you\nstart your search.",
+    "home.faq1.title": "Can I browse without an account?",
+    "home.faq1.body":
+      "Yes. Browse rental listings, use filters, and explore the map without signing in. An account and completed verification are required to contact a landlord or agent and arrange a viewing.",
+    "home.faq2.title": "How does account verification work?",
+    "home.faq2.body":
+      "Verify your email or Ethiopian phone number, complete your profile and address, then submit your identity document and photo for administrator review. Google sign-in is also available when configured.",
+    "home.faq3.title": "Does the map show the exact property?",
+    "home.faq3.body":
+      "Map pins show approximate neighborhood or area locations unless the property has exact coordinates. Confirm the address with the landlord or agent before your visit.",
+    "footer.heading": "Your next home. Your neighborhood.",
+    "footer.description":
+      "Find rental homes across Addis Ababa and nearby towns. Compare properties, explore the map, and connect directly with landlords and agents.",
+    "footer.explore": "Make yourself at home",
+    "footer.connect": "Stay connected",
+    "footer.connectBody":
+      "Neighborhood discoveries, rental updates, and a little inspiration for your next move.",
+    "footer.rights": "All rights reserved.",
+    "footer.motto": "Made for renting. Built around you.",
+    "topbar.tagline": "Rental homes · Local connections",
+    "property.APARTMENT": "Apartment",
+    "property.CONDOMINIUM": "Condominium",
+    "property.VILLA": "Villa",
+    "property.HOUSE": "House",
+    "property.SHARED_HOUSE": "Shared house",
+    "property.SHOP": "Shop",
+    "rooms.ONE": "1 bedroom",
+    "rooms.TWO": "2 bedrooms",
+    "rooms.THREE_PLUS": "3+ bedrooms",
+    "banner.details": "PROPERTY DETAILS",
+    "banner.rentals": "RENTAL PROPERTIES",
+    "banner.profile": "YOUR PROFILE",
+    "login.placeholder": "Email address or phone number",
+
     "location.exactPrimary": "Selected sub-city / area only",
     "location.chooseArea": "Select a sub-city / area",
     "location.chooseNeighborhood": "Choose a neighborhood / sefer",
@@ -860,5 +937,44 @@ export type MessageKey = keyof (typeof messages)["en"];
 export function t(lang: Lang, key: MessageKey): string {
   // Languages may leave a key untranslated; those fall back to English.
   const table: Partial<Record<MessageKey, string>> = messages[lang];
-  return table[key] ?? messages.en[key];
+  const aliases: Partial<Record<MessageKey, MessageKey>> = {
+    "hero.title1": "home.referenceTitle",
+    "hero.title2": "home.referenceTitle",
+    "hero.title3": "home.referenceTitle",
+    "hero.body1": "home.referenceSubtitle",
+    "hero.body2": "home.referenceSubtitle",
+    "hero.body3": "home.referenceSubtitle",
+    "home.searchHeading": "home.referenceTitle",
+    "home.findHeading": "home.filtersTitle",
+    "home.propertiesHeading": "home.available",
+    "home.featuredHeading": "home.available",
+    "home.howHeading": "home.how.title",
+    "login.placeholder": "login.contact",
+  };
+  const alias = aliases[key];
+  return table[key] ?? (alias ? table[alias] : undefined) ?? messages.en[key];
+}
+
+export function languageDirection(lang: Lang): "rtl" | "ltr" {
+  return lang === "ar" ? "rtl" : "ltr";
+}
+
+export function propertyLabel(lang: Lang, value?: string): string {
+  const keys: Record<string, MessageKey> = {
+    APARTMENT: "property.APARTMENT",
+    CONDOMINIUM: "property.CONDOMINIUM",
+    VILLA: "property.VILLA",
+    HOUSE: "property.HOUSE",
+    SHARED_HOUSE: "property.SHARED_HOUSE",
+    SHOP: "property.SHOP",
+  };
+  return value && keys[value] ? t(lang, keys[value]) : (value ?? "");
+}
+export function bedroomLabel(lang: Lang, value?: string): string {
+  const keys: Record<string, MessageKey> = {
+    ONE: "rooms.ONE",
+    TWO: "rooms.TWO",
+    THREE_PLUS: "rooms.THREE_PLUS",
+  };
+  return value && keys[value] ? t(lang, keys[value]) : (value ?? "");
 }

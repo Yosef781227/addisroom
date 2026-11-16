@@ -1402,3 +1402,153 @@ summary:focus-visible {
 .villa-topbar {
   background: #343434;
 }
+
+/* Homepage advertising uses the same single active sponsorship as the admin. */
+.villa-home > section.home-ad-region {
+  margin-block: 40px;
+}
+.homepage-ad {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface-soft, #fafafa);
+  padding: 25px 30px;
+  color: var(--foreground);
+}
+.homepage-ad-empty {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+.homepage-ad-symbol {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 70px;
+  height: 70px;
+  border: 1px dashed var(--brand-200);
+  border-radius: 10px;
+  color: var(--brand-700);
+  background: var(--brand-50);
+}
+.homepage-ad-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 7px;
+}
+.homepage-ad h2,
+.homepage-ad h3 {
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+.homepage-ad-description {
+  max-width: 650px;
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.8;
+  margin-top: 7px;
+}
+.homepage-ad-active > div,
+.homepage-ad-active > a {
+  display: grid;
+  grid-template-columns: 180px minmax(0, 1fr);
+  gap: 10px 25px;
+}
+.homepage-ad-active .homepage-ad-label {
+  grid-column: 1/-1;
+}
+.homepage-ad-image {
+  position: relative;
+  height: 115px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.homepage-ad-copy {
+  align-self: center;
+}
+.homepage-ad-active:not(:has(.homepage-ad-image)) .homepage-ad-copy {
+  grid-column: 1/-1;
+}
+:root[lang="ar"] body {
+  font-family: var(--font-arabic), sans-serif;
+}
+:root[lang="ti"] body,
+:root[lang="am"] body {
+  font-family: var(--font-ethiopic), var(--font-geist-sans), sans-serif;
+}
+:root[dir="rtl"] .rental-search,
+:root[dir="rtl"] .text-left {
+  text-align: right;
+}
+:root[dir="rtl"] .amenity-check {
+  right: auto;
+  left: 12px;
+}
+:root[dir="rtl"] .villa-hero h1,
+:root[dir="rtl"] .villa-hero p {
+  margin-inline-start: 0;
+  margin-inline-end: auto;
+}
+:root[dir="rtl"] .villa-hero-map {
+  margin-left: 0;
+  margin-right: 24px;
+}
+:root[dir="rtl"] .villa-section-title,
+:root[dir="rtl"] .villa-section-heading h2 {
+  letter-spacing: 0;
+}
+:root[dir="rtl"] .leaflet-container {
+  direction: ltr;
+  text-align: left;
+}
+:root[dir="rtl"] input[type="email"],
+:root[dir="rtl"] input[type="tel"],
+:root[dir="rtl"] input[type="number"],
+:root[dir="rtl"] input[autocomplete="username"] {
+  direction: ltr;
+  text-align: right;
+}
+.villa-faq h3 {
+  white-space: pre-line;
+}
+@media (max-width: 639px) {
+  .homepage-ad {
+    padding: 20px;
+  }
+  .homepage-ad-empty {
+    gap: 15px;
+    align-items: flex-start;
+  }
+  .homepage-ad-symbol {
+    width: 45px;
+    height: 45px;
+  }
+  .homepage-ad-symbol svg {
+    width: 27px;
+    height: 27px;
+  }
+  .homepage-ad h2,
+  .homepage-ad h3 {
+    font-size: 15px;
+  }
+  .homepage-ad-active > div,
+  .homepage-ad-active > a {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .homepage-ad-image {
+    height: 150px;
+  }
+  .villa-home > section.home-ad-region {
+    margin-block: 30px;
+  }
+  :root[dir="rtl"] .villa-hero-map {
+    margin-right: 16px;
+  }
+}
+:root[lang="ar"] .villa-hero h1 {
+  line-height: 1.45;
+  letter-spacing: 0;
+}

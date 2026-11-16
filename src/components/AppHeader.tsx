@@ -40,7 +40,7 @@ function MainLinks({ showPost }: { showPost: boolean }) {
         className="nav-link"
         aria-current={pathname === "/" ? "page" : undefined}
       >
-        {lang === "en" ? "Home" : "መነሻ"}
+        {t(lang, "nav.bottom.home")}
       </a>
       <a
         href={`/search${qs}`}
@@ -98,7 +98,7 @@ function MobileMenu({ loggedIn }: { loggedIn: boolean }) {
             e.currentTarget.closest("details")?.removeAttribute("open");
         }}
       >
-        <Link href={`/${qs}`}>{lang === "en" ? "Home" : "መነሻ"}</Link>
+        <Link href={`/${qs}`}>{t(lang, "nav.bottom.home")}</Link>
         <Link href={`/search${qs}`}>{t(lang, "nav.rent")}</Link>
         <Link href={`/search?view=map${lang === "en" ? "" : `&lang=${lang}`}`}>
           {t(lang, "search.map")}
@@ -119,6 +119,7 @@ export function AppHeader({
   loggedIn?: boolean;
   isAdmin?: boolean;
 }) {
+  const lang = parseLang(useSearchParams().get("lang"));
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -144,11 +145,11 @@ export function AppHeader({
               <path d="M12 22s8-7 8-13A8 8 0 0 0 4 9c0 6 8 13 8 13Z" />
               <circle cx="12" cy="9" r="2.5" />
             </svg>
-            Addis Ababa & nearby towns
+            {t(lang, "home.eyebrow")}
           </span>
           <span className="topbar-message">
             <span className="topbar-live-dot" aria-hidden="true" />
-            Rental homes · Local connections
+            {t(lang, "topbar.tagline")}
             <span className="topbar-arrow" aria-hidden="true">
               ↗
             </span>
@@ -173,7 +174,7 @@ export function AppHeader({
                 Admin
               </a>
             )}
-            <ThemeToggle />
+            <ThemeToggle lang={lang} />
             <Suspense
               fallback={
                 <div className="h-10 w-28 rounded-xl border border-[var(--border)] bg-[var(--brand-50)]" />

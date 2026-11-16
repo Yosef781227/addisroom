@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Suspense } from "react";
-import { type Lang } from "@/lib/i18n";
+import { type Lang, t } from "@/lib/i18n";
 import { BannerAd } from "@/components/BannerAd";
 import { FooterLinks } from "@/components/FooterLinks";
 import { BrandLogo } from "@/components/BrandLogo";
@@ -15,31 +15,27 @@ export async function SiteFooter({ lang = "en" }: { lang?: Lang }) {
             <Link href="/" aria-label="Addis Rooms home">
               <BrandLogo footer />
             </Link>
-            <h2>Your next home. Your neighborhood.</h2>
-            <p>
-              Find rental homes across Addis Ababa and nearby towns. Compare
-              properties, explore the map, and connect directly with landlords
-              and agents.
-            </p>
+            <h2>{t(lang, "footer.heading")}</h2>
+            <p>{t(lang, "footer.description")}</p>
           </div>
           <div className="brand-footer-explore">
-            <h2>Make yourself at home</h2>
+            <h2>{t(lang, "footer.explore")}</h2>
             <Suspense fallback={null}>
               <FooterLinks />
             </Suspense>
           </div>
           <div className="brand-footer-connect">
-            <h2>Stay connected</h2>
-            <p>
-              Neighborhood discoveries, rental updates, and a little inspiration
-              for your next move.
-            </p>
+            <h2>{t(lang, "footer.connect")}</h2>
+            <p>{t(lang, "footer.connectBody")}</p>
             <SocialLinks />
           </div>
         </div>
         <div className="brand-footer-bottom">
-          <p>© {new Date().getFullYear()} Addis Rooms. All rights reserved.</p>
-          <p>Made for renting. Built around you.</p>
+          <p>
+            © {new Date().getFullYear()} Addis Rooms.{" "}
+            {t(lang, "footer.rights")}
+          </p>
+          <p>{t(lang, "footer.motto")}</p>
         </div>
       </div>
     </footer>

@@ -1,4 +1,5 @@
 "use client";
+import { type Lang, t } from "@/lib/i18n";
 import { useSyncExternalStore } from "react";
 const eventName = "addisroom-theme";
 function snapshot() {
@@ -21,7 +22,7 @@ function subscribe(callback: () => void) {
     window.removeEventListener("storage", update);
   };
 }
-export function ThemeToggle() {
+export function ThemeToggle({ lang = "en" }: { lang?: Lang }) {
   const theme = useSyncExternalStore(subscribe, snapshot, () => "light"),
     dark = theme === "dark";
   function toggle() {
@@ -37,8 +38,8 @@ export function ThemeToggle() {
       type="button"
       className="theme-toggle"
       onClick={toggle}
-      aria-label={`Switch to ${dark ? "light" : "dark"} mode`}
-      title={`Switch to ${dark ? "light" : "dark"} mode`}
+      aria-label={t(lang, dark ? "common.lightMode" : "common.darkMode")}
+      title={t(lang, dark ? "common.lightMode" : "common.darkMode")}
     >
       <svg
         viewBox="0 0 24 24"

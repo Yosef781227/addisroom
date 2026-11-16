@@ -1,3 +1,4 @@
+import { parseLang } from "@/lib/i18n";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
@@ -30,6 +31,15 @@ function isPublicPath(pathname: string): boolean {
   return false;
 }
 
+function nextWithLocale(request: NextRequest) {
+  const headers = new Headers(request.headers);
+  headers.set(
+    "x-addisroom-lang",
+    parseLang(request.nextUrl.searchParams.get("lang")),
+  );
+  return NextResponse.next({ request: { headers } });
+}
+
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const session = request.cookies.get(SESSION_COOKIE)?.value;
@@ -38,11 +48,11 @@ export function middleware(request: NextRequest) {
     if (!session) {
       return NextResponse.redirect(new URL("/login", request.url));
     }
-    return NextResponse.next();
+    return nextWithLocale(request);
   }
 
   if (isPublicPath(pathname)) {
-    return NextResponse.next();
+    return nextWithLocale(request);
   }
 
   if (!session) {
@@ -51,7 +61,7 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(login);
   }
 
-  return NextResponse.next();
+  return nextWithLocale(request);
 }
 
 export const config = {

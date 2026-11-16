@@ -1,5 +1,4 @@
 import { FeaturedRental } from "@/components/FeaturedRental";
-import { PROPERTY_TYPES } from "@/lib/addis";
 import { getListingImageUrls } from "@/lib/listings";
 import { ListingsMap } from "@/components/ListingsMap";
 import { listingCoords } from "@/lib/geo";
@@ -8,7 +7,7 @@ import Link from "next/link";
 import { fetchHomeListings } from "@/lib/fetch-listings";
 import { getSavedListingIds } from "@/lib/auth-actions";
 import { getSessionProfileId } from "@/lib/auth";
-import { parseLang, t } from "@/lib/i18n";
+import { parseLang, t, propertyLabel } from "@/lib/i18n";
 import { ListingCard } from "@/components/ListingCard";
 import { BannerAd } from "@/components/BannerAd";
 import { HomeHero } from "@/components/HomeHero";
@@ -27,6 +26,9 @@ export default async function Home({
   return (
     <div className="villa-home">
       <HomeHero lang={lang} />
+      <section className="home-ad-region">
+        <BannerAd lang={lang} placement="homepage" />
+      </section>
       <FeaturedRental
         lang={lang}
         homes={listings
@@ -41,9 +43,7 @@ export default async function Home({
             id: l.id,
             title: l.title,
             type: l.propertyType,
-            typeLabel:
-              PROPERTY_TYPES.find((p) => p.value === l.propertyType)?.label ??
-              l.propertyType,
+            typeLabel: propertyLabel(lang, l.propertyType),
             image: getListingImageUrls(l)[0],
             price: l.priceBirr,
             area: l.areaSqm,
@@ -63,11 +63,9 @@ export default async function Home({
       <section id="results" className="scroll-mt-24">
         <div className="flex flex-wrap gap-3 items-end justify-between border-b border-[var(--border)] pb-4 mb-5">
           <div>
-            <p className="villa-kicker">| PROPERTIES</p>
+            <p className="villa-kicker">| {t(lang, "search.properties")}</p>
             <h2 className="villa-section-title">
-              {lang === "en"
-                ? "Find a place you’ll love."
-                : t(lang, "home.available")}
+              {t(lang, "home.propertiesHeading")}
             </h2>
             <p className="text-xs text-[var(--muted)] mt-2">
               {listings.length} {t(lang, "home.listingsFound")}
@@ -80,7 +78,6 @@ export default async function Home({
             {t(lang, "home.seeAll")} →
           </Link>
         </div>
-        <BannerAd lang={lang} />
         {usedFallback && (
           <p className="text-sm text-amber-900 my-4" role="status">
             Listings are temporarily unavailable. Please try again.
@@ -142,76 +139,35 @@ export default async function Home({
       <section className="villa-how full-bleed">
         <div className="mx-auto max-w-6xl px-4">
           <div className="villa-section-heading">
-            <p className="villa-kicker">| HOW IT WORKS</p>
-            <h2>
-              A simpler way
-              <br />
-              to find your rental.
-            </h2>
+            <p className="villa-kicker">| {t(lang, "home.howKicker")}</p>
+            <h2>{t(lang, "home.howHeading")}</h2>
           </div>
           <div className="villa-steps">
-            <article>
-              <span>01</span>
-              <h3>Find your neighborhood</h3>
-              <p>
-                Explore Addis Ababa’s sub-cities and nearby towns. Narrow your
-                search by monthly budget and the amenities you need.
-              </p>
-            </article>
-            <article>
-              <span>02</span>
-              <h3>Get to know the property</h3>
-              <p>
-                Compare photos, rental details, and the owner’s profile. Map
-                pins show the approximate area unless exact coordinates are
-                provided.
-              </p>
-            </article>
-            <article>
-              <span>03</span>
-              <h3>Make a connection</h3>
-              <p>
-                Create your account, complete verification, and message the
-                landlord or agent directly.
-              </p>
-              <Link href={`/signup${qs}`}>Create your account →</Link>
-            </article>
+            {([1, 2, 3] as const).map((n) => (
+              <article key={n}>
+                <span>0{n}</span>
+                <h3>{t(lang, `home.step${n}.title`)}</h3>
+                <p>{t(lang, `home.step${n}.body`)}</p>
+                {n === 3 && (
+                  <Link href={`/signup${qs}`}>
+                    {t(lang, "footer.signup")} →
+                  </Link>
+                )}
+              </article>
+            ))}
           </div>
           <div className="villa-faq">
             <div>
-              <p className="villa-kicker">| GOOD TO KNOW</p>
-              <h3>
-                Before you
-                <br />
-                start your search.
-              </h3>
+              <p className="villa-kicker">| {t(lang, "home.faqKicker")}</p>
+              <h3>{t(lang, "home.faqHeading")}</h3>
             </div>
             <div className="villa-accordion">
-              <details name="rental-faq" open>
-                <summary>Can I browse without an account?</summary>
-                <p>
-                  Yes. Browse rental listings, use filters, and explore the map
-                  without signing in. An account and completed verification are
-                  required to contact a landlord or agent and arrange a viewing.
-                </p>
-              </details>
-              <details name="rental-faq">
-                <summary>How does account verification work?</summary>
-                <p>
-                  Verify your email or Ethiopian phone number, complete your
-                  profile and address, then submit your identity document and
-                  photo for administrator review. Google sign-in is also
-                  available.
-                </p>
-              </details>
-              <details name="rental-faq">
-                <summary>Does the map show the exact property?</summary>
-                <p>
-                  Map pins show approximate neighborhood or area locations
-                  unless the property has exact coordinates. Confirm the address
-                  with the landlord or agent before your visit.
-                </p>
-              </details>
+              {([1, 2, 3] as const).map((n) => (
+                <details name="rental-faq" open={n === 1} key={n}>
+                  <summary>{t(lang, `home.faq${n}.title`)}</summary>
+                  <p>{t(lang, `home.faq${n}.body`)}</p>
+                </details>
+              ))}
             </div>
           </div>
         </div>

@@ -1,14 +1,13 @@
 import { AmenityBadges } from "@/components/AmenityBadges";
 import { offeredAmenities } from "@/lib/amenities";
 import Link from "next/link";
-import { PROPERTY_TYPES, BEDROOM_FILTERS } from "@/lib/addis";
 import { formatAvailableFrom } from "@/lib/dates";
 import { ImageCarousel } from "@/components/ImageCarousel";
 import { SaveListingButton } from "@/components/SaveListingButton";
 import { VerifiedBadge } from "@/components/VerifiedBadge";
 import { ProfileAvatar } from "@/components/ProfileAvatar";
 import { getListingImageUrls, isVerifiedBroker } from "@/lib/listings";
-import { type Lang, t } from "@/lib/i18n";
+import { type Lang, t, propertyLabel, bedroomLabel } from "@/lib/i18n";
 
 type ListingWithRelations = {
   id: string;
@@ -41,14 +40,6 @@ type ListingWithRelations = {
     photoUrl?: string | null;
   };
 };
-
-function labelForProperty(value?: string) {
-  return PROPERTY_TYPES.find((p) => p.value === value)?.label ?? value;
-}
-
-function labelForBedrooms(value?: string) {
-  return BEDROOM_FILTERS.find((b) => b.value === value)?.label ?? value;
-}
 
 export function ListingCard({
   listing,
@@ -87,11 +78,13 @@ export function ListingCard({
         <div className="villa-card-content">
           <div className="villa-card-topline">
             <span className="villa-property-category">
-              {labelForProperty(listing.propertyType)}
+              {propertyLabel(lang, listing.propertyType)}
             </span>
             <span className="villa-card-price">
               {listing.priceBirr.toLocaleString()}{" "}
-              <small>birr {t(lang, "search.perMonth")}</small>
+              <small>
+                {t(lang, "common.birr")} {t(lang, "search.perMonth")}
+              </small>
             </span>
           </div>
           <h3 className="line-clamp-1 text-lg font-semibold tracking-tight text-[var(--foreground)] transition-colors group-hover:text-[var(--brand-700)]">
@@ -129,7 +122,7 @@ export function ListingCard({
           <div className="villa-card-facts mt-4 flex flex-wrap gap-2 text-xs font-medium text-[var(--brand-900)]">
             {listing.bedrooms && listing.propertyType !== "SHOP" ? (
               <span className="rounded-full bg-[var(--brand-50)] px-2.5 py-1">
-                {labelForBedrooms(listing.bedrooms)}
+                {bedroomLabel(lang, listing.bedrooms)}
               </span>
             ) : null}
             {listing.areaSqm ? (
@@ -140,7 +133,7 @@ export function ListingCard({
 
             <span className="rounded-full bg-[var(--brand-50)] px-2.5 py-1">
               {t(lang, "listing.availableFrom")}:{" "}
-              {formatAvailableFrom(listing.availableFrom)}
+              {formatAvailableFrom(listing.availableFrom, lang)}
             </span>
           </div>
           <div className="mt-3">
@@ -180,7 +173,7 @@ export function ListingCard({
         ) : null}
       </div>
       <Link href={href} className="villa-card-button">
-        {lang === "en" ? "View rental" : "ቤቱን ይመልከቱ"}
+        {t(lang, "common.viewRental")}
       </Link>
     </article>
   );

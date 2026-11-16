@@ -2,23 +2,7 @@
 import Image from "next/image";
 import { useState } from "react";
 import { type Lang, t } from "@/lib/i18n";
-const slides = [
-  {
-    image: "banner-01.jpg",
-    title: "A PLACE TO CALL YOUR OWN.",
-    text: "Discover your next rental in Addis Ababa and nearby towns.",
-  },
-  {
-    image: "banner-02.jpg",
-    title: "YOUR NEXT CHAPTER STARTS HERE.",
-    text: "From a first apartment to a family home. Find the space that fits.",
-  },
-  {
-    image: "banner-03.jpg",
-    title: "FIND THE SPACE. FEEL AT HOME.",
-    text: "Choose your neighborhood, set your budget, and explore the possibilities.",
-  },
-];
+const slides = ["banner-01.jpg", "banner-02.jpg", "banner-03.jpg"];
 export function VillaHero({ lang }: { lang: Lang }) {
   const [index, setIndex] = useState(0);
   const slide = slides[index];
@@ -30,8 +14,8 @@ export function VillaHero({ lang }: { lang: Lang }) {
       aria-label="Find a rental home"
     >
       <Image
-        key={slide.image}
-        src={`/images/villa/${slide.image}`}
+        key={slide}
+        src={`/images/villa/${slide}`}
         alt="Residential architecture inspiration"
         fill
         priority
@@ -41,15 +25,11 @@ export function VillaHero({ lang }: { lang: Lang }) {
       <div className="villa-hero-shade" />
       <div className="villa-hero-inner">
         <span className="villa-location">
-          Addis Ababa, <em>{lang === "en" ? "Ethiopia" : "ኢትዮጵያ"}</em>
+          {t(lang, "common.addis")}, <em>{t(lang, "common.ethiopia")}</em>
         </span>
         <div aria-live="polite">
-          <h1>
-            {lang === "en" ? slide.title : t(lang, "home.referenceTitle")}
-          </h1>
-          <p>
-            {lang === "en" ? slide.text : t(lang, "home.referenceSubtitle")}
-          </p>
+          <h1>{t(lang, `hero.title${(index + 1) as 1 | 2 | 3}`)}</h1>
+          <p>{t(lang, `hero.body${(index + 1) as 1 | 2 | 3}`)}</p>
         </div>
         <a href="#rental-search" className="villa-hero-cta">
           {t(lang, "nav.rent")} <span aria-hidden="true">↗</span>
@@ -78,7 +58,7 @@ export function VillaHero({ lang }: { lang: Lang }) {
       <div className="villa-slide-dots">
         {slides.map((s, i) => (
           <button
-            key={s.image}
+            key={s}
             aria-label={`Featured image ${i + 1}`}
             aria-pressed={i === index}
             onClick={() => setIndex(i)}
