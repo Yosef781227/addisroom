@@ -173,6 +173,7 @@ export function AppHeader({
                 Admin
               </a>
             )}
+            <ThemeToggle />
             <Suspense
               fallback={
                 <div className="h-10 w-28 rounded-xl border border-[var(--border)] bg-[var(--brand-50)]" />
@@ -180,7 +181,6 @@ export function AppHeader({
             >
               <LanguageSwitcher />
             </Suspense>
-            <ThemeToggle />
             {!loggedIn ? (
               <Suspense fallback={null}>
                 <SignInButton />

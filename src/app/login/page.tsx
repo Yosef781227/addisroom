@@ -27,10 +27,10 @@ export default async function LoginPage(props: {
           <BrandLogo />
         </a>
         <div className="flex items-center gap-2">
+          <ThemeToggle />
           <Suspense fallback={null}>
             <LanguageSwitcher />
           </Suspense>
-          <ThemeToggle />
         </div>
       </header>
 
