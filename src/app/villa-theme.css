@@ -1090,3 +1090,310 @@ summary:focus-visible {
     margin-top: 12px;
   }
 }
+
+/* Addis Rooms' supplied artwork is displayed through a logo-only viewport.
+   Coordinates exclude all stray dots and other controls in the source image. */
+.brand-logo {
+  --logo-scale: 0.5;
+  position: relative;
+  display: block;
+  flex-shrink: 0;
+  overflow: hidden;
+  width: calc(480px * var(--logo-scale));
+  height: calc(110px * var(--logo-scale));
+}
+.brand-logo .brand-logo-source {
+  position: absolute;
+  max-width: none;
+  width: calc(2164px * var(--logo-scale));
+  height: calc(727px * var(--logo-scale));
+  left: calc(-115px * var(--logo-scale));
+  top: calc(-270px * var(--logo-scale));
+}
+.villa-topbar {
+  display: block;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: #f35525;
+  border: 0;
+  color: white;
+}
+.villa-topbar > div {
+  position: relative;
+  z-index: 1;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-size: 11px;
+}
+.villa-topbar .topbar-location {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: white;
+}
+.topbar-message {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: white;
+}
+.topbar-arrow {
+  display: inline-block;
+  animation: topbar-nudge 3.5s ease-in-out infinite;
+}
+.topbar-live-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 0 4px #ffffff20;
+}
+.villa-topbar::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: linear-gradient(
+    110deg,
+    transparent 35%,
+    #ffffff18 50%,
+    transparent 65%
+  );
+  transform: translateX(-100%);
+  animation: topbar-sheen 8s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes topbar-nudge {
+  0%,
+  65%,
+  100% {
+    transform: translate(0, 0);
+  }
+  78% {
+    transform: translate(3px, -2px);
+  }
+}
+@keyframes topbar-sheen {
+  0%,
+  45% {
+    transform: translateX(-100%);
+  }
+  85%,
+  100% {
+    transform: translateX(100%);
+  }
+}
+.brand-footer {
+  background: #191919;
+  color: #eaeaea;
+}
+.brand-footer > div {
+  padding-top: 55px;
+  padding-bottom: 25px;
+}
+.brand-footer-grid {
+  display: grid;
+  grid-template-columns: 1.35fr 0.8fr 1fr;
+  gap: 65px;
+  padding-bottom: 45px;
+}
+.brand-logo-footer {
+  --logo-scale: 0.55;
+  background: #fff;
+  border-radius: 6px;
+}
+.brand-footer-about h2 {
+  margin: 23px 0 12px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #fff;
+}
+.brand-footer-about p,
+.brand-footer-connect > p {
+  font-size: 12px;
+  line-height: 1.9;
+  color: #b7b7b7;
+  max-width: 360px;
+}
+.brand-footer-explore h2,
+.brand-footer-connect h2 {
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  margin: 10px 0 23px;
+}
+.brand-footer-links {
+  display: grid;
+  gap: 17px;
+}
+.brand-footer-links a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  color: #c5c5c5;
+  font-size: 12px;
+}
+.brand-footer-links a span {
+  color: #f35525;
+  transition: transform 0.2s;
+}
+.brand-footer-links a:hover {
+  color: white;
+}
+.brand-footer-links a:hover span {
+  transform: translate(2px, -2px);
+}
+.footer-socials {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 20px;
+}
+.footer-socials > a,
+.footer-social-pending {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  font-size: 12px;
+  color: #e5e5e5;
+}
+.footer-social-icon {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  border: 1px solid #ffffff25;
+  border-radius: 50%;
+  color: white;
+  transition:
+    background 0.2s,
+    transform 0.2s,
+    border-color 0.2s;
+}
+.footer-socials a:hover .footer-social-icon {
+  background: #f35525;
+  border-color: #f35525;
+  transform: translateY(-2px);
+}
+.footer-social-pending small {
+  color: #b8b8b8;
+  font-size: 9px;
+  border: 1px solid #ffffff20;
+  padding: 3px 6px;
+  border-radius: 4px;
+}
+.brand-footer-bottom {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 12px;
+  border-top: 1px solid #ffffff18;
+  padding-top: 22px;
+  font-size: 10px;
+  color: #aaa;
+}
+@media (max-width: 1023px) {
+  .brand-logo {
+    --logo-scale: 0.41;
+  }
+  .brand-logo-footer {
+    --logo-scale: 0.5;
+  }
+  .brand-footer-grid {
+    gap: 35px;
+  }
+}
+@media (max-width: 767px) {
+  .brand-footer-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 35px;
+  }
+  .brand-footer-about {
+    grid-column: 1/-1;
+  }
+  .brand-footer-about p {
+    max-width: 500px;
+  }
+  .villa-topbar > div {
+    font-size: 9px;
+    gap: 10px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
+  .topbar-message {
+    gap: 6px;
+  }
+}
+@media (max-width: 639px) {
+  .brand-logo {
+    --logo-scale: 0.32;
+  }
+  .brand-logo-footer {
+    --logo-scale: 0.5;
+  }
+  .villa-auth header .brand-logo {
+    --logo-scale: 0.42;
+  }
+  .villa-topbar .topbar-message {
+    display: none;
+  }
+  .villa-topbar > div {
+    justify-content: center;
+    font-size: 10px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
+  .brand-footer > div {
+    padding-top: 40px;
+  }
+  .brand-footer-grid {
+    gap: 32px 24px;
+    padding-bottom: 35px;
+  }
+  .brand-footer-about h2 {
+    font-size: 17px;
+  }
+  .brand-footer-explore h2,
+  .brand-footer-connect h2 {
+    font-size: 12px;
+  }
+  .footer-socials > a,
+  .footer-social-pending {
+    flex-wrap: wrap;
+    gap: 7px;
+    font-size: 11px;
+  }
+  .footer-social-pending small {
+    margin-left: 41px;
+    margin-top: -8px;
+  }
+}
+@media (max-width: 359px) {
+  .brand-logo {
+    --logo-scale: 0.23;
+  }
+  .brand-logo-footer {
+    --logo-scale: 0.48;
+  }
+  .brand-footer-grid {
+    grid-template-columns: 1fr;
+  }
+  .brand-footer-about {
+    grid-column: auto;
+  }
+  .footer-social-pending small {
+    margin: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .villa-topbar::after,
+  .topbar-arrow {
+    animation: none;
+  }
+}
+.villa-topbar span.topbar-location {
+  color: #fff;
+}

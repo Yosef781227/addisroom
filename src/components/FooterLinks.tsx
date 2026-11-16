@@ -7,12 +7,19 @@ export function FooterLinks() {
     lang = parseLang(sp.get("lang")),
     qs = lang === "en" ? "" : `?lang=${lang}`;
   return (
-    <div className="flex flex-wrap justify-between gap-4 mt-5 text-xs text-[var(--muted)]">
-      <p>Addis Ababa — {t(lang, "footer.tagline")}</p>
-      <nav className="flex gap-4">
-        <Link href={`/search${qs}`}>{t(lang, "footer.browse")}</Link>
-        <Link href={`/signup${qs}`}>{t(lang, "footer.signup")}</Link>
-      </nav>
-    </div>
+    <nav className="brand-footer-links" aria-label="Footer navigation">
+      <Link href={`/search${qs}`}>
+        {t(lang, "footer.browse")} <span aria-hidden="true">↗</span>
+      </Link>
+      <Link href={`/search?view=map${lang === "en" ? "" : `&lang=${lang}`}`}>
+        {t(lang, "search.seeOnMap")} <span aria-hidden="true">↗</span>
+      </Link>
+      <Link href={`/listings/new${qs}`}>
+        {t(lang, "nav.post")} <span aria-hidden="true">↗</span>
+      </Link>
+      <Link href={`/signup${qs}`}>
+        {t(lang, "footer.signup")} <span aria-hidden="true">↗</span>
+      </Link>
+    </nav>
   );
 }

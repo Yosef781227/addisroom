@@ -1,3 +1,4 @@
+import { BrandLogo } from "@/components/BrandLogo";
 import Link from "next/link";
 import { requireAdmin } from "@/lib/auth";
 import { logout } from "@/lib/auth-actions";
@@ -16,7 +17,7 @@ export default async function AdminLayout({
             href="/"
             className="flex items-center gap-2 font-bold text-[var(--brand-900)]"
           >
-            <span className="logo-mark">AR</span>AddisRoom
+            <BrandLogo />
           </Link>
           <span className="ml-auto hidden sm:block text-xs text-[var(--muted)]">
             {admin.name} ·{" "}

@@ -7,8 +7,8 @@ Adapted from Villa Agency v1.0.0 by TemplateMo, supplied by the user as
 - Demo: https://templatemo.com/templates/templatemo_591_villa_agency/
 - Distribution: https://themewagon.com/themes/villa-agency/
 
-The author permits commercial and noncommercial template adaptation. The footer
-retains design attribution. Poppins, orange (#f35525), charcoal (#1e1e1e), white,
+The author permits commercial and noncommercial template adaptation. Source attribution is retained in this document; the visible template credit
+was removed at the site owner’s request. Poppins, orange (#f35525), charcoal (#1e1e1e), white,
 photographic banners, rounded dark buttons, property cards and section rhythms
 follow this reference. The user-supplied archive was inspected as reference data.
 

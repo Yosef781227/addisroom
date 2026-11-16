@@ -1,3 +1,4 @@
+import { BrandLogo } from "@/components/BrandLogo";
 import { Suspense } from "react";
 import { parseLang, t } from "@/lib/i18n";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
@@ -22,10 +23,7 @@ export default async function LoginPage(props: {
           href={lang !== "en" ? `/?lang=${lang}` : "/"}
           className="flex items-center gap-2.5"
         >
-          <span className="logo-mark">AR</span>
-          <span className="text-lg font-bold leading-none tracking-tight text-[var(--brand-900)]">
-            AddisRoom
-          </span>
+          <BrandLogo />
         </a>
         <Suspense fallback={null}>
           <LanguageSwitcher />

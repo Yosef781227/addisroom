@@ -1,4 +1,5 @@
 "use client";
+import { BrandLogo } from "@/components/BrandLogo";
 
 import Link from "next/link";
 import { Suspense, useEffect, useState } from "react";
@@ -129,8 +130,28 @@ export function AppHeader({
     <>
       <div className="villa-topbar">
         <div>
-          <span>⌖ Addis Ababa & nearby towns</span>
-          <span>Rental homes · Local connections</span>
+          <span className="topbar-location">
+            <svg
+              viewBox="0 0 24 24"
+              width="15"
+              height="15"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.8"
+              aria-hidden="true"
+            >
+              <path d="M12 22s8-7 8-13A8 8 0 0 0 4 9c0 6 8 13 8 13Z" />
+              <circle cx="12" cy="9" r="2.5" />
+            </svg>
+            Addis Ababa & nearby towns
+          </span>
+          <span className="topbar-message">
+            <span className="topbar-live-dot" aria-hidden="true" />
+            Rental homes · Local connections
+            <span className="topbar-arrow" aria-hidden="true">
+              ↗
+            </span>
+          </span>
         </div>
       </div>
       <header className="site-header" data-scrolled={scrolled}>
@@ -140,7 +161,7 @@ export function AppHeader({
             aria-label="AddisRoom home"
             className="flex shrink-0 items-center gap-2.5"
           >
-            <span className="villa-wordmark">AddisRoom</span>
+            <BrandLogo />
           </Link>
           <nav className="flex min-w-0 flex-1 items-center justify-end gap-2.5 text-sm">
             <Suspense fallback={<div className="mr-auto" />}>
