@@ -8,7 +8,7 @@ sponsor copy and the location catalogue retain the publisher's original wording.
 Language changes retain URL filters. They use a full page navigation so server
 layouts and the document's `lang` and `dir` attributes change together. Middleware
 sets the validated request locale; Arabic uses RTL. Arabic and Ethiopic fonts are
-self-hosted by Next.js. Existing Amharic/Oromo missing keys retain English or their
+bundled in `public/fonts/noto` and hosted by the app. Existing Amharic/Oromo missing keys retain English or their
 existing equivalent message as fallback.
 
 The homepage has a reserved advertisement panel following the search area. It
