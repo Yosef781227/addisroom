@@ -10,7 +10,10 @@
 
 One Next.js container shares the existing bingo-edge proxy network. It does not
 publish a host port or start a second proxy or database server. Caddy receives one
-additional hostname route and is validated before reloading.
+additional hostname route and is validated before reloading. The host file is
+passed through stdin to `caddy validate` and `caddy reload`; the current single-file
+bind mount points at an older inode, so reloading its in-container path would
+otherwise omit the new route. No proxy restart is required.
 
 The server starts with a fresh SQLite database and clearly labeled synthetic
 listings. No local accounts, sessions, identity documents or provider credentials
@@ -38,3 +41,12 @@ The persistent volume survives app updates. Never run `docker compose down -v`
 unless intentionally deleting the test database. Keep IDENTITY_ENCRYPTION_KEY
 stable and back it up with the database if real identity documents are later used.
 The startup seed is idempotent and runs only with TEST_DEPLOYMENT=true.
+
+## Verification
+
+The first GitHub Actions deployment completed successfully. Public HTTPS health,
+homepage, cascading neighborhood search, map tiles, theme switching, mobile layout
+and anonymous admin redirects were checked in the browser. The container was
+healthy with zero restarts and used approximately 166 MB after browsing, under
+its 512 MB cap. Existing Bingo and Content Machine responses were checked after
+the proxy change.
